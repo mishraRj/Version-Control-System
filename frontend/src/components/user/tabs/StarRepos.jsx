@@ -61,6 +61,7 @@ const StarRepos = () => {
   // ⭐ Toggle star
   const toggleStar = async repoId => {
     const userId = localStorage.getItem("userId");
+    // sourcery skip: use-braces
     if (!userId) return;
 
     const isStarred = starredRepos.includes(repoId.toString());
