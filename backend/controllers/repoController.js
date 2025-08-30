@@ -107,6 +107,92 @@ async function fetchRepositoryForCurrentUser(req, res) {
   }
 }
 
+// ⭐ Fetch starred repos for current user
+async function fetchStarredRepositories(req, res) {
+  const { userId } = req.params;
+
+  try {
+    const user = await User.findById(userId).populate("starRepos");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({
+      repositories: user.starRepos || [],
+      starRepos: user.starRepos.map(r => r._id.toString()),
+    });
+  } catch (err) {
+    console.error("❌ Error fetching starred repos:", err.message);
+    res.status(500).json({ message: "Server Error" });
+  }
+}
+
+// ⭐ Add star
+async function addStarRepository(req, res) {
+  const { repoId } = req.params;
+  const { userId } = req.body;
+
+  if (!userId) return res.status(400).json({ message: "User ID is required" });
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const repoObjectId = new mongoose.Types.ObjectId(repoId);
+
+    // Checking properly with ObjectId
+    if (user.starRepos.some(r => r.toString() === repoId)) {
+      return res.status(400).json({ message: "Repo already starred" });
+    }
+
+    user.starRepos.push(repoObjectId);
+    await user.save();
+
+    return res.json({
+      message: "Repository starred successfully",
+      starRepos: user.starRepos.map(r => r.toString()),
+    });
+  } catch (err) {
+    console.error("❌ Error during adding star:", err);
+    return res
+      .status(500)
+      .json({ message: "Server Error", error: err.message });
+  }
+}
+
+// ⭐ Remove star
+async function removeStarRepository(req, res) {
+  const { repoId } = req.params;
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Defensive check: remove nulls and compare properly
+    user.starRepos = user.starRepos.filter(
+      r => r && r.toString() !== repoId.toString()
+    );
+
+    await user.save();
+
+    res.json({
+      message: "Repository unstarred successfully",
+      starRepos: user.starRepos.map(r => r.toString()) || [],
+    });
+  } catch (err) {
+    console.error("❌ Error during removing star repositories:", err);
+    res.status(500).json({ message: "Server Error", error: err.message });
+  }
+}
+
 const updateRepositoryById = async (req, res) => {
   const { id } = req.params;
   const { content, description } = request.body;
@@ -177,6 +263,9 @@ module.exports = {
   fetchRepositoryById,
   fetchRepositoryByName,
   fetchRepositoryForCurrentUser,
+  fetchStarredRepositories,
+  removeStarRepository,
+  addStarRepository,
   updateRepositoryById,
   toggleVisibilityById,
   deleteRepositoryById,

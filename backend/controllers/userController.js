@@ -35,7 +35,7 @@ const signup = async (req, res) => {
       password: hashedPassword,
       email,
       avatar:
-        "https://raw.githubusercontent.com/mishraRj/Version-Control-System/563bceaed8d9372299f5cf31904a64d6108ab1be/backend/avatars/defaultAvatar.jpg",
+        "https://raw.githubusercontent.com/mishraRj/Version-Control-System/1efb995ac8e2c352ef0bd1003e4ad0dd20949003/backend/avatars/defaultAvatar.jpg",
       skills: "HTML, CSS, JS ... ... ",
       about1: "Building: xyz Technology",
       about2: "Working on me every day",

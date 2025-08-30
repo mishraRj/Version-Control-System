@@ -19,7 +19,7 @@ const UserSchema = new Schema({
   avatar: {
     type: String,
     default:
-      "https://raw.githubusercontent.com/mishraRj/Version-Control-System/563bceaed8d9372299f5cf31904a64d6108ab1be/backend/avatars/defaultAvatar.jpg",
+      "https://raw.githubusercontent.com/mishraRj/Version-Control-System/1efb995ac8e2c352ef0bd1003e4ad0dd20949003/backend/avatars/defaultAvatar.jpg",
   },
   skills: {
     type: String,
@@ -64,8 +64,7 @@ const UserSchema = new Schema({
   ],
   starRepos: [
     {
-      default: [],
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Repository",
     },
   ],

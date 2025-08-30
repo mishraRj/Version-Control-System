@@ -10,6 +10,12 @@ repoRouter.get(
   "/repo/user/:userId",
   repoController.fetchRepositoryForCurrentUser
 );
+repoRouter.post("/repo/:repoId/star", repoController.addStarRepository);
+repoRouter.delete("/repo/:repoId/star", repoController.removeStarRepository);
+repoRouter.get(
+  "/repo/starred/:userId",
+  repoController.fetchStarredRepositories
+);
 repoRouter.put("/repo/update/:id", repoController.updateRepositoryById);
 repoRouter.patch("/repo/toggle/:id", repoController.toggleVisibilityById);
 repoRouter.delete("/repo/delete/:id", repoController.deleteRepositoryById);
