@@ -1,0 +1,94 @@
+#dashboard {
+  display: grid;
+  grid-template-columns: 260px 1fr 300px; /* left, middle, right */
+  gap: 1rem;
+  padding: 1rem;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* -------- Left: Suggested Repositories -------- */
+.suggestions {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.suggestions h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.suggestions div h4 {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0.3rem 0;
+  cursor: pointer;
+}
+
+/* -------- Middle: Feed Placeholder -------- */
+.middle {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.middle h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+#search {
+  margin-bottom: 1rem;
+}
+
+#search input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #30363d;
+  background-color: #161b22;
+  color: #c9d1d9;
+}
+
+/* -------- Right: Events -------- */
+#dashboard aside:last-child {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+#dashboard aside:last-child h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+#dashboard aside:last-child ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#dashboard aside:last-child li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #30363d;
+}
+
+#dashboard aside:last-child li:last-child {
+  border-bottom: none;
+}
+
+#dashboard aside:last-child p {
+  font-size: 13px;
+  margin: 0;
+  color: #c9d1d9;
+}

@@ -1,0 +1,14 @@
+.overview-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.local-ReadMe {
+  border: 0.5px solid #3d444db3;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}

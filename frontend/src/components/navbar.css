@@ -1,0 +1,97 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 10px 5px;
+  margin-bottom: 5px;
+  border-bottom: 0.5px solid #3d444db3;
+  width: 100%;
+  position: relative;
+  top: 5px;
+}
+
+.gitHubLogo {
+  width: 40px;
+  height: 40px;
+}
+.logoContainer {
+  padding-left: 20px;
+}
+
+.profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: gray;
+  margin-left: 10px;
+}
+.profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+nav img {
+  height: 50px;
+  border-radius: 100%;
+}
+nav div {
+  display: flex;
+}
+
+nav h3 {
+  margin-left: 15px;
+  color: white;
+}
+
+nav p {
+  margin-left: 50px;
+  font-weight: bold;
+  color: white;
+}
+
+nav h3:hover,
+nav p:hover {
+  text-decoration: underline;
+}
+
+.navFields {
+  display: flex;
+  width: 38%;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.search-bar {
+  background-color: transparent;
+  width: 20rem !important;
+  height: 2.5rem !important;
+  padding: 0.25rem;
+  border: 0.5px solid #30363d;
+  border-radius: 10px;
+  margin-right: 5px;
+}
+
+.repoCreate {
+  background-color: transparent;
+  width: 3rem;
+  height: 2.7rem;
+  padding: 0.4rem;
+  border: 0.5px solid #30363d;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.issueCheck {
+  background-color: transparent;
+  width: 3rem;
+  height: 2.7rem;
+  padding: 0.4rem;
+  border: 0.5px solid #30363d;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
