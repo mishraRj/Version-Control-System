@@ -18,7 +18,7 @@ It allows users to authenticate, manage repositories, and perform basic version 
 ## 📸 Screenshots
 | Login Page | Profile Page | Create Repository |
 |------------|--------------|-------------------|
-| ![Login](screenshots/loginPage.png) | ![Profile](screenshots/profilePage.png) | ![Create Repo](screenshots/createRepo.png) |
+| ![Login](screenshots/loginPage.png) | ![Profile](screenshots/profilePage2.png) | ![Create Repo](screenshots/createRepo.png) |
 
 *(Screenshots will be updated as the project progresses)*
 
