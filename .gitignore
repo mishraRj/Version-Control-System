@@ -1,0 +1,27 @@
+@"
+# Ignore node dependencies everywhere
+**/node_modules/
+
+# Env files anywhere
+**/.env
+**/.env.*
+!**/.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Build outputs (common for frontend/backends)
+**/build/
+**/dist/
+**/.next/
+**/.nuxt/
+**/coverage/
+
+# Editor/OS junk
+.vscode/
+.DS_Store
+Thumbs.db
+"@ | Set-Content .gitignore
