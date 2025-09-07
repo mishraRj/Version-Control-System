@@ -16,3 +16,7 @@
 .options {
   background-color: black;
 }
+
+.repoName h4:hover {
+  text-decoration: underline;
+}

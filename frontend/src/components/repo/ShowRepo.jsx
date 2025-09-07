@@ -22,7 +22,6 @@ const ShowRepo = () => {
           const response = await axios.get(
             `http://localhost:3002/getUserProfile/${userId}`
           );
-          console.log(response);
           setUserDetails(response.data);
         } catch (err) {
           console.error("Cannot fetch user details: ", err);
@@ -71,10 +70,10 @@ const ShowRepo = () => {
           Settings
         </UnderlineNav.Item>
       </UnderlineNav>
-      <div className="right-section">
+      <div className="right-section" style={{ width: "100%" }}>
         {activeTab === "code" && <Code repoId={repoId._id} />}
         {activeTab === "issues" && <Issues />}
-        {activeTab === "settings" && <RepoSettings />}
+        {activeTab === "settings" && <RepoSettings repoId={repoId._id} />}
       </div>
     </>
   );

@@ -177,7 +177,7 @@ const UserRepos = () => {
               padding: "0.5rem 0",
             }}>
             <Link to={`/repo/${repo._id}`}>
-              <div>
+              <div className="repoName">
                 <h4 className="text-primary">{repo.name}</h4>
                 <p className="text-secondary fs-6 fw-medium">
                   {repo.description}

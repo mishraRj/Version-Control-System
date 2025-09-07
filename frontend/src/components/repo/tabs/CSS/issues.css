@@ -1,0 +1,93 @@
+/* Full width container */
+.code-container {
+  width: 100%;
+  padding: 0;
+  margin: 20px;
+  background-color: #0d1117; /* GitHub dark background */
+  min-height: 100vh;
+}
+
+/* Left column (Files) */
+.issues-column {
+  background-color: #161b22; /* GitHub repo file section bg */
+  color: #c9d1d9;
+  border-right: 1px solid #30363d;
+  padding: 20px;
+  min-height: 600px;
+  border-radius: 10px;
+  width: 96%;
+  /* Center content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0.8px solid rgba(216, 216, 216, 0.865);
+}
+
+/* Empty state container */
+.empty-files {
+  text-align: center;
+  animation: bounce 2s ease-in-out infinite alternate;
+}
+
+/* Image styling */
+.empty-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 2px solid #30363d;
+}
+
+/* Text styling */
+.empty-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: #c9d1d9;
+  opacity: 0.85;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+.issues-header {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background: #0d1117;
+  color: #c9d1d9;
+}
+
+.dropdown {
+  padding: 6px 10px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background: #0d1117;
+  color: #c9d1d9;
+}
+
+.new-issue-btn {
+  padding: 6px 12px;
+  background-color: #238636;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.new-issue-btn:hover {
+  background-color: #2ea043;
+}
