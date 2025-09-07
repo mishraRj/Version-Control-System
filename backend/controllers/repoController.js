@@ -60,15 +60,17 @@ const getAllRepositories = async (req, res) => {
 const fetchRepositoryById = async (req, res) => {
   const { id } = req.params;
   try {
-    const repository = await Repository.find({ _id: id })
+    const repository = await Repository.findById(id)
       .populate("owner")
       .populate("issues");
+
     if (!repository) {
-      return res.status(400).json({ message: "repository not found!" });
+      return res.status(404).json({ message: "Repository not found!" });
     }
-    res.json(repository);
+
+    res.json(repository); // yahan direct object milega
   } catch (err) {
-    console.error("❌ Error during fetching repositories", err);
+    console.error("❌ Error during fetching repository", err);
     res.status(500).send("Server Error");
   }
 };

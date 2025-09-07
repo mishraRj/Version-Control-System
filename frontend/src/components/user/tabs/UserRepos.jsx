@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { StarIcon, StarFillIcon } from "@primer/octicons-react";
+import { Link } from "react-router-dom";
+import { StarIcon, StarFillIcon, RepoIcon } from "@primer/octicons-react";
 import "./CSS/overview.css";
 
 const UserRepos = () => {
   const [repositories, setRepositories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [filterType, setFilterType] = useState("all");
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -26,16 +28,26 @@ const UserRepos = () => {
     fetchRepositories();
   }, []);
 
+  // 🔎 filter whenever searchQuery / repositories / filterType change
   useEffect(() => {
-    if (searchQuery === "") {
-      setSearchResults(repositories); // ✅ empty query → show all repos
-    } else {
-      const filteredRepo = repositories.filter(repo =>
+    let filteredRepo = repositories;
+
+    // Search filter
+    if (searchQuery !== "") {
+      filteredRepo = filteredRepo.filter(repo =>
         repo.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setSearchResults(filteredRepo);
     }
-  }, [searchQuery, repositories]);
+
+    // Type filter
+    if (filterType !== "all") {
+      filteredRepo = filteredRepo.filter(
+        repo => repo.visibility === filterType
+      );
+    }
+
+    setSearchResults(filteredRepo);
+  }, [searchQuery, repositories, filterType]);
 
   const [starredRepos, setStarredRepos] = useState([]);
 
@@ -91,14 +103,68 @@ const UserRepos = () => {
     <>
       <main className="middle">
         <h2>Your Repositories</h2>
-        <div id="search" style={{ borderBottom: "0.5px solid #3d444db3" }}>
+        <div
+          id="search"
+          style={{
+            borderBottom: "0.5px solid #3d444db3",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            padding: "0.5rem 0",
+          }}>
+          {/* Search Bar */}
           <input
             type="text"
             value={searchQuery}
-            placeholder="Fina a repository..."
+            placeholder="Find a repository..."
             onChange={e => setSearchQuery(e.target.value)}
-            style={{ marginBottom: "10px" }}
+            style={{
+              flex: 1,
+              backgroundColor: "transparent",
+              padding: "6px 10px",
+              border: "1px solid #3d444db3",
+              borderRadius: "6px",
+              color: "#c9d1d9",
+            }}
           />
+
+          {/* Type Dropdown */}
+          <select
+            style={{
+              backgroundColor: "transparent",
+              border: "1px solid #3d444db3",
+              borderRadius: "6px",
+              padding: "6px 10px",
+              color: "#c9d1d9",
+            }}
+            value={filterType}
+            onChange={e => setFilterType(e.target.value)}>
+            <option className="options" value="all">
+              Type: All
+            </option>
+            <option className="options" value="public">
+              Public
+            </option>
+            <option className="options" value="private">
+              Private
+            </option>
+          </select>
+
+          {/* New Repo Button */}
+          <Link to={"/create"}>
+            <button
+              style={{
+                backgroundColor: "#2ea043",
+                border: "1px solid rgba(240, 246, 252, 0.1)",
+                borderRadius: "6px",
+                padding: "6px 12px",
+                color: "white",
+                fontWeight: "500",
+                cursor: "pointer",
+              }}>
+              <RepoIcon /> New
+            </button>
+          </Link>
         </div>
         {searchResults.map(repo => (
           <div
@@ -110,13 +176,14 @@ const UserRepos = () => {
               alignItems: "center",
               padding: "0.5rem 0",
             }}>
-            <div>
-              <h4 className="text-primary">{repo.name}</h4>
-              <p className="text-secondary fs-6 fw-medium">
-                {repo.description}
-              </p>
-            </div>
-
+            <Link to={`/repo/${repo._id}`}>
+              <div>
+                <h4 className="text-primary">{repo.name}</h4>
+                <p className="text-secondary fs-6 fw-medium">
+                  {repo.description}
+                </p>
+              </div>
+            </Link>
             <div
               onClick={() => toggleStar(repo._id)}
               style={{

@@ -14,6 +14,7 @@ const Profile = () => {
   const [userDetails, setUserDetails] = useState({ username: "username" });
   const { setCurrentUser } = useAuth();
   const [activeTab, setActiveTab] = useState("overview");
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       const userId = localStorage.getItem("userId");
