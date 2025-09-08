@@ -7,6 +7,8 @@
   border: 0.5px solid #3d444db3;
   border-radius: 15px;
   margin-bottom: 20px;
+  position: relative; /* default container only */
+  z-index: auto; /* ensure modal overlay upar rahe */
 }
 
 .general-section {
@@ -185,4 +187,34 @@
 /* Edge/IE old arrow */
 .config-select::-ms-expand {
   display: none;
+}
+
+.update-config-item {
+  padding: 1rem;
+  border: 1px solid red;
+  border-radius: 8px;
+  background: transparent;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.visibility-toggle {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.toggle-btn {
+  padding: 5px 20px 5px 20px;
+  color: red;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.598);
+}
+
+.toggle-btn:hover {
+  padding: 5px 20px 5px 20px;
+  background-color: rgb(174, 2, 2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.598);
 }

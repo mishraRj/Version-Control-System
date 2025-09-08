@@ -196,26 +196,27 @@ async function removeStarRepository(req, res) {
 }
 
 const updateRepositoryById = async (req, res) => {
-  const { id } = req.params;
-  const { content, description } = request.body;
-
   try {
-    const repository = await Repository.findById(id);
-    if (!repository) {
+    const { id } = req.params;
+    const { name, description } = req.body;
+
+    const updatedRepo = await Repository.findByIdAndUpdate(
+      id,
+      { name, description },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedRepo) {
       return res.status(404).json({ error: "Repository not found" });
     }
 
-    repository.content.push(content);
-    repository.description = description;
-
-    const updatedRepository = await repository.save();
     res.json({
-      message: "repository updated successfully",
-      repository: updatedRepository,
+      message: "Repository updated successfully",
+      repository: updatedRepo,
     });
   } catch (err) {
     console.error("❌ Error during updating repository", err);
-    res.status(500).send("Server Error");
+    res.status(500).json({ error: "Server Error", details: err.message });
   }
 };
 
@@ -228,11 +229,14 @@ const toggleVisibilityById = async (req, res) => {
       return res.status(404).json({ error: "Repository not found" });
     }
 
-    repository.visibility = !repository.visibility;
+    // fix: toggle properly
+    repository.visibility =
+      repository.visibility === "public" ? "private" : "public";
 
     const updatedRepository = await repository.save();
+
     res.json({
-      message: "repository visibility toggled successfully",
+      message: "Repository visibility toggled successfully",
       repository: updatedRepository,
     });
   } catch (err) {
