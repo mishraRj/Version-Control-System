@@ -8,12 +8,25 @@ import Overview from "./tabs/overview";
 import UserRepos from "./tabs/UserRepos";
 import StarRepos from "./tabs/StarRepos";
 import { useAuth } from "../../authContext";
+import { useSearchParams } from "react-router-dom";
 
 const Profile = () => {
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({ username: "username" });
   const { setCurrentUser } = useAuth();
-  const [activeTab, setActiveTab] = useState("overview");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabFromUrl = searchParams.get("tab") || "overview";
+
+  const [activeTab, setActiveTab] = useState(tabFromUrl);
+
+  useEffect(() => {
+    setActiveTab(tabFromUrl); // url change hote hi tab update
+  }, [tabFromUrl]);
+
+  const handleTabChange = tab => {
+    setActiveTab(tab);
+    setSearchParams({ tab }); // URL me update karega
+  };
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -40,7 +53,7 @@ const Profile = () => {
         <UnderlineNav.Item
           aria-current={activeTab === "overview" ? "page" : undefined}
           icon={BookIcon}
-          onClick={() => setActiveTab("overview")}
+          onClick={() => handleTabChange("overview")}
           sx={{
             backgroundColor: "transparent",
             color: "white",
@@ -52,7 +65,7 @@ const Profile = () => {
         <UnderlineNav.Item
           aria-current={activeTab === "repos" ? "page" : undefined}
           icon={RepoIcon}
-          onClick={() => setActiveTab("repos")}
+          onClick={() => handleTabChange("repos")}
           sx={{
             backgroundColor: "transparent",
             color: "whitesmoke",
@@ -64,7 +77,7 @@ const Profile = () => {
         <UnderlineNav.Item
           aria-current={activeTab === "starred" ? "page" : undefined}
           icon={StarIcon}
-          onClick={() => setActiveTab("starred")}
+          onClick={() => handleTabChange("starred")}
           sx={{
             backgroundColor: "transparent",
             color: "whitesmoke",

@@ -6,11 +6,24 @@ import Code from "./tabs/Code";
 import Issues from "./tabs/Issues";
 import RepoSettings from "./tabs/RepoSettings";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 
 const ShowRepo = () => {
   const { repoId } = useParams();
-  const [activeTab, setActiveTab] = useState("code");
   const [userDetails, setUserDetails] = useState({ username: "username" });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabFromUrl = searchParams.get("tab") || "code";
+
+  const [activeTab, setActiveTab] = useState(tabFromUrl);
+
+  useEffect(() => {
+    setActiveTab(tabFromUrl); // url change hote hi tab update
+  }, [tabFromUrl]);
+
+  const handleTabChange = tab => {
+    setActiveTab(tab);
+    setSearchParams({ tab }); // URL me update karega
+  };
 
   // Fetch User Details
   useEffect(() => {
@@ -37,7 +50,7 @@ const ShowRepo = () => {
         <UnderlineNav.Item
           aria-current={activeTab === "code" ? "page" : undefined}
           icon={CodeIcon}
-          onClick={() => setActiveTab("code")}
+          onClick={() => handleTabChange("code")}
           sx={{
             backgroundColor: "transparent",
             color: activeTab === "code" ? "white" : "whitesmoke",
@@ -49,7 +62,7 @@ const ShowRepo = () => {
         <UnderlineNav.Item
           aria-current={activeTab === "issues" ? "page" : undefined}
           icon={IssueOpenedIcon}
-          onClick={() => setActiveTab("issues")}
+          onClick={() => handleTabChange("issues")}
           sx={{
             backgroundColor: "transparent",
             color: activeTab === "issues" ? "white" : "whitesmoke",
@@ -61,7 +74,7 @@ const ShowRepo = () => {
         <UnderlineNav.Item
           aria-current={activeTab === "settings" ? "page" : undefined}
           icon={GearIcon}
-          onClick={() => setActiveTab("settings")}
+          onClick={() => handleTabChange("settings")}
           sx={{
             backgroundColor: "transparent",
             color: activeTab === "settings" ? "white" : "whitesmoke",
