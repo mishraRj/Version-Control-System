@@ -176,7 +176,7 @@ const UserRepos = () => {
               alignItems: "center",
               padding: "0.5rem 0",
             }}>
-            <Link to={`/repo/${repo._id}`}>
+            <Link to={`/repo/${repo.name}`}>
               <div className="repoName">
                 <h4 className="text-primary">{repo.name}</h4>
                 <p className="text-secondary fs-6 fw-medium">

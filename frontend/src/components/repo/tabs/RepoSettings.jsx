@@ -6,30 +6,31 @@ import DeleteRepoModal from "./DeleteRepoModal";
 import ChangeVisibilityModal from "./ChangeVisibilityModal";
 
 const RepoSettings = () => {
-  const { repoId } = useParams();
+  const { repoName } = useParams();
   const [repo, setRepo] = useState({});
   // Fetching Repo Details
-  const [repoName, setRepoName] = useState("");
+  const [repositoryName, setRepositoryName] = useState("");
   const [repoDescription, setRepoDescription] = useState("");
   const [loading, setLoading] = useState(false);
   // Fetch Repo
   useEffect(() => {
     const fetchRepository = async () => {
       try {
-        const response = await fetch(`http://localhost:3002/repo/${repoId}`);
+        const response = await fetch(
+          `http://localhost:3002/repo/name/${repoName}`
+        );
         const data = await response.json();
-        console.log("Repo data:", data);
-
-        setRepo(data);
-        setRepoName(data.name || "");
-        setRepoDescription(data.description || "");
+        const repoData = Array.isArray(data) ? data[0] : data;
+        setRepo(repoData);
+        setRepositoryName(repoData.name || "");
+        setRepoDescription(repoData.description || "");
       } catch (err) {
         console.log("Error while fetching repository", err);
       }
     };
 
     fetchRepository();
-  }, [repoId]);
+  }, [repoName]);
 
   // Show Floating Warning
   const [showModal, setShowModal] = useState(false);
@@ -62,13 +63,13 @@ const RepoSettings = () => {
     try {
       setLoading(true);
       console.log({
-        name: repoName,
+        name: repositoryName,
         description: repoDescription,
       });
       const res = await axios.put(
-        `http://localhost:3002/repo/update/${repoId}`,
+        `http://localhost:3002/repo/update/${repo._id}`,
         {
-          name: repoName,
+          name: repositoryName,
           description: repoDescription,
         }
       );
@@ -86,7 +87,7 @@ const RepoSettings = () => {
     try {
       setLoading(true);
       const res = await axios.delete(
-        `http://localhost:3002/repo/delete/${repoId}`
+        `http://localhost:3002/repo/delete/${repo._id}`
       );
       window.location.href = "/";
     } catch (err) {
@@ -101,7 +102,7 @@ const RepoSettings = () => {
     try {
       setLoading(true);
       const res = await axios.patch(
-        `http://localhost:3002/repo/toggle/${repoId}`
+        `http://localhost:3002/repo/toggle/${repo._id}`
       );
       window.location.href = "/profile";
     } catch (err) {
@@ -126,15 +127,15 @@ const RepoSettings = () => {
 
         <div className="general-section">
           <h4>General</h4>
-          <div className="general-content mt-2">
-            <div className="repoName-box2">
+          <div className="general-content2 mt-2">
+            <div className="repositoryName-box2">
               <label htmlFor="input-field">Repository name *</label>
               <input
                 type="text"
                 name="name"
                 id="input-field"
-                value={repoName}
-                onChange={e => setRepoName(e.target.value)}
+                value={repositoryName}
+                onChange={e => setRepositoryName(e.target.value)}
                 required
               />
             </div>
@@ -227,7 +228,7 @@ const RepoSettings = () => {
       {showModal && (
         <DeleteRepoModal
           username={userDetails.username}
-          repoName={repoName}
+          repositoryName={repositoryName}
           onClose={() => setShowModal(false)}
           onDelete={handleRepoDeletion}
         />
@@ -236,7 +237,7 @@ const RepoSettings = () => {
       {showToggleModal && (
         <ChangeVisibilityModal
           username={userDetails.username}
-          repoName={repoName}
+          repositoryName={repositoryName}
           visibility={repo.visibility}
           onClose={() => setShowToggleModal(false)}
           toggleVisibility={handleRepoVisibility}

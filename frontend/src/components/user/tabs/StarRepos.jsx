@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StarIcon, StarFillIcon } from "@primer/octicons-react";
+import { Link } from "react-router-dom";
+import "./CSS/overview.css";
 
 const StarRepos = () => {
   const [repositories, setRepositories] = useState([]);
@@ -119,13 +121,14 @@ const StarRepos = () => {
                   alignItems: "center",
                   padding: "0.5rem 0",
                 }}>
-                <div>
-                  <h4 className="text-primary">{repo.name}</h4>
-                  <p className="text-secondary fs-6 fw-medium">
-                    {repo.description}
-                  </p>
-                </div>
-
+                <Link to={`/repo/${repo.name}`}>
+                  <div className="repoName">
+                    <h4 className="text-primary">{repo.name}</h4>
+                    <p className="text-secondary fs-6 fw-medium">
+                      {repo.description}
+                    </p>
+                  </div>
+                </Link>
                 <div
                   onClick={() => toggleStar(repo._id)}
                   style={{

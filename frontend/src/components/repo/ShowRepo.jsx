@@ -9,7 +9,8 @@ import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 
 const ShowRepo = () => {
-  const { repoId } = useParams();
+  const { repoName } = useParams();
+  console.log(repoName);
   const [userDetails, setUserDetails] = useState({ username: "username" });
   const [searchParams, setSearchParams] = useSearchParams();
   const tabFromUrl = searchParams.get("tab") || "code";
@@ -84,9 +85,9 @@ const ShowRepo = () => {
         </UnderlineNav.Item>
       </UnderlineNav>
       <div className="right-section" style={{ width: "100%" }}>
-        {activeTab === "code" && <Code repoId={repoId._id} />}
+        {activeTab === "code" && <Code repoId={repoName} />}
         {activeTab === "issues" && <Issues />}
-        {activeTab === "settings" && <RepoSettings repoId={repoId._id} />}
+        {activeTab === "settings" && <RepoSettings repoId={repoName} />}
       </div>
     </>
   );

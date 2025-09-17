@@ -3,22 +3,24 @@ import { useParams } from "react-router-dom";
 import "./CSS/code.css";
 
 const Code = () => {
-  const { repoId } = useParams();
+  const { repoName } = useParams();
   const [repo, setRepo] = useState();
   // Fetch Repo
   useEffect(() => {
     const fetchRepository = async () => {
       try {
-        const response = await fetch(`http://localhost:3002/repo/${repoId}`);
+        const response = await fetch(
+          `http://localhost:3002/repo/name/${repoName}`
+        );
         const data = await response.json();
-        setRepo(data);
+        setRepo(data[0]);
       } catch (err) {
         console.log("Error while passing repositories", err);
       }
     };
 
     fetchRepository();
-  }, [repoId]);
+  }, [repoName]);
 
   return (
     <div className="code-container">

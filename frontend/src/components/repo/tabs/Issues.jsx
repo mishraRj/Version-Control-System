@@ -3,22 +3,31 @@ import { useParams } from "react-router-dom";
 import "./CSS/issues.css";
 
 const Issues = () => {
-  const { repoId } = useParams();
-  const [repo, setRepo] = useState();
+  const { repoName } = useParams();
+  const [repo, setRepo] = useState({});
+  // // Fetching Repo Details
+  // const [repositoryName, setRepositoryName] = useState("");
+  // const [repoDescription, setRepoDescription] = useState("");
+  // const [loading, setLoading] = useState(false);
   // Fetch Repo
   useEffect(() => {
     const fetchRepository = async () => {
       try {
-        const response = await fetch(`http://localhost:3002/repo/${repoId}`);
+        const response = await fetch(
+          `http://localhost:3002/repo/name/${repoName}`
+        );
         const data = await response.json();
-        setRepo(data);
+        const repoData = Array.isArray(data) ? data[0] : data;
+        setRepo(repoData);
+        // setRepositoryName(repoData.name || "");
+        // setRepoDescription(repoData.description || "");
       } catch (err) {
-        console.log("Error while passing repositories", err);
+        console.log("Error while fetching repository", err);
       }
     };
 
     fetchRepository();
-  }, [repoId]);
+  }, [repoName]);
 
   return (
     <>

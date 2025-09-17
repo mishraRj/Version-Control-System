@@ -57,7 +57,7 @@ const ProjectRoutes = () => {
       element: <CreateRepo />,
     },
     {
-      path: "/repo/:repoId",
+      path: "/repo/:repoName",
       element: <ShowRepo />,
     },
   ]);

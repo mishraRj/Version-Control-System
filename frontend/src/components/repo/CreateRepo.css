@@ -23,6 +23,11 @@
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
+
+.general-content2 {
+  display: flex;
+  flex-wrap: wrap;
+}
 .slash {
   padding-left: 10px;
 }
@@ -52,6 +57,7 @@
 #input-field {
   width: 100%;
   margin-top: 0.5rem;
+  padding: 10px;
   height: 2rem;
   background: transparent;
   border: 0.5px solid #3d444db3;
