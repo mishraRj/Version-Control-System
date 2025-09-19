@@ -6,7 +6,8 @@
   /* flex-wrap: wrap; */
 }
 
-.user-profile-section {
+.user-profile-section,
+.userUpdate-form {
   width: 25%;
   /* min-height: 100vh; */
   display: flex;
@@ -14,7 +15,7 @@
   justify-content: left;
   align-items: center;
   padding: 20px 5px;
-  margin-right: 20px;
+  margin: 20px;
 }
 
 .user-repo-section {
@@ -120,4 +121,32 @@
 
 .right-section {
   width: 75%;
+}
+.name input[type="text"] {
+  margin-bottom: 20px;
+}
+.name input[type="text"],
+.name textarea {
+  width: 100%;
+  max-width: 300px; /* optional: to keep them from stretching too wide */
+  background-color: var(--color-canvas-default, #0d1117);
+  color: var(--color-fg-default, #c9d1d9);
+  border: 1px solid var(--color-border-default, #30363d);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  resize: vertical; /* textarea can be resized vertically */
+}
+
+.name input[type="text"]:focus,
+.name textarea:focus {
+  outline: none;
+  border-color: #58a6ff; /* GitHub blue */
+  box-shadow: 0 0 0 3px rgba(56, 139, 253, 0.3);
+}
+
+.name textarea {
+  min-height: 60px;
 }

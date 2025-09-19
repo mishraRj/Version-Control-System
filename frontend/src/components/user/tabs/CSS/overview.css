@@ -20,3 +20,102 @@
 .repoName h4:hover {
   text-decoration: underline;
 }
+
+.topLayer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-self: center;
+}
+.pencil {
+  border-radius: 5px;
+}
+.pencil:hover {
+  background-color: rgba(43, 44, 44, 0.571) !important;
+}
+
+/* Edit Section*/
+/* Edit Section Container */
+.edit-section2 {
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.edit-section2 h4 {
+  margin-bottom: 8px;
+  color: #87bdff;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Labels */
+.edit-section2 label {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 0.875rem;
+  color: #9eb4ff;
+}
+
+/* Inputs */
+.edit-section2 input[type="text"],
+.edit-section2 textarea {
+  width: 100%;
+  padding: 6px 10px;
+  margin-bottom: 10px; /* similar to your inline marginBottom */
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: #fff;
+  background-color: #181818;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.edit-section2 input[type="text"]:focus,
+.edit-section2 textarea:focus {
+  outline: none;
+  color: black;
+  border-color: #0969da;
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.3);
+  background-color: #fff;
+}
+
+/* Paragraph dividers */
+.edit-section2 p {
+  margin: 5px 0;
+  border-bottom: 0.5px solid #3d444db3; /* same as your inline style */
+  padding-bottom: 5px;
+}
+
+/* Save / Cancel buttons container */
+.edit-section2 .saving-btns {
+  margin-top: 15px;
+}
+
+.edit-section2 .btn {
+  font-size: 0.875rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.edit-section2 .btn-success {
+  background-color: #28a745;
+  color: white;
+  border: 1px solid #28a745;
+}
+
+.edit-section2 .btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.edit-section2 .btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  border: 1px solid #6c757d;
+}
+
+.edit-section2 .btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}

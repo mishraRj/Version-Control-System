@@ -1,3 +1,5 @@
+const cloudinary = require("../config/cloudinary");
+const streamifier = require("streamifier");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { MongoClient, ReturnDocument } = require("mongodb");
@@ -33,6 +35,7 @@ const signup = async (req, res) => {
     const newUser = {
       username,
       password: hashedPassword,
+      bio: "Add bio here...",
       email,
       avatar:
         "https://raw.githubusercontent.com/mishraRj/Version-Control-System/1efb995ac8e2c352ef0bd1003e4ad0dd20949003/backend/avatars/defaultAvatar.jpg",
@@ -45,7 +48,6 @@ const signup = async (req, res) => {
       followedUsers: [],
       starRepos: [],
     };
-
     const result = await usersCollection.insertOne(newUser);
     const token = jwt.sign(
       { id: result.insertedId },
@@ -122,7 +124,7 @@ const getUserProfile = async (req, res) => {
 
 const updateUserProfile = async (req, res) => {
   const currentId = req.params.id;
-  const { email, password } = req.body;
+  const { username, bio, skills, about1, about2, about3, caption } = req.body;
 
   try {
     await connectClient();
@@ -130,30 +132,88 @@ const updateUserProfile = async (req, res) => {
     const usersCollection = db.collection("users");
 
     const query = { _id: new ObjectId(currentId) };
-
     let updatedFields = {};
-    if (email !== undefined) updatedFields.email = email;
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-      updatedFields.password = hashedPassword;
+
+    // ----------------------------
+    // TEXT FIELDS UPDATE
+    // ----------------------------
+    if (username !== undefined) updatedFields.username = username;
+    if (bio !== undefined) updatedFields.bio = bio;
+    if (skills !== undefined) updatedFields.skills = skills;
+    if (about1 !== undefined) updatedFields.about1 = about1;
+    if (about2 !== undefined) updatedFields.about2 = about2;
+    if (about3 !== undefined) updatedFields.about3 = about3;
+    if (caption !== undefined) updatedFields.caption = caption;
+
+    // ----------------------------
+    // AVATAR UPLOAD
+    // ----------------------------
+    if (req.file) {
+      // Find existing user
+      const existingUser = await usersCollection.findOne(query);
+
+      // Delete old avatar if exists and is not default
+      if (
+        existingUser?.avatarPublicId &&
+        !existingUser.avatar.includes("defaultAvatar.jpg")
+      ) {
+        try {
+          await cloudinary.uploader.destroy(existingUser.avatarPublicId);
+          console.log("🗑️ Old avatar deleted:", existingUser.avatarPublicId);
+        } catch (err) {
+          console.warn("⚠️ Failed to delete old avatar:", err);
+        }
+      }
+
+      // Validate image type
+      if (!req.file.mimetype.startsWith("image/")) {
+        return res.status(400).json({ message: "Avatar must be an image." });
+      }
+
+      // Upload new avatar to Cloudinary
+      const uploadResult = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            folder: "githubClone/avatars",
+            resource_type: "image",
+          },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+          }
+        );
+
+        streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
+      });
+
+      updatedFields.avatar = uploadResult.secure_url;
+      if (uploadResult.public_id)
+        updatedFields.avatarPublicId = uploadResult.public_id;
+      console.log("☁️ Cloudinary uploaded:", uploadResult.secure_url);
     }
 
+    // ----------------------------
+    // CHECK IF ANY FIELD TO UPDATE
+    // ----------------------------
     if (Object.keys(updatedFields).length === 0) {
       return res.status(400).json({ message: "No fields provided to update" });
     }
 
+    // ----------------------------
+    // UPDATE USER
+    // ----------------------------
     const result = await usersCollection.findOneAndUpdate(
       query,
       { $set: updatedFields },
-      { returnOriginal: false } // old driver style
+      { returnDocument: "after" }
     );
 
-    if (!result) {
+    const updatedUser = result?.value || result;
+    if (!updatedUser) {
       return res.status(404).json({ message: "User not found after update" });
     }
 
-    res.json(result); // no `.value` needed for old driver
+    res.json(updatedUser);
   } catch (err) {
     console.error("❌ Error during profile update:", err);
     res.status(500).send("Server Error");

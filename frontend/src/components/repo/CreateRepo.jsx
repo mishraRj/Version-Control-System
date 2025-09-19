@@ -73,7 +73,7 @@ const CreateRepo = () => {
           <div className="general-section">
             <h4>General</h4>
             <div className="general-content mt-2">
-              <div className="owner-box">
+              {/* <div className="owner-box">
                 <label htmlFor="ownerName">Owner*</label>
                 <div className="dropdown" id="ownerName">
                   <button
@@ -91,7 +91,7 @@ const CreateRepo = () => {
                     </li>
                   </ul>
                 </div>
-              </div>
+              </div> */}
               <div className="repoName-box">
                 <label htmlFor="input-field">Repository name *</label>
                 <input

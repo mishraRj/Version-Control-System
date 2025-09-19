@@ -21,7 +21,6 @@
 .general-content {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
 }
 
 .general-content2 {
@@ -42,7 +41,6 @@
 }
 .repoName-box {
   width: 80%;
-  padding-left: 25px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;

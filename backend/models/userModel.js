@@ -16,10 +16,18 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  bio: {
+    type: String,
+    default: "Add bio here...",
+  },
   avatar: {
     type: String,
     default:
       "https://raw.githubusercontent.com/mishraRj/Version-Control-System/1efb995ac8e2c352ef0bd1003e4ad0dd20949003/backend/avatars/defaultAvatar.jpg",
+  },
+  avatarPublicId: {
+    type: String,
+    default: null,
   },
   skills: {
     type: String,
