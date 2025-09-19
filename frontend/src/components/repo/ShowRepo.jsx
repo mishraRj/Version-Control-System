@@ -3,6 +3,7 @@ import { React, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CodeIcon, IssueOpenedIcon, GearIcon } from "@primer/octicons-react";
 import Code from "./tabs/Code";
+import NavBar from "../NavBar";
 import Issues from "./tabs/Issues";
 import RepoSettings from "./tabs/RepoSettings";
 import axios from "axios";
@@ -47,6 +48,7 @@ const ShowRepo = () => {
 
   return (
     <>
+      <NavBar />
       <UnderlineNav aria-label="Repository Tabs">
         <UnderlineNav.Item
           aria-current={activeTab === "code" ? "page" : undefined}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Dashboard.css";
+import NavBar from "../NavBar";
 
 const Dashboard = (req, res) => {
   const [repositories, setRepositories] = useState([]);
@@ -50,6 +51,7 @@ const Dashboard = (req, res) => {
 
   return (
     <>
+      <NavBar />
       <section id="dashboard">
         <aside className="suggestions">
           <h3>Suggested Repositories</h3>

@@ -3,12 +3,20 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../authContext";
 import "./navbar.css";
-import { IssueOpenedIcon } from "@primer/octicons-react";
+import {
+  HomeIcon,
+  RepoIcon,
+  StarIcon,
+  SignOutIcon,
+  PersonIcon,
+  IssueOpenedIcon,
+} from "@primer/octicons-react";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({ username: "username" });
   const { setCurrentUser } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -28,23 +36,12 @@ const NavBar = () => {
     fetchUserDetails();
   }, []);
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      const userId = localStorage.getItem("userId");
+  const handleSignOut = () => {
+    localStorage.removeItem("userId");
+    setCurrentUser(null);
+    navigate("/login");
+  };
 
-      if (userId) {
-        try {
-          const response = await axios.get(
-            `http://localhost:3002/getUserProfile/${userId}`
-          );
-          setUserDetails(response.data);
-        } catch (err) {
-          console.error("Cannot fetch user details: ", err);
-        }
-      }
-    };
-    fetchUserDetails();
-  }, []);
   return (
     <nav>
       <Link to={"/"}>
@@ -72,9 +69,35 @@ const NavBar = () => {
           <IssueOpenedIcon size={16} />
         </div>
         <div className="profile">
-          <Link to={"/profile"}>
-            <img src={userDetails.avatar} alt="" />
-          </Link>
+          <img
+            src={userDetails.avatar}
+            alt="profile"
+            onClick={() => {
+              setMenuOpen(!menuOpen);
+              console.log("menuOpen:", !menuOpen);
+            }}
+          />
+
+          {/* Dropdown Menu */}
+          {menuOpen && (
+            <div className="dropdown-menu">
+              <Link to="/profile" className="dropdown-item">
+                <PersonIcon size={20} /> Profile
+              </Link>
+              <Link to="/profile?tab=repos#" className="dropdown-item">
+                <RepoIcon size={20} /> Your Repos
+              </Link>
+              <Link to="/profile?tab=starred#" className="dropdown-item">
+                <StarIcon size={20} /> Starred Repos
+              </Link>
+              <div
+                onClick={handleSignOut}
+                className="dropdown-item"
+                style={{ cursor: "pointer" }}>
+                <SignOutIcon size={20} /> Sign Out
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </nav>

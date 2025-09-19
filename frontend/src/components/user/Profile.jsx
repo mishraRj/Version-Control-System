@@ -7,6 +7,7 @@ import { BookIcon, RepoIcon, StarIcon } from "@primer/octicons-react";
 import Overview from "./tabs/overview";
 import UserRepos from "./tabs/UserRepos";
 import StarRepos from "./tabs/StarRepos";
+import NavBar from "../NavBar";
 import { useAuth } from "../../authContext";
 import { useSearchParams } from "react-router-dom";
 
@@ -49,6 +50,7 @@ const Profile = () => {
 
   return (
     <>
+      <NavBar />
       <UnderlineNav aria-label="Repository">
         <UnderlineNav.Item
           aria-current={activeTab === "overview" ? "page" : undefined}
