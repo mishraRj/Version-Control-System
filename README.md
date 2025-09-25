@@ -35,17 +35,88 @@ It allows users to authenticate, manage repositories, and perform basic version 
 
 ## 📂 Setup Instructions
 
+
+This is a full-stack project with two main folders:  
+
+- `frontend` → React app  
+- `backend` → Node.js app  
+
+This guide explains how to **fork, set up, and run the project locally** using **VS Code**.
+
+---
+
+## 📌 Prerequisites
+
+Make sure you have installed:
+
+- [Node.js](https://nodejs.org/) (v16+ or v18+ recommended)  
+- [Git](https://git-scm.com/)  
+- [Visual Studio Code](https://code.visualstudio.com/)  
+
+---
+
+## 🔗 Fork & Clone the Repository
+
+1. **Fork** this repository (click the **Fork** button in GitHub).  
+2. **Clone your fork** to your local machine:
+
 ```bash
-# Clone the repo
-git clone https://github.com/mishraRj/Version-Control-System.git
-cd Version-Control-System
+# Using SSH
+git clone git@github.com:YOUR-GITHUB-USERNAME/REPO-NAME.git
 
-# Install dependencies for backend & frontend separately
-cd server && npm install
-cd ../client && npm install
+# Or using HTTPS
+git clone https://github.com/YOUR-GITHUB-USERNAME/REPO-NAME.git
+```
 
-# Run backend
-cd server && npm start
+🖥 Open Project in VS Code
 
-# Run frontend
-cd ../client && npm start
+From the root folder:
+```bash
+code .
+```
+Or open VS Code → File → Open Folder… → select the project folder.
+
+📦 Install Dependencies
+
+Run the following commands inside VS Code terminal:
+
+```bash
+# Frontend dependencies
+cd frontend
+npm install
+
+# Backend dependencies
+cd ../backend
+npm install
+```
+
+▶️ Run the Project
+
+You need two terminals running in parallel in VS Code.
+
+Step 1: Open two terminals
+
+Go to Terminal → New Terminal
+Then click the Split Terminal button (▭▭) to create a second terminal.
+
+Step 2: Run frontend and backend
+
+```bash
+# Terminal A → Frontend
+cd frontend
+npm run dev
+
+# Terminal B → Backend
+cd backend
+node index.js start
+```
+
+🌐 View in Browser
+
+Once both servers are running, open:
+```bash
+👉 http://localhost:5173
+```
+
+Now project should run smooth on your device.
+
