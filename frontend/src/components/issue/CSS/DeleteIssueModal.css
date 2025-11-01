@@ -1,0 +1,96 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.delete-issue-modal {
+  background: #161b22;
+  width: 380px;
+  border-radius: 8px;
+  border: 1px solid #30363d;
+  color: #f0f3f6;
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.41);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.delete-issue-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #30363d;
+  padding: 18px 24px 12px 21px;
+}
+
+.delete-issue-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #9499a4;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.close-btn:hover {
+  color: #f85149;
+}
+
+.delete-issue-body {
+  padding: 22px 24px 12px 32px;
+}
+.delete-issue-body ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 16px;
+}
+.delete-issue-body li {
+  margin-bottom: 10px;
+  color: #dddbd1;
+}
+
+.delete-issue-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 18px;
+  padding: 18px 25px 20px 0;
+}
+
+.delete-cancel-btn {
+  background: none;
+  color: #edeef0;
+  font-size: 17px;
+  border: 1.5px solid #30363d;
+  border-radius: 6px;
+  padding: 7px 19px;
+  cursor: pointer;
+  transition: background 0.14s;
+}
+.delete-cancel-btn:hover {
+  background: #252930;
+}
+
+.delete-confirm-btn {
+  background: #f85149;
+  color: #fff;
+  font-size: 17px;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 21px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.delete-confirm-btn:hover {
+  background: #b6231d;
+}

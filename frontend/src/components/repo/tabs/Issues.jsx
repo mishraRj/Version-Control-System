@@ -1,13 +1,20 @@
 import { React, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "./CSS/issues.css";
+import "../../issue/CSS/issues.css";
+import CreateIssue from "../../issue/CreateIssue";
+import IssueList from "../../issue/IssueList";
+import ShowIssue from "../../issue/ShowIssue";
 
-const Issues = () => {
+const Issues = ({ userAvatar, resetSectionSignal }) => {
   const { repoName } = useParams();
   const [repo, setRepo] = useState({});
-  // // Fetching Repo Details
-  // const [repositoryName, setRepositoryName] = useState("");
-  // const [repoDescription, setRepoDescription] = useState("");
+  const [issues, setIssues] = useState([]); // Array, not single object
+  const [activeSection, setActiveSection] = useState("list"); // "list" | "create" | "single"
+  const [selectedIssue, setSelectedIssue] = useState(null); // used for single view
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
   // const [loading, setLoading] = useState(false);
   // Fetch Repo
   useEffect(() => {
@@ -19,8 +26,6 @@ const Issues = () => {
         const data = await response.json();
         const repoData = Array.isArray(data) ? data[0] : data;
         setRepo(repoData);
-        // setRepositoryName(repoData.name || "");
-        // setRepoDescription(repoData.description || "");
       } catch (err) {
         console.log("Error while fetching repository", err);
       }
@@ -29,36 +34,65 @@ const Issues = () => {
     fetchRepository();
   }, [repoName]);
 
+  // Fetch Issues Logic
+  const fetchIssues = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3002/issue/all/${repo._id}`
+      );
+      const data = await response.json();
+      setIssues(data); // as array
+    } catch (err) {
+      console.log("Error while fetching Issue", err);
+    }
+  };
+
+  // Fetch Issues
+  useEffect(() => {
+    if (repo._id) fetchIssues();
+  }, [repo._id]); // Also run effect when repo changes
+
+  //Resetting Issue Tab Sections
+  useEffect(() => {
+    setActiveSection("list");
+    fetchIssues();
+  }, [resetSectionSignal]);
   return (
     <>
-      {/* Search bar and buttons */}
-      <div className="issues-header">
-        <input
-          type="text"
-          placeholder="Find an issue..."
-          className="search-input"
+      {/* // 1. Default: ShowIssuesBox */}
+      {activeSection === "list" && (
+        <IssueList
+          issues={issues}
+          onClickCreate={() => setActiveSection("create")}
+          onClickIssue={issue => {
+            setSelectedIssue(issue); // Pass clicked issue object
+            setActiveSection("single");
+          }}
         />
-
-        <select className="dropdown">
-          <option>All</option>
-          <option>Open</option>
-          <option>Closed</option>
-        </select>
-
-        <button className="new-issue-btn">New Issue</button>
-      </div>
-
-      <div className="code-container">
-        <div className="row no-gutters">
-          {/* Left Column (Files section) */}
-          <div className="issues-column">
-            <div className="empty-files">
-              <img src="/nofiles.png" alt="No files" className="empty-image" />
-              <h5 className="empty-text">No issues in this repo</h5>
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
+      {/* // 2. CreateIssue */}
+      {activeSection === "create" && (
+        <CreateIssue
+          userAvatar={userAvatar}
+          handleBackToList={() => setActiveSection("list")}
+          repository={repo._id}
+          fetchIssues={fetchIssues}
+        />
+      )}
+      {/* // 3. ShowSingleIssue */}
+      {activeSection === "single" && selectedIssue && (
+        <ShowIssue
+          issue={selectedIssue}
+          handleBackToList={() => setActiveSection("list")}
+          userAvatar={userAvatar}
+          fetchIssues={fetchIssues} // NEW
+          onDeleteIssue={() => {
+            // NEW
+            setActiveSection("list");
+            fetchIssues(); // reload to remove deleted issue
+          }}
+        />
+      )}
     </>
   );
 };

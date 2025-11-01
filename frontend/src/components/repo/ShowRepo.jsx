@@ -11,10 +11,10 @@ import { useSearchParams } from "react-router-dom";
 
 const ShowRepo = () => {
   const { repoName } = useParams();
-  console.log(repoName);
   const [userDetails, setUserDetails] = useState({ username: "username" });
   const [searchParams, setSearchParams] = useSearchParams();
   const tabFromUrl = searchParams.get("tab") || "code";
+  const [issuesTabResetKey, setIssuesTabResetKey] = useState(0);
 
   const [activeTab, setActiveTab] = useState(tabFromUrl);
 
@@ -23,6 +23,7 @@ const ShowRepo = () => {
   }, [tabFromUrl]);
 
   const handleTabChange = tab => {
+    if (tab === "issues") setIssuesTabResetKey(k => k + 1);
     setActiveTab(tab);
     setSearchParams({ tab }); // URL me update karega
   };
@@ -88,7 +89,12 @@ const ShowRepo = () => {
       </UnderlineNav>
       <div className="right-section" style={{ width: "100%" }}>
         {activeTab === "code" && <Code repoId={repoName} />}
-        {activeTab === "issues" && <Issues />}
+        {activeTab === "issues" && (
+          <Issues
+            userAvatar={userDetails.avatar}
+            resetSectionSignal={issuesTabResetKey}
+          />
+        )}
         {activeTab === "settings" && <RepoSettings repoId={repoName} />}
       </div>
     </>

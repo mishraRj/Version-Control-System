@@ -4,17 +4,20 @@ const Issue = require("../models/issueModel");
 const User = require("../models/userModel");
 
 const createIssue = async (req, res) => {
-  const { title, description } = req.body;
-  const { id } = req.params; // repo id
+  const { title, description, repository } = req.body;
 
   try {
     const issue = new Issue({
       title,
       description,
-      repository: id,
+      repository,
     });
-
     await issue.save();
+
+    // Update repository: Push the issue's ObjectId to repo's issues array
+    await Repository.findByIdAndUpdate(repository, {
+      $push: { issues: issue._id },
+    });
     res.status(201).json(issue);
   } catch (err) {
     console.error("❌ Error during creating the issue", err);
@@ -63,10 +66,10 @@ const deleteIssueById = async (req, res) => {
 };
 
 const getAllIssues = async (req, res) => {
-  const { id } = req.params; // repo id
+  const { repoId } = req.params; // repo id
 
   try {
-    const issue = await Issue.find({ repository: id });
+    const issue = await Issue.find({ repository: repoId });
 
     if (!issue) {
       res.status(201).json(issue, { message: "Issue not found" });

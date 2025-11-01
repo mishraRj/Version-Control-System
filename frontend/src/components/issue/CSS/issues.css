@@ -1,0 +1,554 @@
+/* Full width container */
+.code-container {
+  width: 100%;
+  padding: 0;
+  margin: 20px;
+  background-color: #0d1117; /* GitHub dark background */
+  min-height: 100vh;
+}
+
+/* Left column (Files) */
+.issues-column {
+  background-color: #161b22; /* GitHub repo file section bg */
+  color: #c9d1d9;
+  border-right: 1px solid #30363d;
+  padding: 20px;
+  min-height: 600px;
+  border-radius: 10px;
+  width: 96%;
+  /* Center content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.showIssues-column {
+  background-color: #161b2200; /* GitHub repo file section bg */
+  color: #c9d1d9;
+  border-right: 1px solid #30363d;
+  padding: 20px;
+  min-height: 600px;
+  border-radius: 10px;
+  width: 96%;
+  /* Center content */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  border: none;
+}
+
+/* Empty state container */
+.empty-files {
+  text-align: center;
+  animation: bounce 2s ease-in-out infinite alternate;
+}
+
+/* Image styling */
+.empty-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 2px solid #30363d;
+}
+
+/* Text styling */
+.empty-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: #c9d1d9;
+  opacity: 0.85;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+.issues-header {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background: #0d1117;
+  color: #c9d1d9;
+}
+
+.dropdown {
+  padding: 6px 10px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background: #0d1117;
+  color: #c9d1d9;
+}
+
+.new-issue-btn {
+  padding: 6px 12px;
+  background-color: #238636;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.new-issue-btn:hover {
+  background-color: #2ea043;
+}
+
+/* Create Issues Functionality*/
+.createIssueForm {
+  background: #161b22;
+  color: #c9d1d9;
+  border-radius: 10px;
+  padding: 32px 20px 20px 20px;
+  max-width: 700px;
+  margin: 32px auto;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.27);
+  font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+.formHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 16px;
+}
+
+.formTitle {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.label {
+  display: block;
+  margin: 20px 0 5px 0;
+  font-weight: 500;
+}
+.required {
+  color: #fa4549;
+  font-size: 15px;
+  margin-left: 2px;
+}
+
+.input {
+  width: 100%;
+  background: #0d1117;
+  border: 1px solid #444c56;
+  color: #c9d1d9;
+  border-radius: 6px;
+  font-size: 16px;
+  padding: 10px;
+  margin-bottom: 14px;
+}
+
+.descTabs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.tab {
+  background: none;
+  color: #c9d1d9;
+  padding: 8px 18px;
+  border-radius: 6px 6px 0 0;
+  font-weight: 500;
+  cursor: pointer;
+}
+.tab.active {
+  background: #21262c;
+  border-bottom: 2px solid #58a6ff;
+}
+
+.textarea {
+  width: 100%;
+  background: #0d1117;
+  border: 1px solid #444c56;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #c9d1d9;
+  padding: 10px;
+  resize: vertical;
+  min-height: 120px;
+  margin-bottom: 8px;
+}
+
+.descActions {
+  font-size: 13px;
+  color: #8b949e;
+  margin-bottom: 18px;
+}
+
+.formFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.checkboxLabel {
+  font-size: 15px;
+  color: #c9d1d9;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: auto;
+}
+
+.cancelBtn,
+.createBtn {
+  padding: 9px 22px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.cancelBtn {
+  background: #21262c;
+  color: #c9d1d9;
+  cursor: pointer;
+}
+
+.createBtn {
+  background: #238636;
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+}
+.createBtn:hover {
+  background: #2ea043;
+}
+
+.cancelBtn:hover {
+  background: #323943;
+}
+
+/*Show Issue CSS*/
+.issue-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s, border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.issue-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.14);
+  border-color: #58a6ff;
+  color: #0c08f0 !important;
+}
+
+.issue-title {
+  font-size: 1.22rem;
+  color: #c9d1d9;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.issue-card .issue-title:hover {
+  color: #0865f0 !important;
+}
+
+/* Add this for parent hover effect */
+.issue-card:hover .issue-title {
+  color: #0865f0 !important;
+}
+
+.issue-desc {
+  font-size: 16px;
+  color: #8b949e;
+  margin-bottom: 3px;
+}
+
+.issue-status {
+  padding: 3px 14px;
+  border-radius: 16px;
+  background: #21262d;
+  color: #3fb950;
+  font-size: 15px;
+  width: fit-content;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+  margin-top: 2px;
+  border: 1.2px solid #30363d;
+  margin-left: 10px;
+}
+
+/* For closed status, add: */
+.issue-status.closed {
+  background: #2f3039;
+  color: #af45fa;
+}
+
+/* Show Issue Component*/
+.show-issue-container {
+  background: #161b22;
+  padding: 36px 32px;
+  border-radius: 10px;
+  color: #d9dee3;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.issue-header-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 12px;
+}
+
+.show-issue-title {
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #e4e7ec;
+  margin: 0;
+}
+
+.issue-number {
+  font-size: 1.3rem;
+  color: #87909a;
+  font-weight: 600;
+}
+
+.issue-status-badge {
+  padding: 3px 12px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-left: 1em;
+}
+
+.issue-status-badge.open {
+  background: #22954c;
+  color: #fff;
+}
+
+.issue-status-badge.closed {
+  background: #21262d;
+  color: #7202fc;
+}
+
+.issue-action-btns {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.issue-edit-btn,
+.issue-delete-btn {
+  background: #222834;
+  color: #58a6ff;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.1s;
+}
+
+.issue-edit-btn:hover {
+  background: #1448ac;
+  color: #fff;
+}
+.issue-delete-btn:hover {
+  background: #a72f21;
+  color: #fff;
+}
+
+.show-issue-main {
+  background: #0d1117;
+  border-radius: 7px;
+  padding: 20px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.issue-author-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.issue-author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #238636;
+  object-fit: cover;
+}
+
+.issue-author-name {
+  font-weight: bold;
+  color: #c9d1d9;
+  font-size: 1.12rem;
+}
+
+.issue-author-role {
+  background: #21262d;
+  color: #87909a;
+  border-radius: 7px;
+  padding: 2px 8px;
+  margin-left: 7px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.issue-description {
+  font-size: 1.16rem;
+  margin-top: 10px;
+  color: #c9d1d9;
+}
+
+.add-comment-section {
+  margin-top: 26px;
+}
+
+.add-comment-section h3 {
+  font-size: 1.2rem;
+  color: #e4e7ec;
+  margin-bottom: 8px;
+}
+
+.add-comment-textarea {
+  width: 100%;
+  background: #0d1117;
+  color: #c9d1d9;
+  border: 2px solid #21262d;
+  border-radius: 8px;
+  min-height: 55px;
+  padding: 12px;
+  margin-bottom: 16px;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.add-comment-textarea:focus {
+  border: 2px solid rgb(50, 50, 225);
+  outline: none;
+}
+
+.add-comment-footer {
+  display: flex;
+  gap: 8px;
+}
+
+.close-issue-btn {
+  background: #21262d;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+}
+
+.close-issue-btn.open {
+  color: #7202fc;
+}
+
+.close-issue-btn.closed {
+  color: #238636 !important;
+}
+
+.close-issue-btn:hover {
+  background: #313945;
+}
+
+.comment-issue-btn {
+  background: #238636;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.11);
+}
+
+.comment-issue-btn:hover {
+  background: #299f4b;
+}
+
+.edit-issue-title-input {
+  font-size: 1.2rem;
+  padding: 8px 12px;
+  margin-right: 1rem;
+  border-radius: 5px;
+  border: 2px solid #21262d;
+  width: 50%;
+  background: #21262d;
+  color: #fff;
+}
+
+.edit-issue-title-input:focus {
+  border: 2px solid rgb(50, 50, 225);
+  outline: none;
+}
+
+.edit-actions button {
+  margin-left: 6px;
+  background: #238636;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.edit-actions .cancel {
+  background: #202521;
+  color: #fff;
+}
+
+.edit-issue-desc-textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 7px;
+  min-height: 70px;
+  border: 2px solid #21262d;
+  background: #21262d;
+  color: #fff;
+  margin-top: 6px;
+}
+
+.edit-issue-desc-textarea:focus {
+  border: 2px solid rgb(50, 50, 225);
+  outline: none;
+}
