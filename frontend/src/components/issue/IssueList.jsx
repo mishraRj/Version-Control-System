@@ -1,6 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const IssueList = ({ issues, onClickCreate, onClickIssue }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [searchResults, setSearchResults] = useState([]);
+
+  useEffect(() => {
+    let filtered = issues;
+    if (statusFilter !== "All") {
+      filtered = filtered.filter(
+        issue => issue.status === statusFilter.toLowerCase()
+      );
+    }
+    if (searchQuery !== "") {
+      filtered = filtered.filter(issue =>
+        issue.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    setSearchResults(filtered);
+  }, [searchQuery, issues, statusFilter]);
+
   return (
     <div className="showIssuesBox">
       <div className="issues-header">
@@ -8,8 +27,13 @@ const IssueList = ({ issues, onClickCreate, onClickIssue }) => {
           type="text"
           placeholder="Find an issue..."
           className="search-input"
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
         />
-        <select className="dropdown">
+        <select
+          className="dropdown"
+          value={statusFilter}
+          onChange={e => setStatusFilter(e.target.value)}>
           <option>All</option>
           <option>Open</option>
           <option>Closed</option>
@@ -22,8 +46,8 @@ const IssueList = ({ issues, onClickCreate, onClickIssue }) => {
       <div className="code-container">
         <div className="row no-gutters">
           <div className="showIssues-column">
-            {issues.length > 0 ? (
-              issues.map(issue => (
+            {searchResults.length > 0 ? (
+              searchResults.map(issue => (
                 <div
                   className="issue-card"
                   key={issue._id}

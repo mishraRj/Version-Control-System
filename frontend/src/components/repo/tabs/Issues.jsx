@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "../../issue/CSS/issues.css";
 import CreateIssue from "../../issue/CreateIssue";
 import IssueList from "../../issue/IssueList";
@@ -7,13 +7,12 @@ import ShowIssue from "../../issue/ShowIssue";
 
 const Issues = ({ userAvatar, resetSectionSignal }) => {
   const { repoName } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [repo, setRepo] = useState({});
   const [issues, setIssues] = useState([]); // Array, not single object
   const [activeSection, setActiveSection] = useState("list"); // "list" | "create" | "single"
   const [selectedIssue, setSelectedIssue] = useState(null); // used for single view
-
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
 
   // const [loading, setLoading] = useState(false);
   // Fetch Repo
@@ -65,8 +64,13 @@ const Issues = ({ userAvatar, resetSectionSignal }) => {
           issues={issues}
           onClickCreate={() => setActiveSection("create")}
           onClickIssue={issue => {
-            setSelectedIssue(issue); // Pass clicked issue object
+            setSelectedIssue(issue);
             setActiveSection("single");
+            // Set hash in URL:
+            const last3 = issue._id?.slice(-3);
+            navigate(location.pathname + location.search + "#" + last3, {
+              replace: true,
+            });
           }}
         />
       )}
@@ -85,6 +89,7 @@ const Issues = ({ userAvatar, resetSectionSignal }) => {
           issue={selectedIssue}
           handleBackToList={() => setActiveSection("list")}
           userAvatar={userAvatar}
+          repository={repo}
           fetchIssues={fetchIssues} // NEW
           onDeleteIssue={() => {
             // NEW

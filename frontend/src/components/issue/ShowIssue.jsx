@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import axios from "axios";
 import DeleteIssueModal from "./tabs/DeleteIssueModal";
-import { useNavigate } from "react-router-dom";
 
-const ShowIssue = ({ issue, userAvatar, fetchIssues, onDeleteIssue }) => {
+const ShowIssue = ({
+  issue,
+  userAvatar,
+  fetchIssues,
+  onDeleteIssue,
+  repository,
+}) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [localIssue, setLocalIssue] = useState(issue);
   const [loading, setLoading] = useState(false);
   const [enableEdit, setEnableEdit] = useState(false);
   const [editTitle, setEditTitle] = useState(localIssue.title);
   const [editDesc, setEditDesc] = useState(localIssue.description);
-  const navigate = useNavigate();
 
   // Toggle status handler
   const handleToggleStatus = async () => {
@@ -107,12 +111,38 @@ const ShowIssue = ({ issue, userAvatar, fetchIssues, onDeleteIssue }) => {
             </div>
           </>
         ) : (
-          <>
-            <h1 className="show-issue-title">{localIssue.title}</h1>
-            <span className="issue-number">#{localIssue._id?.slice(-3)}</span>
-            <span className={`issue-status-badge ${localIssue.status}`}>
-              {localIssue.status === "open" ? "Open" : "Closed"}
-            </span>
+          <div className="issue-header-parent">
+            {/* First Line: Title, Id */}
+            <div className="issue-header-top">
+              <h1 className="show-issue-title" style={{ marginBottom: 0 }}>
+                {localIssue.title}
+                <span className="issue-number">
+                  #{localIssue._id?.slice(-3)}
+                </span>
+              </h1>
+
+              {/* Second Line: Status, Repo Badge */}
+              <div
+                className="issue-header-badges"
+                style={{
+                  margin: "14px 0 0 2px",
+                  display: "flex",
+                  gap: "12px",
+                  alignItems: "center",
+                }}>
+                <span className={`issue-status-badge ${localIssue.status}`}>
+                  {localIssue.status === "open" ? "Open" : "Closed"}
+                </span>
+                <span className="repoIssueName-badge">
+                  {repository.name}
+                  <span
+                    className={`repo-visibility-badge ${repository.visibility}`}>
+                    {repository.visibility === "private" ? "Private" : "Public"}
+                  </span>
+                </span>
+              </div>
+            </div>
+            {/* Actions */}
             <div className="issue-action-btns">
               <button
                 className="issue-edit-btn"
@@ -124,7 +154,6 @@ const ShowIssue = ({ issue, userAvatar, fetchIssues, onDeleteIssue }) => {
                 onClick={() => setShowDeleteModal(true)}>
                 Delete
               </button>
-
               {showDeleteModal && (
                 <DeleteIssueModal
                   onClose={() => setShowDeleteModal(false)}
@@ -132,7 +161,7 @@ const ShowIssue = ({ issue, userAvatar, fetchIssues, onDeleteIssue }) => {
                 />
               )}
             </div>
-          </>
+          </div>
         )}
       </div>
 

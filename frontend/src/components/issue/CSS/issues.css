@@ -86,6 +86,11 @@
   color: #c9d1d9;
 }
 
+.search-input:focus {
+  border: 2px solid rgb(50, 50, 225);
+  outline: none;
+}
+
 .dropdown {
   padding: 6px 10px;
   border: 1px solid #444;
@@ -316,51 +321,14 @@
   border-radius: 10px;
   color: #d9dee3;
   max-width: 760px;
-  margin: 0 auto;
-}
-
-.issue-header-row {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  margin-bottom: 12px;
-}
-
-.show-issue-title {
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: 1px;
-  color: #e4e7ec;
-  margin: 0;
-}
-
-.issue-number {
-  font-size: 1.3rem;
-  color: #87909a;
-  font-weight: 600;
-}
-
-.issue-status-badge {
-  padding: 3px 12px;
-  border-radius: 14px;
-  font-weight: 600;
-  font-size: 1rem;
-  margin-left: 1em;
-}
-
-.issue-status-badge.open {
-  background: #22954c;
-  color: #fff;
-}
-
-.issue-status-badge.closed {
-  background: #21262d;
-  color: #7202fc;
+  margin: 20px auto;
+  border: 1px solid rgba(255, 255, 255, 0.39);
 }
 
 .issue-action-btns {
   margin-left: auto;
   display: flex;
+  align-items: center;
   gap: 10px;
 }
 
@@ -551,4 +519,105 @@
 .edit-issue-desc-textarea:focus {
   border: 2px solid rgb(50, 50, 225);
   outline: none;
+}
+.issue-header-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.issue-header-top {
+  display: flex;
+  /* align-items: center; */
+  gap: 2px;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.issue-header-parent {
+  width: 100%;
+  display: flex;
+}
+
+.issue-header-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.show-issue-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #e4e7ec;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.issue-number {
+  font-size: 1.35rem;
+  color: #87909a;
+  font-weight: 600;
+  margin-left: 4px;
+  text-decoration: underline;
+}
+
+.issue-header-badges {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.issue-status-badge {
+  padding: 6px 18px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1.02rem;
+  margin-left: 0;
+}
+
+.issue-status-badge.open {
+  background: #22954c;
+  color: #fff;
+}
+.issue-status-badge.closed {
+  background: #21262d;
+  color: #7202fc;
+}
+
+.repoIssueName-badge {
+  background: #21262d;
+  color: #fff;
+  border-radius: 18px;
+  padding: 7px 22px;
+  font-size: 1.08rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.repo-visibility-badge {
+  margin-left: 12px;
+  background: #252a34;
+  color: #fff;
+  border-radius: 10px;
+  padding: 3px 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border: 1px solid #30363d;
+}
+
+.repo-visibility-badge.public {
+  background: #21262d;
+  color: #23da59;
+}
+
+.repo-visibility-badge.private {
+  background: #21262d;
+  color: #da2323;
 }

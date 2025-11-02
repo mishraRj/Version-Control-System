@@ -1,13 +1,12 @@
 import { UnderlineNav } from "@primer/react";
 import { React, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { CodeIcon, IssueOpenedIcon, GearIcon } from "@primer/octicons-react";
 import Code from "./tabs/Code";
 import NavBar from "../NavBar";
 import Issues from "./tabs/Issues";
 import RepoSettings from "./tabs/RepoSettings";
 import axios from "axios";
-import { useSearchParams } from "react-router-dom";
 
 const ShowRepo = () => {
   const { repoName } = useParams();
