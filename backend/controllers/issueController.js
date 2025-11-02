@@ -67,7 +67,10 @@ const deleteIssueById = async (req, res) => {
 
 const getAllIssues = async (req, res) => {
   const { repoId } = req.params; // repo id
-
+  if (!repoId || repoId === "undefined") {
+    res.status(200).json([]); // return empty array, avoid error
+    return;
+  }
   try {
     const issue = await Issue.find({ repository: repoId });
 

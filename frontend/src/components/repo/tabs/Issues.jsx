@@ -35,6 +35,11 @@ const Issues = ({ userAvatar, resetSectionSignal }) => {
 
   // Fetch Issues Logic
   const fetchIssues = async () => {
+    // Stop if repo id is not set
+    if (!repo._id) {
+      setIssues([]);
+      return;
+    }
     try {
       const response = await fetch(
         `http://localhost:3002/issue/all/${repo._id}`
@@ -43,6 +48,7 @@ const Issues = ({ userAvatar, resetSectionSignal }) => {
       setIssues(data); // as array
     } catch (err) {
       console.log("Error while fetching Issue", err);
+      setIssues([]); // fallback to empty array on error
     }
   };
 
