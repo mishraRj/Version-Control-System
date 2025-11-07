@@ -1,8 +1,8 @@
-const fs = require("fs").promises; // fs - file system, provided by node to create new files/folders
-const path = require("path"); // provides the path of file
+const fs = require("fs").promises;
+const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 
-async function commitRepo(message) {
+async function commitRepo(message, repoId) {
   const repoPath = path.resolve(process.cwd(), ".rjGit");
   const stagedPath = path.join(repoPath, "staging");
   const commitPath = path.join(repoPath, "commits");
@@ -18,16 +18,17 @@ async function commitRepo(message) {
         path.join(stagedPath, file),
         path.join(commitDir, file)
       );
-
-      await fs.writeFile(
-        path.join(commitDir, "commit.json"),
-        JSON.stringify({ message, date: new Date().toISOString() })
-      );
-
-      console.log(
-        `Commit with commitId: ${commitID} created with msg: ${message}`
-      );
     }
+
+    // Save commit metadata to commit.json (now includes repoId)
+    await fs.writeFile(
+      path.join(commitDir, "commit.json"),
+      JSON.stringify({ message, date: new Date().toISOString(), repoId })
+    );
+
+    console.log(
+      `Commit with commitId: ${commitID} created with msg: ${message} (Repo: ${repoId})`
+    );
   } catch (err) {
     console.log("Error adding file", err);
   }

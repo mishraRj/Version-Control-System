@@ -6,6 +6,9 @@
 **/.env
 **/.env.*
 !**/.env.example
+**/.rjGit
+**/.hello2.txt
+**/.commit.json
 
 # Logs
 *.log

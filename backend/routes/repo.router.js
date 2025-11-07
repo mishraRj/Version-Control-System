@@ -20,4 +20,6 @@ repoRouter.put("/repo/update/:id", repoController.updateRepositoryById);
 repoRouter.patch("/repo/toggle/:id", repoController.toggleVisibilityById);
 repoRouter.delete("/repo/delete/:id", repoController.deleteRepositoryById);
 
+repoRouter.get("/repo/getFiles/:id", repoController.fetchRepoFiles);
+
 module.exports = repoRouter;

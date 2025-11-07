@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Repository = require("../models/repoModel");
-const Issue = require("../models/issueModel");
 const User = require("../models/userModel");
+const Commit = require("../models/Commit");
 
 const createRepository = async (req, res) => {
   const { owner, name, issues, content, description, visibility } = req.body;
@@ -263,6 +263,20 @@ const deleteRepositoryById = async (req, res) => {
   }
 };
 
+const fetchRepoFiles = async (req, res) => {
+  const { id } = req.params; // 'id' here is repoId
+
+  try {
+    // Get all commits for this repository
+    const commits = await Commit.find({ repository: id }).sort({ date: -1 }); // latest first
+
+    res.status(200).json(commits);
+  } catch (err) {
+    console.error("❌ Error during Fetching files of Repository", err);
+    res.status(500).send("Server Error");
+  }
+};
+
 module.exports = {
   createRepository,
   getAllRepositories,
@@ -275,4 +289,5 @@ module.exports = {
   updateRepositoryById,
   toggleVisibilityById,
   deleteRepositoryById,
+  fetchRepoFiles,
 };

@@ -28,7 +28,6 @@ const Dashboard = (req, res) => {
         const response = await fetch(`http://localhost:3002/repo/all`);
         const data = await response.json();
         setSuggestedRepositories(data);
-        console.log("Fetched repos:", data);
       } catch (err) {
         console.log("Error while passing repositories", err);
       }

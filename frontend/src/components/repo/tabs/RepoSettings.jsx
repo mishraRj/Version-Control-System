@@ -47,7 +47,6 @@ const RepoSettings = () => {
           const response = await axios.get(
             `http://localhost:3002/getUserProfile/${userId}`
           );
-          console.log(response);
           setUserDetails(response.data);
         } catch (err) {
           console.error("Cannot fetch user details: ", err);

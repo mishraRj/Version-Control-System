@@ -37,9 +37,10 @@ async function pushRepo() {
         files: fileContents,
         message: commitJson.message,
         date: commitJson.date,
+        repository: commitJson.repoId, // <--- Main update
       });
 
-      console.log(`✅ Pushed commit ${commitId}`);
+      console.log(`✅ Pushed commit ${commitId} to repo ${commitJson.repoId}`);
     }
 
     await mongoose.disconnect(); // 🧹 Disconnect DB

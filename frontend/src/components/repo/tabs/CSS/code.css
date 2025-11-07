@@ -15,8 +15,16 @@
   padding: 20px;
   min-height: 600px;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.files-column .noFiles {
   /* Center content */
   display: flex;
+  flex-direction: column; /* vertical stacking */
+  gap: 30px;
   justify-content: center;
   align-items: center;
 }
@@ -79,4 +87,63 @@
 .bottomLine {
   border-bottom: 0.5px solid rgba(128, 128, 128, 0.578);
   padding-bottom: 20px;
+}
+
+.copyIcon {
+  cursor: pointer;
+  transition: color 0.18s, transform 0.22s;
+  color: #b6b6b6;
+  position: relative;
+  bottom: 10px;
+}
+
+.copyIcon:hover {
+  color: green !important;
+  transform: scale(1.38) rotate(-8deg);
+}
+
+/* existing empty-files styles are fine */
+
+.instructions {
+  width: 100%;
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 20px;
+  color: #c9d1d9;
+}
+
+.instruction-intro {
+  margin-bottom: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #e1e4e8;
+}
+
+.instruction-list {
+  padding-left: 20px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #c9d1d9;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.instruction-list li {
+  margin-bottom: 8px;
+}
+
+.instruction-list code {
+  background-color: #21262d;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Source Code Pro", monospace;
+  font-size: 14px;
+  color: #58a6ff;
+}
+
+.instructions-note {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #8b949e;
+  font-style: italic;
 }

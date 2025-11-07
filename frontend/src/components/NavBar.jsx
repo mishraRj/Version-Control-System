@@ -74,7 +74,6 @@ const NavBar = () => {
             alt="profile"
             onClick={() => {
               setMenuOpen(!menuOpen);
-              console.log("menuOpen:", !menuOpen);
             }}
           />
 

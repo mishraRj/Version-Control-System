@@ -69,10 +69,6 @@ const UserRepos = () => {
     fetchStarred();
   }, []);
 
-  useEffect(() => {
-    console.log("⭐ updated starredRepos state:", starredRepos);
-  }, [starredRepos]);
-
   // ⭐ Toggle star
   const toggleStar = async repoId => {
     const userId = localStorage.getItem("userId");

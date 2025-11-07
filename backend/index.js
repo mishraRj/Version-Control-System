@@ -36,16 +36,21 @@ yargs(hideBin(process.argv)) // sets up the CLI to read user input commands (lik
     }
   )
   .command(
-    "commit <message>",
+    "commit <message> <repoId>",
     "Commit the staged files",
     yargs => {
-      yargs.positional("message", {
-        describe: "Commit Message",
-        type: "string",
-      });
+      yargs
+        .positional("message", {
+          describe: "Commit Message",
+          type: "string",
+        })
+        .positional("repoId", {
+          describe: "Repository ID to link this commit to",
+          type: "string",
+        });
     },
     argv => {
-      commitRepo(argv.message);
+      commitRepo(argv.message, argv.repoId);
     }
   )
   .command("push", "Push commits to S3", {}, pushRepo)
