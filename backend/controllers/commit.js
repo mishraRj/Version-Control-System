@@ -13,6 +13,7 @@ async function commitRepo(message, repoId) {
     await fs.mkdir(commitDir, { recursive: true });
     const files = await fs.readdir(stagedPath);
 
+    // Copy staged files into new commit folder
     for (let file of files) {
       await fs.copyFile(
         path.join(stagedPath, file),
@@ -20,11 +21,18 @@ async function commitRepo(message, repoId) {
       );
     }
 
-    // Save commit metadata to commit.json (now includes repoId)
+    // Write the commit.json file (message, date, repoId)
     await fs.writeFile(
       path.join(commitDir, "commit.json"),
       JSON.stringify({ message, date: new Date().toISOString(), repoId })
     );
+
+    // ===> ADD THIS CODE HERE, AFTER COMMIT IS SUCCESSFUL! <===
+    // Clear the staged folder!
+    const stagedFiles = await fs.readdir(stagedPath);
+    for (const file of stagedFiles) {
+      await fs.unlink(path.join(stagedPath, file));
+    }
 
     console.log(
       `Commit with commitId: ${commitID} created with msg: ${message} (Repo: ${repoId})`

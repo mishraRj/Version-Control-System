@@ -249,13 +249,17 @@ const deleteRepositoryById = async (req, res) => {
   const { id } = req.params;
 
   try {
+    // 1. Delete all commits for this repo first
+    await Commit.deleteMany({ repository: id });
+
+    // 2. Now delete the repo itself
     const repository = await Repository.findByIdAndDelete(id);
     if (!repository) {
       return res.status(404).json({ error: "Repository not found" });
     }
 
     res.json({
-      message: "repository deleted successfully",
+      message: "Repository and related commits deleted successfully",
     });
   } catch (err) {
     console.error("❌ Error during deleting the repository", err);

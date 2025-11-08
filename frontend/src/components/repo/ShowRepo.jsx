@@ -14,6 +14,7 @@ const ShowRepo = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const tabFromUrl = searchParams.get("tab") || "code";
   const [issuesTabResetKey, setIssuesTabResetKey] = useState(0);
+  const [codeTabResetKey, setCodeTabResetKey] = useState(0);
 
   const [activeTab, setActiveTab] = useState(tabFromUrl);
 
@@ -23,6 +24,7 @@ const ShowRepo = () => {
 
   const handleTabChange = tab => {
     if (tab === "issues") setIssuesTabResetKey(k => k + 1);
+    if (tab === "code") setCodeTabResetKey(k => k + 1);
     setActiveTab(tab);
     setSearchParams({ tab }); // URL me update karega
   };
@@ -87,7 +89,13 @@ const ShowRepo = () => {
         </UnderlineNav.Item>
       </UnderlineNav>
       <div className="right-section" style={{ width: "100%" }}>
-        {activeTab === "code" && <Code repoId={repoName} />}
+        {activeTab === "code" && (
+          <Code
+            repoId={repoName}
+            userAvatar={userDetails.avatar}
+            resetSectionSignal={codeTabResetKey}
+          />
+        )}
         {activeTab === "issues" && (
           <Issues
             userAvatar={userDetails.avatar}

@@ -2,6 +2,8 @@ const fs = require("fs").promises;
 const path = require("path");
 const mongoose = require("mongoose");
 const Commit = require("../models/Commit");
+const Repository = require("../models/repoModel");
+
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
 async function pushRepo() {
@@ -13,10 +15,24 @@ async function pushRepo() {
     const commitFolders = await fs.readdir(commitDir);
 
     for (const commitId of commitFolders) {
+      // Check if already pushed!
+      const alreadyExists = await Commit.exists({ commitId });
+      if (alreadyExists) {
+        console.log(`🚫 Commit ${commitId} already pushed. Skipping.`);
+        continue;
+      }
       const files = await fs.readdir(path.join(commitDir, commitId));
       const commitJson = JSON.parse(
         await fs.readFile(path.join(commitDir, commitId, "commit.json"), "utf8")
       );
+      // Repo check
+      const repoExists = await Repository.exists({ _id: commitJson.repoId });
+      if (!repoExists) {
+        console.log(
+          `🚫 Commit ${commitId} skipped. Repo ${commitJson.repoId} does not exist!`
+        );
+        continue;
+      }
 
       const fileContents = [];
 
