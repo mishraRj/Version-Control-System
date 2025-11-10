@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./Dashboard.css";
 import NavBar from "../NavBar";
+import { useLocation } from "react-router-dom";
 
 const Dashboard = (req, res) => {
   const [repositories, setRepositories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestedRepositories, setSuggestedRepositories] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const [searchedUsers, setSearchedUsers] = useState([]);
+
+  const location = useLocation();
+  const searchTerm = new URLSearchParams(location.search).get("q");
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -50,7 +55,8 @@ const Dashboard = (req, res) => {
 
   return (
     <>
-      <NavBar />
+      <NavBar onUserSearch={setSearchedUsers} />
+
       <section id="dashboard">
         <aside className="suggestions">
           <h3>Suggested Repositories</h3>
@@ -64,6 +70,32 @@ const Dashboard = (req, res) => {
           })}
         </aside>
         <main className="middle">
+          {/* Searched Users Box */}
+          <div className="project-status-banner">
+            <strong>🚧 Project in Progress!</strong>
+            <ul>
+              <li>
+                🔐 <b>Authorization</b> setup coming soon
+              </li>
+              <li>
+                👤 <b>User search, profile view, and follow</b> features on the
+                way
+              </li>
+              <li>
+                📰 <b>Personalized feed</b> will be available on the home page
+              </li>
+              <li>
+                ...and much more!{" "}
+                <span className="status-comingsoon">
+                  More features coming soon 🚀
+                </span>
+              </li>
+            </ul>
+            <p className="status-note">
+              Most core functionality is already live. Explore the working
+              GitHub-style repo & commit UI below!
+            </p>
+          </div>
           <h2>Your Repositories</h2>
           <div id="search">
             <input
@@ -73,14 +105,12 @@ const Dashboard = (req, res) => {
               onChange={e => setSearchQuery(e.target.value)}
             />
           </div>
-          {searchResults.map(repo => {
-            return (
-              <div key={repo._id}>
-                <h4>{repo.name}</h4>
-                <h4>{repo.description}</h4>
-              </div>
-            );
-          })}
+          {searchResults.map(repo => (
+            <div key={repo._id}>
+              <h4>{repo.name}</h4>
+              <h4>{repo.description}</h4>
+            </div>
+          ))}
         </main>
         <aside>
           <h3>Upcoming Events</h3>

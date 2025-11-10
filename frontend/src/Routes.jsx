@@ -11,6 +11,7 @@ import ShowRepo from "./components/repo/ShowRepo";
 
 // Auth Context
 import { useAuth } from "./authContext";
+import Search from "./components/Search";
 
 const ProjectRoutes = () => {
   const { currentUser, setCurrentUser } = useAuth();
@@ -49,7 +50,7 @@ const ProjectRoutes = () => {
       element: <Signup />,
     },
     {
-      path: "/profile",
+      path: "/profile/:userName",
       element: <Profile />,
     },
     {
@@ -57,7 +58,11 @@ const ProjectRoutes = () => {
       element: <CreateRepo />,
     },
     {
-      path: "/repo/:repoName",
+      path: "/search",
+      element: <Search />,
+    },
+    {
+      path: "/:username/:repoName",
       element: <ShowRepo />,
     },
   ]);

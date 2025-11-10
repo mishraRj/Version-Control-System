@@ -1,7 +1,12 @@
 import { UnderlineNav } from "@primer/react";
 import { React, useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
-import { CodeIcon, IssueOpenedIcon, GearIcon } from "@primer/octicons-react";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import {
+  CodeIcon,
+  IssueOpenedIcon,
+  GearIcon,
+  HomeIcon,
+} from "@primer/octicons-react";
 import Code from "./tabs/Code";
 import NavBar from "../NavBar";
 import Issues from "./tabs/Issues";
@@ -9,12 +14,18 @@ import RepoSettings from "./tabs/RepoSettings";
 import axios from "axios";
 
 const ShowRepo = () => {
-  const { repoName } = useParams();
-  const [userDetails, setUserDetails] = useState({ username: "username" });
+  const { username, repoName } = useParams();
+  const navigate = useNavigate();
+  const [loggedInUserDetails, setLoggedInUserDetails] = useState({
+    username: "username",
+  });
   const [searchParams, setSearchParams] = useSearchParams();
   const tabFromUrl = searchParams.get("tab") || "code";
   const [issuesTabResetKey, setIssuesTabResetKey] = useState(0);
   const [codeTabResetKey, setCodeTabResetKey] = useState(0);
+
+  const [visitedUser, setVisitedUser] = useState(null); // user being viewed
+  const [loggedInUser, setLoggedInUser] = useState(null); // session user
 
   const [activeTab, setActiveTab] = useState(tabFromUrl);
 
@@ -29,9 +40,9 @@ const ShowRepo = () => {
     setSearchParams({ tab }); // URL me update karega
   };
 
-  // Fetch User Details
+  // Fetch logged in User Details
   useEffect(() => {
-    const fetchUserDetails = async () => {
+    const fetchLoggedInUserDetails = async () => {
       const userId = localStorage.getItem("userId");
 
       if (userId) {
@@ -39,14 +50,37 @@ const ShowRepo = () => {
           const response = await axios.get(
             `http://localhost:3002/getUserProfile/${userId}`
           );
-          setUserDetails(response.data);
+          setLoggedInUserDetails(response.data);
         } catch (err) {
           console.error("Cannot fetch user details: ", err);
         }
       }
     };
-    fetchUserDetails();
+    fetchLoggedInUserDetails();
   }, []);
+
+  // Fetch visited user details by username param
+  useEffect(() => {
+    if (!username) return;
+    const fetchVisitedUser = async () => {
+      try {
+        const resp = await axios.get(
+          `http://localhost:3002/searchUser/${username}`
+        );
+        console.log("visitedUser resp", resp.data);
+        const user = (resp.data.users && resp.data.users[0]) || null;
+        setVisitedUser(user);
+      } catch (error) {
+        setVisitedUser(null);
+      }
+    };
+    fetchVisitedUser();
+  }, [username]);
+
+  const canEdit =
+    loggedInUserDetails &&
+    visitedUser &&
+    loggedInUserDetails._id === visitedUser._id;
 
   return (
     <>
@@ -76,30 +110,49 @@ const ShowRepo = () => {
           Issues
         </UnderlineNav.Item>
 
-        <UnderlineNav.Item
-          aria-current={activeTab === "settings" ? "page" : undefined}
-          icon={GearIcon}
-          onClick={() => handleTabChange("settings")}
-          sx={{
-            backgroundColor: "transparent",
-            color: activeTab === "settings" ? "white" : "whitesmoke",
-            "&:hover": { textDecoration: "underline", color: "white" },
-          }}>
-          Settings
-        </UnderlineNav.Item>
+        {canEdit ? (
+          <UnderlineNav.Item
+            aria-current={activeTab === "settings" ? "page" : undefined}
+            icon={GearIcon}
+            onClick={() => handleTabChange("settings")}
+            sx={{
+              backgroundColor: "transparent",
+              color: activeTab === "settings" ? "white" : "whitesmoke",
+              "&:hover": { textDecoration: "underline", color: "white" },
+            }}>
+            Settings
+          </UnderlineNav.Item>
+        ) : (
+          <UnderlineNav.Item
+            aria-current={activeTab === "home" ? "page" : undefined}
+            icon={HomeIcon} // Use an appropriate icon!
+            onClick={() => {
+              setActiveTab("home");
+              navigate("/");
+            }}
+            sx={{
+              backgroundColor: "transparent",
+              color: activeTab === "home" ? "white" : "whitesmoke",
+              "&:hover": { textDecoration: "underline", color: "white" },
+            }}>
+            Home
+          </UnderlineNav.Item>
+        )}
       </UnderlineNav>
       <div className="right-section" style={{ width: "100%" }}>
         {activeTab === "code" && (
           <Code
             repoId={repoName}
-            userAvatar={userDetails.avatar}
+            userAvatar={visitedUser?.avatar}
             resetSectionSignal={codeTabResetKey}
+            canEdit={canEdit}
           />
         )}
         {activeTab === "issues" && (
           <Issues
-            userAvatar={userDetails.avatar}
+            userAvatar={visitedUser?.avatar}
             resetSectionSignal={issuesTabResetKey}
+            canEdit={canEdit}
           />
         )}
         {activeTab === "settings" && <RepoSettings repoId={repoName} />}

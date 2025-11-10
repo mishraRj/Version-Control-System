@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../authContext";
 import "./navbar.css";
 import {
@@ -12,11 +12,12 @@ import {
   IssueOpenedIcon,
 } from "@primer/octicons-react";
 
-const NavBar = () => {
+const NavBar = ({ onUserSearch }) => {
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({ username: "username" });
   const { setCurrentUser } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -42,6 +43,27 @@ const NavBar = () => {
     navigate("/login");
   };
 
+  const handleSearch = async () => {
+    // Update the URL with query param (q=...)
+    if (searchValue) {
+      navigate(`/search?q=${encodeURIComponent(searchValue)}`);
+    } else {
+      navigate("/");
+    }
+    try {
+      const response = await axios.get(
+        `http://localhost:3002/searchUser/${searchValue}`
+      );
+      if (onUserSearch) {
+        onUserSearch(response.data.users || []);
+      }
+      console.log("Search result:", response.data);
+    } catch (err) {
+      if (onUserSearch) onUserSearch([]);
+      console.error("Error while searching user:", err);
+    }
+  };
+
   return (
     <nav>
       <Link to={"/"}>
@@ -58,9 +80,16 @@ const NavBar = () => {
       <div className="navFields">
         <input
           type="text"
-          placeholder="🔍  Type / to search..."
+          placeholder="🔍  Type / to search any user..."
           id="input-field"
           className="search-bar"
+          value={searchValue}
+          onChange={e => setSearchValue(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === "Enter") {
+              handleSearch();
+            }
+          }}
         />
         <Link to={"/create"}>
           <div className="repoCreate"> + </div>
@@ -80,13 +109,19 @@ const NavBar = () => {
           {/* Dropdown Menu */}
           {menuOpen && (
             <div className="dropdown-menu">
-              <Link to="/profile" className="dropdown-item">
+              <Link
+                to={`/profile/${userDetails.username}`}
+                className="dropdown-item">
                 <PersonIcon size={20} /> Profile
               </Link>
-              <Link to="/profile?tab=repos#" className="dropdown-item">
+              <Link
+                to={`/profile/${userDetails.username}?tab=repos#`}
+                className="dropdown-item">
                 <RepoIcon size={20} /> Your Repos
               </Link>
-              <Link to="/profile?tab=starred#" className="dropdown-item">
+              <Link
+                to={`/profile/${userDetails.username}?tab=starred#`}
+                className="dropdown-item">
                 <StarIcon size={20} /> Starred Repos
               </Link>
               <div

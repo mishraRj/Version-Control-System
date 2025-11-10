@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const IssueList = ({ issues, onClickCreate, onClickIssue }) => {
+const IssueList = ({ issues, onClickCreate, onClickIssue, canEdit }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [searchResults, setSearchResults] = useState([]);
@@ -38,9 +38,13 @@ const IssueList = ({ issues, onClickCreate, onClickIssue }) => {
           <option>Open</option>
           <option>Closed</option>
         </select>
-        <button className="new-issue-btn" onClick={onClickCreate}>
-          New Issue
-        </button>
+        {canEdit ? (
+          <button className="new-issue-btn" onClick={onClickCreate}>
+            New Issue
+          </button>
+        ) : (
+          <></>
+        )}
       </div>
 
       <div className="code-container">

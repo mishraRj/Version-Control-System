@@ -4,12 +4,14 @@ import { CopyIcon, FileIcon } from "@primer/octicons-react";
 import "./CSS/code.css";
 import ShowCode from "./showCode";
 
-const Code = ({ userAvatar, resetSectionSignal }) => {
+const Code = ({ userAvatar, resetSectionSignal, canEdit }) => {
   const { repoName } = useParams();
   const [repo, setRepo] = useState({});
   const [commits, setCommits] = useState([]);
   const [showCode, setShowCode] = useState(false);
   const [selectedFileData, setSelectedFileData] = useState(null);
+
+  console.log(userAvatar);
 
   // Fetch Repo
   useEffect(() => {
@@ -165,22 +167,32 @@ const Code = ({ userAvatar, resetSectionSignal }) => {
         <div className="col-md-4 about-column">
           {repo ? (
             <>
-              <h4 className="about-title">Repo ID: </h4>
-              <span
-                style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <p className="about-text" style={{ color: "gold" }}>
-                  {repo._id}
-                </p>
-                <CopyIcon
-                  size={20}
-                  className="copyIcon"
-                  onClick={() => {
-                    navigator.clipboard.writeText(repo._id);
-                    // OPTIONAL: show toast/alert
-                    alert("Copied to clipboard!");
-                  }}
-                />
-              </span>
+              {canEdit ? (
+                <>
+                  <h4 className="about-title">Repo ID: </h4>
+                  <span
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}>
+                    <p className="about-text" style={{ color: "gold" }}>
+                      {repo._id}
+                    </p>
+                    <CopyIcon
+                      size={20}
+                      className="copyIcon"
+                      onClick={() => {
+                        navigator.clipboard.writeText(repo._id);
+                        // OPTIONAL: show toast/alert
+                        alert("Copied to clipboard!");
+                      }}
+                    />
+                  </span>
+                </>
+              ) : (
+                <></>
+              )}
 
               <h5 className="about-title">About</h5>
               <p className="about-text">{repo.description}</p>

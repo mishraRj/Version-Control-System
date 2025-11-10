@@ -4,8 +4,8 @@ import HeatMapProfile from "../Heatmap";
 import "./CSS/overview.css";
 import { PencilIcon } from "@primer/octicons-react";
 
-const Overview = () => {
-  const [userDetails, setUserDetails] = useState({ username: "username" });
+const Overview = ({ user, canEdit }) => {
+  // const [user, setuser] = useState({ username: "username" });
   const [enableEdit, setEnableEdit] = useState(false);
   const [userAbout1, setUserAbout1] = useState();
   const [userAbout2, setUserAbout2] = useState();
@@ -14,29 +14,23 @@ const Overview = () => {
   const [userCaption, setUserCaption] = useState();
   const [loading, setLoading] = useState(false);
 
-  // Fetch User
+  // Set Data
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      const userId = localStorage.getItem("userId");
-
-      if (userId) {
+    const setData = async () => {
+      if (user._id) {
         try {
-          const response = await axios.get(
-            `http://localhost:3002/getUserProfile/${userId}`
-          );
-          setUserDetails(response.data);
-          setUserAbout1(response.data.about1);
-          setUserAbout2(response.data.about2);
-          setUserAbout3(response.data.about3);
-          setUserSkills(response.data.skills);
-          setUserCaption(response.data.caption);
+          setUserAbout1(user.about1);
+          setUserAbout2(user.about2);
+          setUserAbout3(user.about3);
+          setUserSkills(user.skills);
+          setUserCaption(user.caption);
         } catch (err) {
           console.error("Cannot fetch user details: ", err);
         }
       }
     };
-    fetchUserDetails();
-  }, []);
+    setData();
+  }, [user._id]);
 
   // ✏️ Toggle edit mode
   const handleEditReadme = () => {
@@ -49,7 +43,7 @@ const Overview = () => {
     try {
       setLoading(true);
       const res = await axios.put(
-        `http://localhost:3002/updateUserProfile/${userDetails._id}`,
+        `http://localhost:3002/updateUserProfile/${user._id}`,
         {
           about1: userAbout1,
           about2: userAbout2,
@@ -58,7 +52,7 @@ const Overview = () => {
           caption: userCaption,
         }
       );
-      window.location.href = "/profile";
+      window.location.href = `/profile/${user.username}`;
     } catch (err) {
       console.error(err);
       alert("Repo updation Failed!");
@@ -73,19 +67,23 @@ const Overview = () => {
             <p
               className="text-secondary fw-semibold"
               style={{ fontSize: "0.8rem" }}>
-              {userDetails.username}/README.MD
+              {user.username}/README.MD
             </p>
-            <span
-              className="pencil d-flex align-items-center gap-1 position-relative"
-              style={{
-                width: "30px",
-                cursor: "pointer",
-                padding: "4px 6px",
-                fontSize: "0.75rem",
-              }}
-              onClick={handleEditReadme}>
-              <PencilIcon size={16} />
-            </span>
+            {canEdit ? (
+              <span
+                className="pencil d-flex align-items-center gap-1 position-relative"
+                style={{
+                  width: "30px",
+                  cursor: "pointer",
+                  padding: "4px 6px",
+                  fontSize: "0.75rem",
+                }}
+                onClick={handleEditReadme}>
+                <PencilIcon size={16} />
+              </span>
+            ) : (
+              <></>
+            )}
           </div>
 
           <h2
@@ -93,18 +91,18 @@ const Overview = () => {
               borderBottom: "0.5px solid #3d444db3",
               paddingBottom: "5px",
             }}>
-            Hi There, I'm {userDetails.username}👋
+            Hi There, I'm {user.username}👋
           </h2>
           {!enableEdit && (
             <div className="edit-section">
-              <p>{userDetails.about1}</p>
-              <p>{userDetails.about2}</p>
+              <p>{user.about1}</p>
+              <p>{user.about2}</p>
               <p
                 style={{
                   borderBottom: "0.5px solid #3d444db3",
                   paddingBottom: "5px",
                 }}>
-                {userDetails.about3}
+                {user.about3}
               </p>
               <h4>Skills</h4>
               <p
@@ -112,9 +110,9 @@ const Overview = () => {
                   borderBottom: "0.5px solid #3d444db3",
                   paddingBottom: "5px",
                 }}>
-                {userDetails.skills}
+                {user.skills}
               </p>
-              <p>{userDetails.caption}</p>
+              <p>{user.caption}</p>
             </div>
           )}
 

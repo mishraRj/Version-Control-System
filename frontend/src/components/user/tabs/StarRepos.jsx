@@ -3,28 +3,31 @@ import { StarIcon, StarFillIcon } from "@primer/octicons-react";
 import { Link } from "react-router-dom";
 import "./CSS/overview.css";
 
-const StarRepos = () => {
+const StarRepos = ({ userId, canEdit }) => {
   const [repositories, setRepositories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [starredRepos, setStarredRepos] = useState([]);
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
     const fetchStarredRepos = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3002/repo/starred/${userId}`
-        );
-        const data = await response.json();
-        setRepositories(data.repositories);
-      } catch (err) {
-        console.error("Error while fetching starred repos", err);
+      if (userId) {
+        try {
+          const response = await fetch(
+            `http://localhost:3002/repo/starred/${userId}`
+          );
+          const data = await response.json();
+          setRepositories(data.repositories);
+          setStarredRepos((data.starRepos || []).map(id => id.toString()));
+        } catch (err) {
+          console.error("Error while fetching starred repos", err);
+        }
       }
     };
-
     fetchStarredRepos();
-  }, []);
+  }, [userId]);
+
+  useEffect(() => {}, [starredRepos]);
 
   useEffect(() => {
     if (searchQuery === "") {
@@ -37,60 +40,37 @@ const StarRepos = () => {
     }
   }, [searchQuery, repositories]);
 
-  const [starredRepos, setStarredRepos] = useState([]);
+  // ⭐ Toggle star
+  if (canEdit) {
+    const toggleStar = async repoId => {
+      if (!userId) return;
 
-  // ⭐ Fetch starred repos once on mount
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) return;
+      const isStarred = starredRepos.includes(repoId.toString());
 
-    const fetchStarred = async () => {
       try {
-        const res = await fetch(`http://localhost:3002/repo/starred/${userId}`);
-        const data = await res.json();
+        const res = await fetch(`http://localhost:3002/repo/${repoId}/star`, {
+          method: isStarred ? "DELETE" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId }),
+        });
 
+        if (!res.ok) {
+          const errorText = await res.text(); // fallback if not JSON
+          throw new Error(`HTTP ${res.status}: ${errorText}`);
+        }
+
+        const data = await res.json();
         setStarredRepos((data.starRepos || []).map(id => id.toString()));
+        // ⭐ if unstarred, remove from local repositories list (immediate re-render)
+        if (isStarred) {
+          setRepositories(prev => prev.filter(r => r._id !== repoId));
+          setSearchResults(prev => prev.filter(r => r._id !== repoId));
+        }
       } catch (err) {
-        console.error("Error fetching starred repos:", err);
+        console.error("Error toggling star:", err);
       }
     };
-
-    fetchStarred();
-  }, []);
-
-  useEffect(() => {}, [starredRepos]);
-
-  // ⭐ Toggle star
-  const toggleStar = async repoId => {
-    const userId = localStorage.getItem("userId");
-    // sourcery skip: use-braces
-    if (!userId) return;
-
-    const isStarred = starredRepos.includes(repoId.toString());
-
-    try {
-      const res = await fetch(`http://localhost:3002/repo/${repoId}/star`, {
-        method: isStarred ? "DELETE" : "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId }),
-      });
-
-      if (!res.ok) {
-        const errorText = await res.text(); // fallback if not JSON
-        throw new Error(`HTTP ${res.status}: ${errorText}`);
-      }
-
-      const data = await res.json();
-      setStarredRepos((data.starRepos || []).map(id => id.toString()));
-      // ⭐ if unstarred, remove from local repositories list (immediate re-render)
-      if (isStarred) {
-        setRepositories(prev => prev.filter(r => r._id !== repoId));
-        setSearchResults(prev => prev.filter(r => r._id !== repoId));
-      }
-    } catch (err) {
-      console.error("Error toggling star:", err);
-    }
-  };
+  }
 
   return (
     <>
@@ -129,21 +109,25 @@ const StarRepos = () => {
                     </p>
                   </div>
                 </Link>
-                <div
-                  onClick={() => toggleStar(repo._id)}
-                  style={{
-                    cursor: "pointer",
-                    color: starredRepos.includes(repo._id.toString())
-                      ? "gold"
-                      : "white",
-                    marginLeft: "1rem",
-                  }}>
-                  {starredRepos.includes(repo._id.toString()) ? (
-                    <StarFillIcon size={20} />
-                  ) : (
-                    <StarIcon size={20} />
-                  )}
-                </div>
+                {canEdit ? (
+                  <div
+                    onClick={() => toggleStar(repo._id)}
+                    style={{
+                      cursor: "pointer",
+                      color: starredRepos.includes(repo._id.toString())
+                        ? "gold"
+                        : "white",
+                      marginLeft: "1rem",
+                    }}>
+                    {starredRepos.includes(repo._id.toString()) ? (
+                      <StarFillIcon size={20} />
+                    ) : (
+                      <StarIcon size={20} />
+                    )}
+                  </div>
+                ) : (
+                  <div></div>
+                )}
               </div>
             ))}
           </>

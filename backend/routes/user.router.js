@@ -14,4 +14,6 @@ userRouter.put(
 );
 userRouter.delete("/deleteUserProfile/:id", userController.deleteUserProfile);
 
+userRouter.get("/searchUser/:username", userController.userSearch);
+
 module.exports = userRouter;

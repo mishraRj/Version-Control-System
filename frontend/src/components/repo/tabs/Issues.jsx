@@ -5,7 +5,7 @@ import CreateIssue from "../../issue/CreateIssue";
 import IssueList from "../../issue/IssueList";
 import ShowIssue from "../../issue/ShowIssue";
 
-const Issues = ({ userAvatar, resetSectionSignal }) => {
+const Issues = ({ userAvatar, resetSectionSignal, canEdit }) => {
   const { repoName } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -68,6 +68,7 @@ const Issues = ({ userAvatar, resetSectionSignal }) => {
       {activeSection === "list" && (
         <IssueList
           issues={issues}
+          canEdit={canEdit}
           onClickCreate={() => setActiveSection("create")}
           onClickIssue={issue => {
             setSelectedIssue(issue);

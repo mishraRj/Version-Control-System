@@ -242,6 +242,31 @@ const deleteUserProfile = async (req, res) => {
   }
 };
 
+const userSearch = async (req, res) => {
+  const username = req.params.username; // param se lo
+
+  try {
+    await connectClient();
+    const db = client.db("githubClone");
+    const usersCollection = db.collection("users");
+
+    // Case-insensitive, partial match using regex
+    const users = await usersCollection
+      .find({ username: { $regex: username, $options: "i" } })
+      .project({ password: 0 }) // don't return password!
+      .toArray();
+
+    if (!users || users.length === 0) {
+      return res.status(404).json({ message: "No users found!" });
+    }
+
+    res.send({ users });
+  } catch (err) {
+    console.error("Error while searching users:", err);
+    res.status(500).send("Server Error");
+  }
+};
+
 module.exports = {
   getAllUsers,
   signup,
@@ -249,4 +274,5 @@ module.exports = {
   getUserProfile,
   updateUserProfile,
   deleteUserProfile,
+  userSearch,
 };

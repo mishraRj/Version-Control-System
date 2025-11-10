@@ -72,7 +72,7 @@ const RepoSettings = () => {
           description: repoDescription,
         }
       );
-      window.location.href = "/profile";
+      window.location.href = `/profile/${userDetails.username}`;
     } catch (err) {
       console.error(err);
       alert("Repo updation Failed!");
@@ -88,7 +88,7 @@ const RepoSettings = () => {
       const res = await axios.delete(
         `http://localhost:3002/repo/delete/${repo._id}`
       );
-      window.location.href = "/";
+      window.location.href = `/profile/${userDetails.username}`;
     } catch (err) {
       console.error(err);
       alert("Repo Deletion Failed!");
@@ -103,7 +103,7 @@ const RepoSettings = () => {
       const res = await axios.patch(
         `http://localhost:3002/repo/toggle/${repo._id}`
       );
-      window.location.href = "/profile";
+      window.location.href = `/profile/${userDetails.username}`;
     } catch (err) {
       console.error(err);
       alert("Repo Visibility Toggle Failed!");

@@ -92,3 +92,112 @@
   margin: 0;
   color: #c9d1d9;
 }
+
+.project-status-banner {
+  background: linear-gradient(92deg, #2f3543 0%, #212532 100%);
+  border: 1.5px solid #434a5a;
+  color: #d7deea;
+  border-radius: 11px;
+  padding: 24px 26px 16px 26px;
+  margin-bottom: 33px;
+  box-shadow: 0 2px 12px 0 #10121a10;
+  font-size: 1.13rem;
+  max-width: 57vw;
+}
+
+.project-status-banner ul {
+  margin: 11px 0 5px 0;
+  padding-left: 24px;
+}
+
+.project-status-banner ul li {
+  font-size: 1rem;
+  margin-bottom: 7px;
+  color: #d3eaff;
+}
+
+.status-comingsoon {
+  color: #febc2e;
+  font-weight: 600;
+  font-style: italic;
+  margin-left: 6px;
+}
+
+.project-status-banner strong {
+  color: #ffd700;
+  font-size: 1.12rem;
+  letter-spacing: 0.02em;
+}
+
+.status-note {
+  margin-top: 10px;
+  font-size: 0.99rem;
+  color: #bdbdd1;
+  opacity: 0.68;
+}
+
+.search-users-list {
+  width: 100%;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.searched-user-card {
+  width: 100%;
+  background: linear-gradient(85deg, #23283b 0%, #192030 100%);
+  border-radius: 12px;
+  box-shadow: 0 2px 18px 0 #161a2242;
+  border: 1.8px solid #2d3346;
+  padding: 10px 16px 7px 14px;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.19s, border 0.17s, background 0.19s;
+  cursor: pointer;
+  min-height: 74px;
+}
+.searched-user-card:hover {
+  border-color: #4b92fa;
+  background: linear-gradient(92deg, #25355b 0%, #202a40 100%);
+  box-shadow: 0 4px 22px 0 #23396b31;
+}
+
+.usercard-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 7px;
+}
+
+.usercard-avatar {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #2e3c5b;
+  box-shadow: 0 0 0 1.3px #3d4665;
+  background: #232c3d;
+}
+
+.searched-user-username {
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: #e3e8f7;
+  letter-spacing: 0.04em;
+  transition: color 0.19s;
+}
+
+.searched-user-card:hover .searched-user-username {
+  color: #4b92fa;
+}
+
+.searched-user-bio {
+  font-size: 1.02rem;
+  color: #bac2da;
+  margin-left: 4px;
+  opacity: 0.85;
+  margin-top: 1px;
+  margin-bottom: 0;
+  font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+}
