@@ -75,11 +75,7 @@ const Dashboard = (req, res) => {
             <strong>🚧 Project in Progress!</strong>
             <ul>
               <li>
-                🔐 <b>Authorization</b> setup coming soon
-              </li>
-              <li>
-                👤 <b>User search, profile view, and follow</b> features on the
-                way
+                🔐 <b>Backend Authorization</b> setup coming soon
               </li>
               <li>
                 📰 <b>Personalized feed</b> will be available on the home page
