@@ -16,4 +16,6 @@ userRouter.delete("/deleteUserProfile/:id", userController.deleteUserProfile);
 
 userRouter.get("/searchUser/:username", userController.userSearch);
 
+userRouter.post("/toggleFollow/:visitedUserId", userController.toggleFollow);
+
 module.exports = userRouter;

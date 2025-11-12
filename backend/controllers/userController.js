@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const { MongoClient, ReturnDocument } = require("mongodb");
 let ObjectId = require("mongodb").ObjectId;
 const dotenv = require("dotenv");
+const User = require("../models/userModel");
 dotenv.config();
 
 const MongoURL = process.env.MONGO_URL;
@@ -267,6 +268,52 @@ const userSearch = async (req, res) => {
   }
 };
 
+const toggleFollow = async (req, res) => {
+  const visitedUserId = req.params.visitedUserId;
+  const { loggedInUserId } = req.body; // comes from POST body
+
+  if (!visitedUserId || !loggedInUserId) {
+    return res.status(400).json({ message: "Both user IDs are required." });
+  }
+
+  try {
+    // Find both users
+    const visitedUser = await User.findById(visitedUserId);
+    const loggedInUser = await User.findById(loggedInUserId);
+
+    if (!visitedUser || !loggedInUser) {
+      return res.status(404).json({ message: "User(s) not found." });
+    }
+
+    // Check if already followed
+    const isFollowing = loggedInUser.followedUsers.includes(visitedUserId);
+
+    if (isFollowing) {
+      // Unfollow
+      loggedInUser.followedUsers.pull(visitedUserId);
+      visitedUser.followers.pull(loggedInUserId);
+    } else {
+      // Follow
+      loggedInUser.followedUsers.push(visitedUserId);
+      visitedUser.followers.push(loggedInUserId);
+    }
+
+    // Save both
+    await loggedInUser.save();
+    await visitedUser.save();
+
+    res.json({
+      message: isFollowing
+        ? "Unfollowed successfully"
+        : "Followed successfully",
+      isFollowing: !isFollowing,
+    });
+  } catch (error) {
+    console.error("toggleFollow error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   getAllUsers,
   signup,
@@ -275,4 +322,5 @@ module.exports = {
   updateUserProfile,
   deleteUserProfile,
   userSearch,
+  toggleFollow,
 };

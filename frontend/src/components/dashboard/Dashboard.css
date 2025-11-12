@@ -201,3 +201,69 @@
   margin-bottom: 0;
   font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
 }
+
+.userBtns {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 8px;
+  /* Keep at right end of parent div */
+}
+
+.userBtns button {
+  background: linear-gradient(90deg, #23283b 0%, #2f3c53 100%);
+  color: #e3ecfa;
+  border: 1.5px solid #3c475d;
+  border-radius: 7px;
+  padding: 6px 26px;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  box-shadow: 0 1px 7px 0 #292f3d1a;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.15s, border 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+.userBtns button:first-child {
+  background: linear-gradient(92deg, #4869ec 0%, #304465 100%);
+  color: #fff;
+  border-color: #4762d9;
+}
+
+.userBtns .following-btn {
+  background: linear-gradient(85deg, #22a5f7 0%, #2767c5 100%);
+  color: #fff;
+  border: 1.8px solid #3296eb;
+  padding: 6px 26px;
+  font-size: 1rem;
+  border-radius: 7px;
+  font-weight: 600;
+  outline: none;
+  transition: background 0.15s, border 0.15s, color 0.15s, box-shadow 0.15s;
+  box-shadow: 0 1px 7px 0 #345d921c;
+  cursor: pointer;
+}
+
+.userBtns .following-btn:hover,
+.following-btn:focus {
+  background: linear-gradient(92deg, #1482c3 0%, #1591ed 100%);
+  border-color: #3174bb;
+  color: #fff;
+  box-shadow: 0 2px 8px 0 #1176c821;
+}
+
+.userBtns button:last-child {
+  background: linear-gradient(90deg, #23283b 0%, #2f3c53 100%);
+  color: #a5b9e4;
+}
+
+.userBtns button:hover,
+.userBtns button:focus {
+  background: linear-gradient(92deg, #2546a1 0%, #223151 100%);
+  border-color: #5b95f7;
+  color: #fff;
+  box-shadow: 0 2px 10px 0 #2546a150;
+}

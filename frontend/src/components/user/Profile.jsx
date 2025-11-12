@@ -24,6 +24,8 @@ const Profile = () => {
   const tabFromUrl = searchParams.get("tab") || "overview";
   const [activeTab, setActiveTab] = useState(tabFromUrl);
 
+  const [followTrigger, setFollowTrigger] = useState(0);
+
   // Tab sync
   useEffect(() => {
     setActiveTab(tabFromUrl);
@@ -37,7 +39,11 @@ const Profile = () => {
         const resp = await axios.get(
           `http://localhost:3002/searchUser/${userName}`
         );
+        // Correct:
         const user = (resp.data.users && resp.data.users[0]) || null;
+        if (user && loggedInUser) {
+          user.isFollowing = loggedInUser.followedUsers?.includes(user._id);
+        }
         setVisitedUser(user);
         setUsername(user?.username || "");
         setUserBio(user?.bio || "");
@@ -46,7 +52,7 @@ const Profile = () => {
       }
     };
     fetchVisitedUser();
-  }, [userName]);
+  }, [userName, loggedInUser, followTrigger]);
 
   // Fetch logged-in user by localStorage userId
   useEffect(() => {
@@ -99,6 +105,59 @@ const Profile = () => {
   const handleFileChange = e => {
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
+    }
+  };
+
+  const handleFollowToggle = async (visitedUserId, currentlyFollowing) => {
+    if (!loggedInUser?._id || !visitedUserId) return;
+    setLoading(true);
+    try {
+      await axios.post(`http://localhost:3002/toggleFollow/${visitedUserId}`, {
+        loggedInUserId: loggedInUser._id,
+      });
+      // Optimistically update loggedInUser state too:
+      setLoggedInUser(prev => {
+        if (!prev) return prev;
+        let updated;
+        if (currentlyFollowing) {
+          updated = {
+            ...prev,
+            followedUsers: prev.followedUsers.filter(
+              id => id !== visitedUserId
+            ),
+          };
+        } else {
+          updated = {
+            ...prev,
+            followedUsers: [...prev.followedUsers, visitedUserId],
+          };
+        }
+        return updated;
+      });
+      // For visitedUser followers count:
+      setVisitedUser(prev => {
+        if (!prev) return prev;
+        let updated;
+        if (currentlyFollowing) {
+          updated = {
+            ...prev,
+            followers: prev.followers.filter(id => id !== loggedInUser._id),
+          };
+        } else {
+          updated = {
+            ...prev,
+            followers: [...prev.followers, loggedInUser._id],
+          };
+        }
+        return {
+          ...updated,
+          isFollowing: !currentlyFollowing,
+        };
+      });
+      setLoading(false);
+    } catch (err) {
+      console.error("Cannot follow/unfollow user: ", err);
+      setLoading(false);
     }
   };
 
@@ -166,7 +225,17 @@ const Profile = () => {
                 Edit Profile
               </button>
             ) : (
-              <button className="follow-btn">Follow</button>
+              <button
+                className="follow-btn"
+                onClick={e => {
+                  handleFollowToggle(visitedUser._id, visitedUser.isFollowing);
+                }}>
+                {loading
+                  ? "Loading..."
+                  : visitedUser.isFollowing
+                  ? "Following"
+                  : "Follow"}
+              </button>
             )}
             <div className="follower">
               <p>{visitedUser.followers?.length || 0} Followers</p>

@@ -10,6 +10,7 @@ const Search = () => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null); // session user
+  const [isLoading, setLoading] = useState(false);
 
   // Get search term from URL on mount/update (react-router v6)
   const searchTerm = new URLSearchParams(location.search).get("q") || "";
@@ -30,13 +31,19 @@ const Search = () => {
         const resp = await axios.get(
           `http://localhost:3002/searchUser/${searchTerm}`
         );
-        setSearchedUsers(resp.data.users || []);
+        // Calculate isFollowing for each
+        const apiUsers = resp.data.users || [];
+        const processedUsers = apiUsers.map(user => ({
+          ...user,
+          isFollowing: loggedInUser?.followedUsers?.includes(user._id),
+        }));
+        setSearchedUsers(processedUsers);
       } catch (error) {
         setSearchedUsers([]);
       }
     };
     fetchUsers();
-  }, [searchTerm]);
+  }, [searchTerm, loggedInUser]);
 
   // Fetch logged-in user by localStorage userId
   useEffect(() => {
@@ -50,6 +57,27 @@ const Search = () => {
 
   const existingUser =
     loggedInUser && searchedUsers && loggedInUser._id === searchedUsers._id;
+
+  const handleFollowToggle = async (visitedUserId, currentlyFollowing) => {
+    if (!loggedInUser?._id || !visitedUserId) return;
+    setLoading(true);
+    try {
+      await axios.post(`http://localhost:3002/toggleFollow/${visitedUserId}`, {
+        loggedInUserId: loggedInUser._id,
+      });
+      setSearchedUsers(prev =>
+        prev.map(user =>
+          user._id === visitedUserId
+            ? { ...user, isFollowing: !currentlyFollowing }
+            : user
+        )
+      );
+      setLoading(false);
+    } catch (err) {
+      console.error("Cannot follow/unfollow user: ", err);
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -100,8 +128,21 @@ const Search = () => {
                     {user.bio || "No bio yet."}
                   </p>
                   <div className="userBtns">
-                    <button>Follow</button>
-                    <button>Connect +</button>
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        handleFollowToggle(user._id, user.isFollowing);
+                      }}
+                      className={user.isFollowing ? "following-btn" : ""}>
+                      {isLoading
+                        ? "Loading..."
+                        : user.isFollowing
+                        ? "Following"
+                        : "Follow"}
+                    </button>
+                    <button onClick={e => e.stopPropagation()}>
+                      Connect +
+                    </button>
                   </div>
                 </div>
               ))}
