@@ -6,6 +6,8 @@ const { MongoClient, ReturnDocument } = require("mongodb");
 let ObjectId = require("mongodb").ObjectId;
 const dotenv = require("dotenv");
 const User = require("../models/userModel");
+const Activity = require("../models/activityModel");
+
 dotenv.config();
 
 const MongoURL = process.env.MONGO_URL;
@@ -314,6 +316,29 @@ const toggleFollow = async (req, res) => {
   }
 };
 
+const getFeedForDashboard = async (req, res) => {
+  try {
+    const { id } = req.params; // logged-in user's id
+
+    // Fetching user’s following list
+    const user = await User.findById(id);
+    const following = user.followedUsers || []; // array of ObjectIds
+
+    // Activity: user + followed users ka filter
+    const feed = await Activity.find({
+      user: { $in: [id, ...following] },
+    })
+      .sort({ timestamp: -1 })
+      .limit(25) // recent 25 actions, change as needed
+      .populate("user", "username avatar"); // populate only needed fields
+
+    res.status(200).json(feed);
+  } catch (err) {
+    console.error("Error fetching feed", err);
+    res.status(500).send("Server Error");
+  }
+};
+
 module.exports = {
   getAllUsers,
   signup,
@@ -323,4 +348,5 @@ module.exports = {
   deleteUserProfile,
   userSearch,
   toggleFollow,
+  getFeedForDashboard,
 };

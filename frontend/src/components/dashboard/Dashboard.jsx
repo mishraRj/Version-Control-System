@@ -4,30 +4,15 @@ import NavBar from "../NavBar";
 import { useLocation } from "react-router-dom";
 
 const Dashboard = (req, res) => {
-  const [repositories, setRepositories] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
   const [suggestedRepositories, setSuggestedRepositories] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
   const [searchedUsers, setSearchedUsers] = useState([]);
+  const [userFeed, setUserFeed] = useState([]);
 
   const location = useLocation();
   const searchTerm = new URLSearchParams(location.search).get("q");
 
+  // Fetching Suggested Repos
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
-    const fetchRepositories = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3002/repo/user/${userId}`
-        );
-        const data = await response.json();
-        setRepositories(data.repositories);
-      } catch (err) {
-        console.log("Error while passing repositories", err);
-      }
-    };
-
     const fetchSuggestedRepositories = async () => {
       try {
         const response = await fetch(`http://localhost:3002/repo/all`);
@@ -37,21 +22,25 @@ const Dashboard = (req, res) => {
         console.log("Error while passing repositories", err);
       }
     };
-
-    fetchRepositories();
     fetchSuggestedRepositories();
   }, []);
 
+  // Fetching User Feed
   useEffect(() => {
-    if (searchQuery === "") {
-      setSearchResults(repositories); // ✅ empty query → show all repos
-    } else {
-      const filteredRepo = repositories.filter(repo =>
-        repo.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setSearchResults(filteredRepo);
-    }
-  }, [searchQuery, repositories]);
+    const userId = localStorage.getItem("userId");
+
+    const fetchFeed = async () => {
+      try {
+        const response = await fetch(`http://localhost:3002/feed/${userId}`);
+        const data = await response.json();
+        console.log(data);
+        setUserFeed(data);
+      } catch (err) {
+        console.log("Error while passing repositories", err);
+      }
+    };
+    fetchFeed();
+  }, []);
 
   return (
     <>
@@ -70,6 +59,42 @@ const Dashboard = (req, res) => {
           })}
         </aside>
         <main className="middle">
+          {/* --- ACTIVITY FEED --- */}
+          <div className="activity-feed dark mb-4">
+            <h3 className="activity-feed-title">Personal Feed</h3>
+            {userFeed.length === 0 ? (
+              <div className="activity-feed-empty dark">
+                No recent activity yet. <br /> Start Following Users to start
+                with
+              </div>
+            ) : (
+              <ul className="activity-feed-list dark">
+                {userFeed.map(activity => (
+                  <li
+                    className={`activity-item activity-type-${activity.type} dark`}
+                    key={activity._id}>
+                    <img
+                      className="activity-avatar"
+                      src={activity.user?.avatar || "/default-avatar.png"}
+                      alt={activity.user?.username || "User"}
+                    />
+                    <div className="activity-content">
+                      <span className="activity-user">
+                        {activity.user?.username || "User"}
+                      </span>
+                      <span className="activity-desc">
+                        {activity.description}
+                      </span>
+                    </div>
+                    <span className="activity-time">
+                      {new Date(activity.timestamp).toLocaleString()}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
           {/* Searched Users Box */}
           <div className="project-status-banner">
             <strong>🚧 Project in Progress!</strong>
@@ -78,7 +103,7 @@ const Dashboard = (req, res) => {
                 🔐 <b>Backend Authorization</b> setup coming soon
               </li>
               <li>
-                📰 <b>Personalized feed</b> will be available on the home page
+                📰 <b>Chat Functionality</b> will be available on the home page
               </li>
               <li>
                 ...and much more!{" "}
@@ -92,21 +117,6 @@ const Dashboard = (req, res) => {
               GitHub-style repo & commit UI below!
             </p>
           </div>
-          <h2>Your Repositories</h2>
-          <div id="search">
-            <input
-              type="text"
-              value={searchQuery}
-              placeholder="Search..."
-              onChange={e => setSearchQuery(e.target.value)}
-            />
-          </div>
-          {searchResults.map(repo => (
-            <div key={repo._id}>
-              <h4>{repo.name}</h4>
-              <h4>{repo.description}</h4>
-            </div>
-          ))}
         </main>
         <aside>
           <h3>Upcoming Events</h3>

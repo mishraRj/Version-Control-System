@@ -5,6 +5,7 @@ const CreateIssue = ({
   handleBackToList,
   repository,
   fetchIssues,
+  user,
 }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -13,11 +14,14 @@ const CreateIssue = ({
     e.preventDefault();
     try {
       const issue = { title, description, repository };
-      const response = await fetch("http://localhost:3002/issue/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(issue),
-      });
+      const response = await fetch(
+        `http://localhost:3002/issue/create/${user._id}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(issue),
+        }
+      );
       handleBackToList();
       fetchIssues();
     } catch (err) {

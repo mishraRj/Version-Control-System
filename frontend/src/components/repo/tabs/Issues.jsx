@@ -5,7 +5,7 @@ import CreateIssue from "../../issue/CreateIssue";
 import IssueList from "../../issue/IssueList";
 import ShowIssue from "../../issue/ShowIssue";
 
-const Issues = ({ userAvatar, resetSectionSignal, canEdit }) => {
+const Issues = ({ userAvatar, resetSectionSignal, canEdit, user }) => {
   const { repoName } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -85,6 +85,7 @@ const Issues = ({ userAvatar, resetSectionSignal, canEdit }) => {
       {activeSection === "create" && (
         <CreateIssue
           userAvatar={userAvatar}
+          user={user}
           handleBackToList={() => setActiveSection("list")}
           repository={repo._id}
           fetchIssues={fetchIssues}

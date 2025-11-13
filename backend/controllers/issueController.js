@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const Repository = require("../models/repoModel");
 const Issue = require("../models/issueModel");
-const User = require("../models/userModel");
+const Activity = require("../models/activityModel");
 
 const createIssue = async (req, res) => {
   const { title, description, repository } = req.body;
+  const { id } = req.params; // user id
 
   try {
     const issue = new Issue({
@@ -18,6 +19,16 @@ const createIssue = async (req, res) => {
     await Repository.findByIdAndUpdate(repository, {
       $push: { issues: issue._id },
     });
+
+    // After saving the issue:
+    await Activity.create({
+      user: id, // or whoever opened issue
+      type: "issue",
+      target: issue._id,
+      description: `opened issue "${issue.title}"`,
+      timestamp: new Date(),
+    });
+
     res.status(201).json(issue);
   } catch (err) {
     console.error("❌ Error during creating the issue", err);

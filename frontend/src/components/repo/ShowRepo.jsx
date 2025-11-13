@@ -25,7 +25,6 @@ const ShowRepo = () => {
   const [codeTabResetKey, setCodeTabResetKey] = useState(0);
 
   const [visitedUser, setVisitedUser] = useState(null); // user being viewed
-  const [loggedInUser, setLoggedInUser] = useState(null); // session user
 
   const [activeTab, setActiveTab] = useState(tabFromUrl);
 
@@ -151,6 +150,7 @@ const ShowRepo = () => {
         {activeTab === "issues" && (
           <Issues
             userAvatar={visitedUser?.avatar}
+            user={loggedInUserDetails}
             resetSectionSignal={issuesTabResetKey}
             canEdit={canEdit}
           />

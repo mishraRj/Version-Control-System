@@ -6,6 +6,7 @@ import NavBar from "../NavBar";
 const CreateRepo = () => {
   // Fetching Current User
   const [userDetails, setUserDetails] = useState({ username: "username" });
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       const userId = localStorage.getItem("userId");
@@ -47,7 +48,7 @@ const CreateRepo = () => {
         owner: userDetails._id,
         visibility: repoVisibility,
       });
-      window.location.href = "/";
+      window.location.href = `/profile/${userDetails.username}`;
     } catch (err) {
       console.error(err);
       alert("Repo Creation Failed!");

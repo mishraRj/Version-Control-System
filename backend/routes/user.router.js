@@ -18,4 +18,6 @@ userRouter.get("/searchUser/:username", userController.userSearch);
 
 userRouter.post("/toggleFollow/:visitedUserId", userController.toggleFollow);
 
+userRouter.get("/feed/:id", userController.getFeedForDashboard);
+
 module.exports = userRouter;

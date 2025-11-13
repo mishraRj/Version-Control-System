@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Repository = require("../models/repoModel");
 const User = require("../models/userModel");
 const Commit = require("../models/Commit");
+const Activity = require("../models/activityModel");
 
 const createRepository = async (req, res) => {
   const { owner, name, issues, content, description, visibility } = req.body;
@@ -33,7 +34,16 @@ const createRepository = async (req, res) => {
       { new: true }
     );
 
-    // 3. Send response
+    // 3. Log Activity (NEW STEP)
+    await Activity.create({
+      user: owner,
+      type: "repo", // Or "repository"
+      target: result._id, // repo id
+      description: `created repository "${name}"`,
+      timestamp: new Date(),
+    });
+
+    // 4. Send response
     res.status(201).json({
       message: "Repository Created",
       repositoryId: result._id,
@@ -257,7 +267,6 @@ const deleteRepositoryById = async (req, res) => {
     if (!repository) {
       return res.status(404).json({ error: "Repository not found" });
     }
-
     res.json({
       message: "Repository and related commits deleted successfully",
     });
