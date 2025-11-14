@@ -12,6 +12,7 @@ import NavBar from "../NavBar";
 import Issues from "./tabs/Issues";
 import RepoSettings from "./tabs/RepoSettings";
 import axios from "axios";
+import Footer from "../Footer";
 
 const ShowRepo = () => {
   const { username, repoName } = useParams();
@@ -157,6 +158,7 @@ const ShowRepo = () => {
         )}
         {activeTab === "settings" && <RepoSettings repoId={repoName} />}
       </div>
+      <Footer />
     </>
   );
 };

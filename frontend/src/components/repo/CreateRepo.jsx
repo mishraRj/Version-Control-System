@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./CreateRepo.css";
 import NavBar from "../NavBar";
+import Footer from "../Footer";
 
 const CreateRepo = () => {
   // Fetching Current User
@@ -225,6 +226,7 @@ const CreateRepo = () => {
           </div>
         </form>
       </div>
+      <Footer />
     </>
   );
 };

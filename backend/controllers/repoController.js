@@ -102,12 +102,12 @@ const fetchRepositoryByName = async (req, res) => {
 };
 
 async function fetchRepositoryForCurrentUser(req, res) {
-  const userID = req.params.userId; // ✅ use correct param key
+  const userID = req.params.userId;
 
   try {
     const repositories = await Repository.find({
-      owner: new mongoose.Types.ObjectId(userID), // ✅ convert to ObjectId
-    });
+      owner: new mongoose.Types.ObjectId(userID),
+    }).populate("owner", "avatar username"); // This populates owner object with avatar & username ONLY
 
     res.json({
       message: "Repositories fetched successfully",

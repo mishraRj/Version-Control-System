@@ -10,24 +10,75 @@
 
 /* -------- Left: Suggested Repositories -------- */
 .suggestions {
-  background-color: #0d1117;
-  border: 1px solid #30363d;
+  background: #161b22;
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  width: 100%;
+  min-width: 250px;
+  max-width: 340px;
+  color: #c9d1d9;
+  box-shadow: 0 2px 8px rgba(27, 31, 35, 0.06);
+}
+
+.suggestions-title {
+  font-size: 1.19rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: #c9d1d9;
+}
+
+.suggestions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.suggestion-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.6rem 0.7rem;
   border-radius: 6px;
-  padding: 1rem;
-  overflow-y: auto;
-}
-
-.suggestions h3 {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.suggestions div h4 {
-  font-size: 14px;
-  font-weight: 400;
-  margin: 0.3rem 0;
+  background: transparent;
+  transition: background 0.18s, box-shadow 0.2s;
   cursor: pointer;
+  border: none;
+  position: relative;
+}
+
+.suggestion-row:hover {
+  background: #21262d;
+  box-shadow: 0 2px 6px rgba(56, 139, 253, 0.08);
+}
+
+.suggestion-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 0.85rem;
+  border: 2px solid #21262d;
+  background: #161b22;
+  box-shadow: 0 1px 4px rgba(27, 31, 35, 0.06);
+}
+
+.suggestion-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.suggestion-username {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #388bfd;
+  margin-bottom: 0.14rem;
+}
+
+.suggestion-bio {
+  font-size: 0.96rem;
+  color: #8b949e;
+  font-style: italic;
 }
 
 /* -------- Middle: Feed Placeholder -------- */
@@ -295,6 +346,7 @@
 
 .activity-item.dark {
   display: flex;
+  cursor: pointer;
   align-items: center;
   gap: 0.9rem;
   background: #0d1117;
@@ -332,6 +384,13 @@
   color: #c9d1d9;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+}
+
+.activity-item:hover {
+  transform: scale(1.02);
+  transition: transform 0.4s linear;
+  box-shadow: 0px 2px 8px rgb(0, 30, 255);
 }
 
 .activity-user {
@@ -356,4 +415,76 @@
   font-style: italic;
   padding: 0.5rem;
   text-align: center;
+}
+
+.repo-suggestions {
+  background: #161b22;
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  width: 100%;
+  min-width: 250px;
+  max-width: 340px;
+  color: #c9d1d9;
+  box-shadow: 0 2px 8px rgba(27, 31, 35, 0.06);
+}
+
+.repo-suggestions-title {
+  font-size: 1.19rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: #c9d1d9;
+}
+
+.repo-suggestions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.repo-suggestion-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.6rem 0.7rem;
+  border-radius: 6px;
+  background: transparent;
+  transition: background 0.18s, box-shadow 0.2s;
+  cursor: pointer;
+  border: none;
+  position: relative;
+}
+
+.repo-suggestion-row:hover {
+  background: #21262d;
+  box-shadow: 0 2px 6px rgba(56, 139, 253, 0.09);
+}
+
+.repo-suggestion-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 0.85rem;
+  border: 2px solid #21262d;
+  background: #161b22;
+  box-shadow: 0 1px 4px rgba(27, 31, 35, 0.07);
+}
+
+.repo-suggestion-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.repo-suggestion-name {
+  font-size: 1.07rem;
+  font-weight: 600;
+  color: #c9d1d9;
+  margin-bottom: 0.13rem;
+  word-break: break-all;
+}
+
+.repo-suggestion-status {
+  font-size: 0.95rem;
+  color: #8b949e;
+  font-style: italic;
 }

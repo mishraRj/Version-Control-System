@@ -1,29 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./Dashboard.css";
 import NavBar from "../NavBar";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Footer from "../Footer";
 
 const Dashboard = (req, res) => {
-  const [suggestedRepositories, setSuggestedRepositories] = useState([]);
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [userFeed, setUserFeed] = useState([]);
+  const [suggestedUsers, setSuggestedUsers] = useState([]);
 
   const location = useLocation();
+  const navigate = useNavigate();
   const searchTerm = new URLSearchParams(location.search).get("q");
-
-  // Fetching Suggested Repos
-  useEffect(() => {
-    const fetchSuggestedRepositories = async () => {
-      try {
-        const response = await fetch(`http://localhost:3002/repo/all`);
-        const data = await response.json();
-        setSuggestedRepositories(data);
-      } catch (err) {
-        console.log("Error while passing repositories", err);
-      }
-    };
-    fetchSuggestedRepositories();
-  }, []);
 
   // Fetching User Feed
   useEffect(() => {
@@ -42,22 +30,52 @@ const Dashboard = (req, res) => {
     fetchFeed();
   }, []);
 
+  // Fetching Suggested Users
+
+  useEffect(() => {
+    const fetchSuggestedUsers = async () => {
+      try {
+        const response = await fetch(`http://localhost:3002/allUsers`);
+        const data = await response.json();
+        // Randomly shuffle and pick 5
+        const shuffled = data.sort(() => 0.5 - Math.random());
+        const result = shuffled.slice(0, 5);
+        console.log(result);
+        setSuggestedUsers(result);
+      } catch (err) {
+        console.log("Error while fetching Suggested Users", err);
+      }
+    };
+    fetchSuggestedUsers();
+  }, []);
+
   return (
     <>
       <NavBar onUserSearch={setSearchedUsers} />
 
       <section id="dashboard">
         <aside className="suggestions">
-          <h3>Suggested Repositories</h3>
-          {suggestedRepositories.map(repo => {
-            return (
-              <div key={repo._id}>
-                <h4>{repo.name}</h4>
-                <h4>{repo.description}</h4>
+          <h3 className="suggestions-title">Active Users</h3>
+          <div className="suggestions-list">
+            {suggestedUsers.map(user => (
+              <div
+                className="suggestion-row"
+                key={user._id}
+                onClick={() => navigate(`/profile/${user.username}`)}>
+                <img
+                  className="suggestion-avatar"
+                  src={user.avatar}
+                  alt={user.username}
+                />
+                <div className="suggestion-info">
+                  <div className="suggestion-username">{user.username}</div>
+                  <div className="suggestion-bio">{user.about1}</div>
+                </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </aside>
+
         <main className="middle">
           {/* --- ACTIVITY FEED --- */}
           <div className="activity-feed dark mb-4">
@@ -78,7 +96,11 @@ const Dashboard = (req, res) => {
                       src={activity.user?.avatar || "/default-avatar.png"}
                       alt={activity.user?.username || "User"}
                     />
-                    <div className="activity-content">
+                    <div
+                      className="activity-content"
+                      onClick={() =>
+                        navigate(`/profile/${activity.user?.username}`)
+                      }>
                       <span className="activity-user">
                         {activity.user?.username || "User"}
                       </span>
@@ -154,6 +176,8 @@ const Dashboard = (req, res) => {
           </ul>
         </aside>
       </section>
+
+      <Footer />
     </>
   );
 };

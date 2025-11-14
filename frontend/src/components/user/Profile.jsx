@@ -7,6 +7,7 @@ import Overview from "./tabs/overview";
 import UserRepos from "./tabs/UserRepos";
 import StarRepos from "./tabs/StarRepos";
 import "./profile.css";
+import Footer from "../Footer";
 
 const Profile = () => {
   const { userName } = useParams();
@@ -321,6 +322,7 @@ const Profile = () => {
           )}
         </div>
       </div>
+      <Footer />
     </>
   );
 };

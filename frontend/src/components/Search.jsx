@@ -3,6 +3,7 @@ import "./dashboard/Dashboard.css";
 import NavBar from "./NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Footer from "./Footer";
 
 const Search = () => {
   const location = useLocation();
@@ -11,6 +12,7 @@ const Search = () => {
   const [searchValue, setSearchValue] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null); // session user
   const [isLoading, setLoading] = useState(false);
+  const [suggestedRepositories, setSuggestedRepositories] = useState([]);
 
   // Get search term from URL on mount/update (react-router v6)
   const searchTerm = new URLSearchParams(location.search).get("q") || "";
@@ -79,21 +81,53 @@ const Search = () => {
     }
   };
 
+  // Fetching Suggested Repos
+  useEffect(() => {
+    if (!loggedInUser?._id) return; // Don't run until loggedInUser is loaded
+    const fetchSuggestedRepositories = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3002/repo/user/${loggedInUser._id}`
+        );
+        const data = await response.json();
+        setSuggestedRepositories(data.repositories); // Only set array!
+      } catch (err) {
+        console.log("Error while passing repositories", err);
+      }
+    };
+    fetchSuggestedRepositories();
+  }, [loggedInUser]);
+
   return (
     <>
       <NavBar />
       <section id="dashboard">
-        <aside className="suggestions">
-          <h3>Suggested Repositories</h3>
-          {/* {suggestedRepositories.map(repo => {
-            return (
-              <div key={repo._id}>
-                <h4>{repo.name}</h4>
-                <h4>{repo.description}</h4>
+        <aside className="repo-suggestions">
+          <h3 className="repo-suggestions-title">Suggested Repositories</h3>
+          <div className="repo-suggestions-list">
+            {suggestedRepositories.map(repo => (
+              <div
+                className="repo-suggestion-row"
+                key={repo._id}
+                onClick={() =>
+                  navigate(`/${repo.owner.username}/${repo.name}`)
+                }>
+                <img
+                  className="repo-suggestion-avatar"
+                  src={repo.owner?.avatar}
+                  alt="Repo Owner"
+                />
+                <div className="repo-suggestion-info">
+                  <div className="repo-suggestion-name">{repo.name}</div>
+                  <div className="repo-suggestion-status">
+                    {repo.visibility}
+                  </div>
+                </div>
               </div>
-            );
-          })} */}
+            ))}
+          </div>
         </aside>
+
         <main className="middle">
           <div className="search-users-list" style={{ marginBottom: "50px" }}>
             <h2>Search Results for "{searchValue}"</h2>
@@ -184,6 +218,7 @@ const Search = () => {
           </ul>
         </aside>
       </section>
+      <Footer />
     </>
   );
 };
