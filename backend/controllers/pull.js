@@ -1,7 +1,7 @@
 const fs = require("fs").promises;
 const path = require("path");
 const mongoose = require("mongoose");
-const Commit = require("../models/Commit");
+const Commit = require("../models/commit");
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
 async function pullRepo(commitId) {

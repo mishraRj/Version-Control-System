@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const Commit = require("./models/Commit");
+const Commit = require("./models/commit");
 const bodyParser = require("body-parser");
 const http = require("http");
 const { Server } = require("socket.io");

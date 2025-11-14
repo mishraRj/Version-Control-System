@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Repository = require("../models/repoModel");
 const User = require("../models/userModel");
-const Commit = require("../models/Commit");
+const Commit = require("../models/commit");
 const Activity = require("../models/activityModel");
 
 const createRepository = async (req, res) => {
