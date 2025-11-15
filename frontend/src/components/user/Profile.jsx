@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams, useSearchParams } from "react-router-dom";
 import NavBar from "../NavBar";
 import { UnderlineNav } from "@primer/react";
-import Overview from "./tabs/overview";
+import Overview from "./tabs/Overview";
 import UserRepos from "./tabs/UserRepos";
 import StarRepos from "./tabs/StarRepos";
 import "./profile.css";

@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CopyIcon, FileIcon } from "@primer/octicons-react";
 import "./CSS/code.css";
-import ShowCode from "./showCode";
+import ShowCode from "./ShowCode";
 
 const Code = ({ userAvatar, resetSectionSignal, canEdit, apiUrl }) => {
   const { repoName } = useParams();
