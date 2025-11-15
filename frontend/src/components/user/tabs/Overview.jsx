@@ -4,7 +4,7 @@ import HeatMapProfile from "../Heatmap";
 import "./CSS/overview.css";
 import { PencilIcon } from "@primer/octicons-react";
 
-const Overview = ({ user, canEdit }) => {
+const Overview = ({ user, canEdit, apiUrl }) => {
   // const [user, setuser] = useState({ username: "username" });
   const [enableEdit, setEnableEdit] = useState(false);
   const [userAbout1, setUserAbout1] = useState();
@@ -42,16 +42,13 @@ const Overview = ({ user, canEdit }) => {
 
     try {
       setLoading(true);
-      const res = await axios.put(
-        `http://localhost:3002/updateUserProfile/${user._id}`,
-        {
-          about1: userAbout1,
-          about2: userAbout2,
-          about3: userAbout3,
-          skills: userSkills,
-          caption: userCaption,
-        }
-      );
+      const res = await axios.put(`${apiUrl}/updateUserProfile/${user._id}`, {
+        about1: userAbout1,
+        about2: userAbout2,
+        about3: userAbout3,
+        skills: userSkills,
+        caption: userCaption,
+      });
       window.location.href = `/profile/${user.username}`;
     } catch (err) {
       console.error(err);

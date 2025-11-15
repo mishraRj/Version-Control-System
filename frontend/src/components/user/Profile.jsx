@@ -27,6 +27,8 @@ const Profile = () => {
 
   const [followTrigger, setFollowTrigger] = useState(0);
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   // Tab sync
   useEffect(() => {
     setActiveTab(tabFromUrl);
@@ -37,9 +39,7 @@ const Profile = () => {
     if (!userName) return;
     const fetchVisitedUser = async () => {
       try {
-        const resp = await axios.get(
-          `http://localhost:3002/searchUser/${userName}`
-        );
+        const resp = await axios.get(`${apiUrl}/searchUser/${userName}`);
         // Correct:
         const user = (resp.data.users && resp.data.users[0]) || null;
         if (user && loggedInUser) {
@@ -60,7 +60,7 @@ const Profile = () => {
     const userId = localStorage.getItem("userId");
     if (!userId) return;
     axios
-      .get(`http://localhost:3002/getUserProfile/${userId}`)
+      .get(`${apiUrl}/getUserProfile/${userId}`)
       .then(res => setLoggedInUser(res.data))
       .catch(() => setLoggedInUser(null));
   }, []);
@@ -88,7 +88,7 @@ const Profile = () => {
         formData.append("avatar", selectedFile);
       }
       const res = await axios.put(
-        `http://localhost:3002/updateUserProfile/${visitedUser._id}`,
+        `${apiUrl}/updateUserProfile/${visitedUser._id}`,
         formData,
         {
           headers: {
@@ -113,7 +113,7 @@ const Profile = () => {
     if (!loggedInUser?._id || !visitedUserId) return;
     setLoading(true);
     try {
-      await axios.post(`http://localhost:3002/toggleFollow/${visitedUserId}`, {
+      await axios.post(`${apiUrl}/toggleFollow/${visitedUserId}`, {
         loggedInUserId: loggedInUser._id,
       });
       // Optimistically update loggedInUser state too:
@@ -312,13 +312,17 @@ const Profile = () => {
 
         <div className="right-section">
           {activeTab === "overview" && (
-            <Overview user={visitedUser} canEdit={canEdit} />
+            <Overview user={visitedUser} canEdit={canEdit} apiUrl={apiUrl} />
           )}
           {activeTab === "repos" && (
-            <UserRepos user={visitedUser} isOwner={canEdit} />
+            <UserRepos user={visitedUser} isOwner={canEdit} apiUrl={apiUrl} />
           )}
           {activeTab === "starred" && (
-            <StarRepos userId={visitedUser._id} canEdit={canEdit} />
+            <StarRepos
+              userId={visitedUser._id}
+              canEdit={canEdit}
+              apiUrl={apiUrl}
+            />
           )}
         </div>
       </div>

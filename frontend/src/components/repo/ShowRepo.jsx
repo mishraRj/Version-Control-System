@@ -29,6 +29,8 @@ const ShowRepo = () => {
 
   const [activeTab, setActiveTab] = useState(tabFromUrl);
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     setActiveTab(tabFromUrl); // url change hote hi tab update
   }, [tabFromUrl]);
@@ -48,7 +50,7 @@ const ShowRepo = () => {
       if (userId) {
         try {
           const response = await axios.get(
-            `http://localhost:3002/getUserProfile/${userId}`
+            `${apiUrl}/getUserProfile/${userId}`
           );
           setLoggedInUserDetails(response.data);
         } catch (err) {
@@ -64,9 +66,7 @@ const ShowRepo = () => {
     if (!username) return;
     const fetchVisitedUser = async () => {
       try {
-        const resp = await axios.get(
-          `http://localhost:3002/searchUser/${username}`
-        );
+        const resp = await axios.get(`${apiUrl}/searchUser/${username}`);
         console.log("visitedUser resp", resp.data);
         const user = (resp.data.users && resp.data.users[0]) || null;
         setVisitedUser(user);
@@ -146,6 +146,7 @@ const ShowRepo = () => {
             userAvatar={visitedUser?.avatar}
             resetSectionSignal={codeTabResetKey}
             canEdit={canEdit}
+            apiUrl={apiUrl}
           />
         )}
         {activeTab === "issues" && (
@@ -154,9 +155,12 @@ const ShowRepo = () => {
             user={loggedInUserDetails}
             resetSectionSignal={issuesTabResetKey}
             canEdit={canEdit}
+            apiUrl={apiUrl}
           />
         )}
-        {activeTab === "settings" && <RepoSettings repoId={repoName} />}
+        {activeTab === "settings" && (
+          <RepoSettings repoId={repoName} apiUrl={apiUrl} />
+        )}
       </div>
       <Footer />
     </>

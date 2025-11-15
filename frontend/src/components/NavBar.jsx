@@ -4,7 +4,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../authContext";
 import "./navbar.css";
 import {
-  HomeIcon,
   RepoIcon,
   StarIcon,
   SignOutIcon,
@@ -19,6 +18,8 @@ const NavBar = ({ onUserSearch }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       const userId = localStorage.getItem("userId");
@@ -26,7 +27,7 @@ const NavBar = ({ onUserSearch }) => {
       if (userId) {
         try {
           const response = await axios.get(
-            `http://localhost:3002/getUserProfile/${userId}`
+            `${apiUrl}/getUserProfile/${userId}`
           );
           setUserDetails(response.data);
         } catch (err) {
@@ -51,9 +52,7 @@ const NavBar = ({ onUserSearch }) => {
       navigate("/");
     }
     try {
-      const response = await axios.get(
-        `http://localhost:3002/searchUser/${searchValue}`
-      );
+      const response = await axios.get(`${apiUrl}/searchUser/${searchValue}`);
       if (onUserSearch) {
         onUserSearch(response.data.users || []);
       }

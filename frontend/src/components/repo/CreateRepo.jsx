@@ -7,6 +7,7 @@ import Footer from "../Footer";
 const CreateRepo = () => {
   // Fetching Current User
   const [userDetails, setUserDetails] = useState({ username: "username" });
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -15,7 +16,7 @@ const CreateRepo = () => {
       if (userId) {
         try {
           const response = await axios.get(
-            `http://localhost:3002/getUserProfile/${userId}`
+            `${apiUrl}/getUserProfile/${userId}`
           );
           setUserDetails(response.data);
         } catch (err) {
@@ -43,7 +44,7 @@ const CreateRepo = () => {
         owner: userDetails._id, // ID bhejna hai, object nahi
         visibility: repoVisibility,
       });
-      const res = await axios.post("http://localhost:3002/repo/create", {
+      const res = await axios.post(`${apiUrl}/repo/create`, {
         name: repoName,
         description: repoDescription,
         owner: userDetails._id,

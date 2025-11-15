@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { StarIcon, StarFillIcon, RepoIcon } from "@primer/octicons-react";
 import "./CSS/overview.css";
 
-const UserRepos = ({ user, isOwner }) => {
+const UserRepos = ({ user, isOwner, apiUrl }) => {
   const [repositories, setRepositories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -15,9 +15,7 @@ const UserRepos = ({ user, isOwner }) => {
 
     const fetchRepositories = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3002/repo/user/${user._id}`
-        );
+        const response = await fetch(`${apiUrl}/repo/user/${user._id}`);
         const data = await response.json();
         console.log(data);
         setRepositories(data.repositories);
@@ -59,7 +57,7 @@ const UserRepos = ({ user, isOwner }) => {
 
     const fetchStarred = async () => {
       try {
-        const res = await fetch(`http://localhost:3002/repo/starred/${userId}`);
+        const res = await fetch(`${apiUrl}/repo/starred/${userId}`);
         const data = await res.json();
         setStarredRepos((data.starRepos || []).map(id => id.toString()));
       } catch (err) {
@@ -78,7 +76,7 @@ const UserRepos = ({ user, isOwner }) => {
     const isStarred = starredRepos.includes(repoId.toString());
 
     try {
-      const res = await fetch(`http://localhost:3002/repo/${repoId}/star`, {
+      const res = await fetch(`${apiUrl}/repo/${repoId}/star`, {
         method: isStarred ? "DELETE" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId }),

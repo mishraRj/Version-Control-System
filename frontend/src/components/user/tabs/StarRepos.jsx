@@ -3,7 +3,7 @@ import { StarIcon, StarFillIcon } from "@primer/octicons-react";
 import { Link } from "react-router-dom";
 import "./CSS/overview.css";
 
-const StarRepos = ({ userId, canEdit }) => {
+const StarRepos = ({ userId, canEdit, apiUrl }) => {
   const [repositories, setRepositories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -13,9 +13,7 @@ const StarRepos = ({ userId, canEdit }) => {
     const fetchStarredRepos = async () => {
       if (userId) {
         try {
-          const response = await fetch(
-            `http://localhost:3002/repo/starred/${userId}`
-          );
+          const response = await fetch(`${apiUrl}/repo/starred/${userId}`);
           const data = await response.json();
           setRepositories(data.repositories);
           setStarredRepos((data.starRepos || []).map(id => id.toString()));
@@ -48,7 +46,7 @@ const StarRepos = ({ userId, canEdit }) => {
       const isStarred = starredRepos.includes(repoId.toString());
 
       try {
-        const res = await fetch(`http://localhost:3002/repo/${repoId}/star`, {
+        const res = await fetch(`${apiUrl}/repo/${repoId}/star`, {
           method: isStarred ? "DELETE" : "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId }),

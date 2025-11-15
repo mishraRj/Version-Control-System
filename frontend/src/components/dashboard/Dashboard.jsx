@@ -13,13 +13,15 @@ const Dashboard = (req, res) => {
   const navigate = useNavigate();
   const searchTerm = new URLSearchParams(location.search).get("q");
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   // Fetching User Feed
   useEffect(() => {
     const userId = localStorage.getItem("userId");
 
     const fetchFeed = async () => {
       try {
-        const response = await fetch(`http://localhost:3002/feed/${userId}`);
+        const response = await fetch(`${apiUrl}/feed/${userId}`);
         const data = await response.json();
         console.log(data);
         setUserFeed(data);
@@ -35,7 +37,7 @@ const Dashboard = (req, res) => {
   useEffect(() => {
     const fetchSuggestedUsers = async () => {
       try {
-        const response = await fetch(`http://localhost:3002/allUsers`);
+        const response = await fetch(`${apiUrl}/allUsers`);
         const data = await response.json();
         // Randomly shuffle and pick 5
         const shuffled = data.sort(() => 0.5 - Math.random());

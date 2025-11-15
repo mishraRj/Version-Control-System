@@ -14,6 +14,8 @@ const Search = () => {
   const [isLoading, setLoading] = useState(false);
   const [suggestedRepositories, setSuggestedRepositories] = useState([]);
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   // Get search term from URL on mount/update (react-router v6)
   const searchTerm = new URLSearchParams(location.search).get("q") || "";
 
@@ -30,9 +32,7 @@ const Search = () => {
     }
     const fetchUsers = async () => {
       try {
-        const resp = await axios.get(
-          `http://localhost:3002/searchUser/${searchTerm}`
-        );
+        const resp = await axios.get(`${apiUrl}/searchUser/${searchTerm}`);
         // Calculate isFollowing for each
         const apiUsers = resp.data.users || [];
         const processedUsers = apiUsers.map(user => ({
@@ -52,7 +52,7 @@ const Search = () => {
     const userId = localStorage.getItem("userId");
     if (!userId) return;
     axios
-      .get(`http://localhost:3002/getUserProfile/${userId}`)
+      .get(`${apiUrl}/getUserProfile/${userId}`)
       .then(res => setLoggedInUser(res.data))
       .catch(() => setLoggedInUser(null));
   }, []);
@@ -64,7 +64,7 @@ const Search = () => {
     if (!loggedInUser?._id || !visitedUserId) return;
     setLoading(true);
     try {
-      await axios.post(`http://localhost:3002/toggleFollow/${visitedUserId}`, {
+      await axios.post(`${apiUrl}/toggleFollow/${visitedUserId}`, {
         loggedInUserId: loggedInUser._id,
       });
       setSearchedUsers(prev =>
@@ -86,9 +86,7 @@ const Search = () => {
     if (!loggedInUser?._id) return; // Don't run until loggedInUser is loaded
     const fetchSuggestedRepositories = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3002/repo/user/${loggedInUser._id}`
-        );
+        const response = await fetch(`${apiUrl}/repo/user/${loggedInUser._id}`);
         const data = await response.json();
         setSuggestedRepositories(data.repositories); // Only set array!
       } catch (err) {

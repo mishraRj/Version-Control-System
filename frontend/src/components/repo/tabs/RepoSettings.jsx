@@ -5,7 +5,7 @@ import "../CreateRepo.css";
 import DeleteRepoModal from "./DeleteRepoModal";
 import ChangeVisibilityModal from "./ChangeVisibilityModal";
 
-const RepoSettings = () => {
+const RepoSettings = ({ apiUrl }) => {
   const { repoName } = useParams();
   const [repo, setRepo] = useState({});
   // Fetching Repo Details
@@ -16,9 +16,7 @@ const RepoSettings = () => {
   useEffect(() => {
     const fetchRepository = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3002/repo/name/${repoName}`
-        );
+        const response = await fetch(`${apiUrl}/repo/name/${repoName}`);
         const data = await response.json();
         const repoData = Array.isArray(data) ? data[0] : data;
         setRepo(repoData);
@@ -45,7 +43,7 @@ const RepoSettings = () => {
       if (userId) {
         try {
           const response = await axios.get(
-            `http://localhost:3002/getUserProfile/${userId}`
+            `${apiUrl}/getUserProfile/${userId}`
           );
           setUserDetails(response.data);
         } catch (err) {
@@ -65,13 +63,10 @@ const RepoSettings = () => {
         name: repositoryName,
         description: repoDescription,
       });
-      const res = await axios.put(
-        `http://localhost:3002/repo/update/${repo._id}`,
-        {
-          name: repositoryName,
-          description: repoDescription,
-        }
-      );
+      const res = await axios.put(`${apiUrl}/repo/update/${repo._id}`, {
+        name: repositoryName,
+        description: repoDescription,
+      });
       window.location.href = `/profile/${userDetails.username}`;
     } catch (err) {
       console.error(err);
@@ -85,9 +80,7 @@ const RepoSettings = () => {
 
     try {
       setLoading(true);
-      const res = await axios.delete(
-        `http://localhost:3002/repo/delete/${repo._id}`
-      );
+      const res = await axios.delete(`${apiUrl}/repo/delete/${repo._id}`);
       window.location.href = `/profile/${userDetails.username}`;
     } catch (err) {
       console.error(err);
@@ -100,9 +93,7 @@ const RepoSettings = () => {
 
     try {
       setLoading(true);
-      const res = await axios.patch(
-        `http://localhost:3002/repo/toggle/${repo._id}`
-      );
+      const res = await axios.patch(`${apiUrl}/repo/toggle/${repo._id}`);
       window.location.href = `/profile/${userDetails.username}`;
     } catch (err) {
       console.error(err);

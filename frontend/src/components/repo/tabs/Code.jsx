@@ -4,7 +4,7 @@ import { CopyIcon, FileIcon } from "@primer/octicons-react";
 import "./CSS/code.css";
 import ShowCode from "./showCode";
 
-const Code = ({ userAvatar, resetSectionSignal, canEdit }) => {
+const Code = ({ userAvatar, resetSectionSignal, canEdit, apiUrl }) => {
   const { repoName } = useParams();
   const [repo, setRepo] = useState({});
   const [commits, setCommits] = useState([]);
@@ -17,9 +17,7 @@ const Code = ({ userAvatar, resetSectionSignal, canEdit }) => {
   useEffect(() => {
     const fetchRepository = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3002/repo/name/${repoName}`
-        );
+        const response = await fetch(`${apiUrl}/repo/name/${repoName}`);
         const data = await response.json();
         setRepo(data[0]);
       } catch (err) {
@@ -37,9 +35,7 @@ const Code = ({ userAvatar, resetSectionSignal, canEdit }) => {
     }
     try {
       if (!repo || !repo._id) return;
-      const response = await fetch(
-        `http://localhost:3002/repo/getFiles/${repo._id}`
-      );
+      const response = await fetch(`${apiUrl}/repo/getFiles/${repo._id}`);
       const data = await response.json();
       setCommits(data);
     } catch (err) {

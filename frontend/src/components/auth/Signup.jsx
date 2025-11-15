@@ -17,11 +17,12 @@ const Signup = () => {
   const { setCurrentUser } = useAuth();
 
   const handleSignup = async e => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     e.preventDefault();
 
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:3002/signup", {
+      const res = await axios.post(`${apiUrl}/signup`, {
         email: email,
         password: password,
         username: username,

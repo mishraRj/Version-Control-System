@@ -5,10 +5,10 @@ import DeleteIssueModal from "./tabs/DeleteIssueModal";
 const ShowIssue = ({
   issue,
   userAvatar,
-  fetchIssues,
   onDeleteIssue,
   repository,
   canEdit,
+  apiUrl,
 }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [localIssue, setLocalIssue] = useState(issue);
@@ -23,7 +23,7 @@ const ShowIssue = ({
     try {
       const newStatus = localIssue.status === "open" ? "closed" : "open";
       const response = await axios.put(
-        `http://localhost:3002/issue/update/${localIssue._id}`,
+        `${apiUrl}/issue/update/${localIssue._id}`,
         {
           title: localIssue.title,
           description: localIssue.description,
@@ -44,7 +44,7 @@ const ShowIssue = ({
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:3002/issue/update/${localIssue._id}`,
+        `${apiUrl}/issue/update/${localIssue._id}`,
         {
           title: editTitle,
           description: editDesc,
@@ -76,7 +76,7 @@ const ShowIssue = ({
     e.preventDefault();
     try {
       setLoading(true);
-      await axios.delete(`http://localhost:3002/issue/delete/${issue._id}`);
+      await axios.delete(`${apiUrl}/issue/delete/${issue._id}`);
       setShowDeleteModal(false);
       if (onDeleteIssue) onDeleteIssue(); // switch to issue list and reload list
     } catch (err) {

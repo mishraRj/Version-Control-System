@@ -5,7 +5,7 @@ import CreateIssue from "../../issue/CreateIssue";
 import IssueList from "../../issue/IssueList";
 import ShowIssue from "../../issue/ShowIssue";
 
-const Issues = ({ userAvatar, resetSectionSignal, canEdit, user }) => {
+const Issues = ({ userAvatar, resetSectionSignal, canEdit, user, apiUrl }) => {
   const { repoName } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,9 +19,7 @@ const Issues = ({ userAvatar, resetSectionSignal, canEdit, user }) => {
   useEffect(() => {
     const fetchRepository = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3002/repo/name/${repoName}`
-        );
+        const response = await fetch(`${apiUrl}/repo/name/${repoName}`);
         const data = await response.json();
         const repoData = Array.isArray(data) ? data[0] : data;
         setRepo(repoData);
@@ -41,9 +39,7 @@ const Issues = ({ userAvatar, resetSectionSignal, canEdit, user }) => {
       return;
     }
     try {
-      const response = await fetch(
-        `http://localhost:3002/issue/all/${repo._id}`
-      );
+      const response = await fetch(`${apiUrl}/issue/all/${repo._id}`);
       const data = await response.json();
       setIssues(data); // as array
     } catch (err) {
@@ -86,6 +82,7 @@ const Issues = ({ userAvatar, resetSectionSignal, canEdit, user }) => {
         <CreateIssue
           userAvatar={userAvatar}
           user={user}
+          apiUrl={apiUrl}
           handleBackToList={() => setActiveSection("list")}
           repository={repo._id}
           fetchIssues={fetchIssues}
@@ -96,6 +93,7 @@ const Issues = ({ userAvatar, resetSectionSignal, canEdit, user }) => {
         <ShowIssue
           issue={selectedIssue}
           canEdit={canEdit}
+          apiUrl={apiUrl}
           handleBackToList={() => setActiveSection("list")}
           userAvatar={userAvatar}
           repository={repo}
