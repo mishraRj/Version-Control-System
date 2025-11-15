@@ -8,6 +8,7 @@ const ShowIssue = ({
   fetchIssues,
   onDeleteIssue,
   repository,
+  canEdit,
 }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [localIssue, setLocalIssue] = useState(issue);
@@ -143,24 +144,28 @@ const ShowIssue = ({
               </div>
             </div>
             {/* Actions */}
-            <div className="issue-action-btns">
-              <button
-                className="issue-edit-btn"
-                onClick={() => setEnableEdit(true)}>
-                Edit
-              </button>
-              <button
-                className="issue-delete-btn"
-                onClick={() => setShowDeleteModal(true)}>
-                Delete
-              </button>
-              {showDeleteModal && (
-                <DeleteIssueModal
-                  onClose={() => setShowDeleteModal(false)}
-                  onDelete={handleDelete}
-                />
-              )}
-            </div>
+            {canEdit ? (
+              <div className="issue-action-btns">
+                <button
+                  className="issue-edit-btn"
+                  onClick={() => setEnableEdit(true)}>
+                  Edit
+                </button>
+                <button
+                  className="issue-delete-btn"
+                  onClick={() => setShowDeleteModal(true)}>
+                  Delete
+                </button>
+                {showDeleteModal && (
+                  <DeleteIssueModal
+                    onClose={() => setShowDeleteModal(false)}
+                    onDelete={handleDelete}
+                  />
+                )}
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         )}
       </div>
@@ -202,18 +207,22 @@ const ShowIssue = ({
           rows={4}
         />
         <div className="add-comment-footer">
-          <button
-            className={`close-issue-btn ${localIssue.status}`}
-            onClick={handleToggleStatus}
-            disabled={loading}>
-            {loading
-              ? localIssue.status === "open"
-                ? "Closing..."
-                : "Reopening..."
-              : localIssue.status === "open"
-              ? "Close issue"
-              : "Reopen issue"}
-          </button>
+          {canEdit ? (
+            <button
+              className={`close-issue-btn ${localIssue.status}`}
+              onClick={handleToggleStatus}
+              disabled={loading}>
+              {loading
+                ? localIssue.status === "open"
+                  ? "Closing..."
+                  : "Reopening..."
+                : localIssue.status === "open"
+                ? "Close issue"
+                : "Reopen issue"}
+            </button>
+          ) : (
+            <></>
+          )}
           <button className="comment-issue-btn">Comment</button>
         </div>
       </div>

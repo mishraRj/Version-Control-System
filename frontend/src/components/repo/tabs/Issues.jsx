@@ -95,6 +95,7 @@ const Issues = ({ userAvatar, resetSectionSignal, canEdit, user }) => {
       {activeSection === "single" && selectedIssue && (
         <ShowIssue
           issue={selectedIssue}
+          canEdit={canEdit}
           handleBackToList={() => setActiveSection("list")}
           userAvatar={userAvatar}
           repository={repo}
