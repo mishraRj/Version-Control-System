@@ -130,6 +130,12 @@ const Dashboard = (req, res) => {
                 📰 <b>Chat Functionality</b> will be available on the home page
               </li>
               <li>
+                📱 <b>Responsiveness</b> coming soon
+              </li>
+              <li>
+                💬 <b>Comments on Issues</b> coming soon
+              </li>
+              <li>
                 ...and much more!{" "}
                 <span className="status-comingsoon">
                   More features coming soon 🚀
