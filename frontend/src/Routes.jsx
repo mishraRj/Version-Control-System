@@ -6,7 +6,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import Profile from "./components/user/Profile";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
-import CreateRepo from "./components/repo/createRepo";
+import CreateRepo from "./components/repo/CreateRepo";
 import ShowRepo from "./components/repo/ShowRepo";
 
 // Auth Context
