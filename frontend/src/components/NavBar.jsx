@@ -72,7 +72,7 @@ const NavBar = ({ onUserSearch }) => {
             alt="github logo"
             className="gitHubLogo"
           />
-          <h3>Github</h3>
+          <h3>G!thub</h3>
         </div>
       </Link>
 
