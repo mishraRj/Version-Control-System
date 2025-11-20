@@ -4,37 +4,43 @@ const userRouter = express.Router();
 const upload = require("../middlewares/upload");
 const { isLoggedIn } = require("../middlewares/authMiddleware");
 const { isProfileOwner } = require("../middlewares/authorizeMiddleware");
+const wrapAsync = require("../utils/wrapAsync");
 
-userRouter.get("/allUsers", isLoggedIn, userController.getAllUsers);
-userRouter.post("/signup", userController.signup);
-userRouter.post("/login", userController.login);
+userRouter.get("/allUsers", isLoggedIn, wrapAsync(userController.getAllUsers));
+userRouter.post("/signup", wrapAsync(userController.signup));
+userRouter.post("/login", wrapAsync(userController.login));
 userRouter.get(
   "/getUserProfile/:id",
   isLoggedIn,
-  userController.getUserProfile
+  wrapAsync(userController.getUserProfile)
 );
 userRouter.put(
   "/updateUserProfile/:id",
   isLoggedIn,
   isProfileOwner,
   upload.single("avatar"),
-  userController.updateUserProfile
+  wrapAsync(userController.updateUserProfile)
 );
 userRouter.delete(
   "/deleteUserProfile/:id",
   isLoggedIn,
   isProfileOwner,
-  userController.deleteUserProfile
+  wrapAsync(userController.deleteUserProfile)
 );
-
-userRouter.get("/searchUser/:username", isLoggedIn, userController.userSearch);
-
+userRouter.get(
+  "/searchUser/:username",
+  isLoggedIn,
+  wrapAsync(userController.userSearch)
+);
 userRouter.post(
   "/toggleFollow/:visitedUserId",
   isLoggedIn,
-  userController.toggleFollow
+  wrapAsync(userController.toggleFollow)
 );
-
-userRouter.get("/feed/:id", isLoggedIn, userController.getFeedForDashboard);
+userRouter.get(
+  "/feed/:id",
+  isLoggedIn,
+  wrapAsync(userController.getFeedForDashboard)
+);
 
 module.exports = userRouter;

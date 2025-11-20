@@ -3,57 +3,72 @@ const repoController = require("../controllers/repoController");
 const repoRouter = express.Router();
 const { isLoggedIn } = require("../middlewares/authMiddleware");
 const { isRepoOwner } = require("../middlewares/authorizeMiddleware");
+const wrapAsync = require("../utils/wrapAsync");
 
-repoRouter.post("/repo/create", isLoggedIn, repoController.createRepository);
-repoRouter.get("/repo/all", isLoggedIn, repoController.getAllRepositories);
-repoRouter.get("/repo/:id", isLoggedIn, repoController.fetchRepositoryById);
+repoRouter.post(
+  "/repo/create",
+  isLoggedIn,
+  wrapAsync(repoController.createRepository)
+);
+repoRouter.get(
+  "/repo/all",
+  isLoggedIn,
+  wrapAsync(repoController.getAllRepositories)
+);
+repoRouter.get(
+  "/repo/:id",
+  isLoggedIn,
+  wrapAsync(repoController.fetchRepositoryById)
+);
 repoRouter.get(
   "/repo/name/:name",
   isLoggedIn,
-  repoController.fetchRepositoryByName
+  wrapAsync(repoController.fetchRepositoryByName)
 );
 repoRouter.get(
   "/repo/user/:userId",
   isLoggedIn,
-  repoController.fetchRepositoryForCurrentUser
+  wrapAsync(repoController.fetchRepositoryForCurrentUser)
 );
-
 repoRouter.post(
   "/repo/:repoId/star",
   isLoggedIn,
   isRepoOwner,
-  repoController.addStarRepository
+  wrapAsync(repoController.addStarRepository)
 );
 repoRouter.delete(
   "/repo/:repoId/star",
   isLoggedIn,
   isRepoOwner,
-  repoController.removeStarRepository
+  wrapAsync(repoController.removeStarRepository)
 );
 repoRouter.get(
   "/repo/starred/:userId",
   isLoggedIn,
-  repoController.fetchStarredRepositories
+  wrapAsync(repoController.fetchStarredRepositories)
 );
 repoRouter.put(
   "/repo/update/:id",
   isLoggedIn,
   isRepoOwner,
-  repoController.updateRepositoryById
+  wrapAsync(repoController.updateRepositoryById)
 );
 repoRouter.patch(
   "/repo/toggle/:id",
   isLoggedIn,
   isRepoOwner,
-  repoController.toggleVisibilityById
+  wrapAsync(repoController.toggleVisibilityById)
 );
 repoRouter.delete(
   "/repo/delete/:id",
   isLoggedIn,
   isRepoOwner,
-  repoController.deleteRepositoryById
+  wrapAsync(repoController.deleteRepositoryById)
 );
-
-repoRouter.get("/repo/getFiles/:id", isLoggedIn, repoController.fetchRepoFiles);
+repoRouter.get(
+  "/repo/getFiles/:id",
+  isLoggedIn,
+  wrapAsync(repoController.fetchRepoFiles)
+);
 
 module.exports = repoRouter;

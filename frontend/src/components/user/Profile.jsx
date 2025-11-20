@@ -185,9 +185,8 @@ const Profile = () => {
     );
   } else if (!visitedUser) {
     return (
-      <div className="profile-page-wrapper">
-        <NavBar />
-        User not found.
+      <div className="blankPage">
+        <h1>User not found.</h1>
       </div>
     );
   } else {

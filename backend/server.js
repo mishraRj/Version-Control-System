@@ -8,6 +8,8 @@ const http = require("http");
 const { Server } = require("socket.io");
 const mainRouter = require("./routes/main.router");
 const Commit = require("./models/commit"); // keep as used
+const errorHandler = require("./middlewares/errorHandler");
+const ExpressError = require("./utils/ExpressError");
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -16,7 +18,6 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors({ origin: "*" }));
 app.use("/", mainRouter);
-
 // Mongoose
 mongoose
   .connect(process.env.MONGO_URL)
@@ -50,6 +51,15 @@ const db = mongoose.connection;
 db.once("open", async () => {
   console.log("CRUD operations called!");
 });
+
+// Error Handling
+// ----------
+app.all("/{*any}", (req, res, next) => {
+  next(new ExpressError(404, "Page Not Found"));
+});
+
+app.use(errorHandler);
+// ----------
 
 httpServer.listen(port, () => {
   console.log(`Server is running at port ${port}`);
