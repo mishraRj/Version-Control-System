@@ -3,6 +3,7 @@ const userController = require("../controllers/userController");
 const userRouter = express.Router();
 const upload = require("../middlewares/upload");
 const { isLoggedIn } = require("../middlewares/authMiddleware");
+const { isProfileOwner } = require("../middlewares/authorizeMiddleware");
 
 userRouter.get("/allUsers", isLoggedIn, userController.getAllUsers);
 userRouter.post("/signup", userController.signup);
@@ -15,12 +16,14 @@ userRouter.get(
 userRouter.put(
   "/updateUserProfile/:id",
   isLoggedIn,
+  isProfileOwner,
   upload.single("avatar"),
   userController.updateUserProfile
 );
 userRouter.delete(
   "/deleteUserProfile/:id",
   isLoggedIn,
+  isProfileOwner,
   userController.deleteUserProfile
 );
 

@@ -2,6 +2,7 @@ const express = require("express");
 const repoController = require("../controllers/repoController");
 const repoRouter = express.Router();
 const { isLoggedIn } = require("../middlewares/authMiddleware");
+const { isRepoOwner } = require("../middlewares/authorizeMiddleware");
 
 repoRouter.post("/repo/create", isLoggedIn, repoController.createRepository);
 repoRouter.get("/repo/all", isLoggedIn, repoController.getAllRepositories);
@@ -20,11 +21,13 @@ repoRouter.get(
 repoRouter.post(
   "/repo/:repoId/star",
   isLoggedIn,
+  isRepoOwner,
   repoController.addStarRepository
 );
 repoRouter.delete(
   "/repo/:repoId/star",
   isLoggedIn,
+  isRepoOwner,
   repoController.removeStarRepository
 );
 repoRouter.get(
@@ -35,16 +38,19 @@ repoRouter.get(
 repoRouter.put(
   "/repo/update/:id",
   isLoggedIn,
+  isRepoOwner,
   repoController.updateRepositoryById
 );
 repoRouter.patch(
   "/repo/toggle/:id",
   isLoggedIn,
+  isRepoOwner,
   repoController.toggleVisibilityById
 );
 repoRouter.delete(
   "/repo/delete/:id",
   isLoggedIn,
+  isRepoOwner,
   repoController.deleteRepositoryById
 );
 

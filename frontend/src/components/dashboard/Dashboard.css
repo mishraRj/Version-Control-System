@@ -63,6 +63,7 @@
 
 .suggestion-info {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   align-items: flex-start;
   flex: 1;
@@ -73,6 +74,10 @@
   font-weight: 600;
   color: #388bfd;
   margin-bottom: 0.14rem;
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-all; /* 👈 THIS LINE is the key! */
+  overflow-wrap: anywhere; /* 👈 For polyfill support */
 }
 
 .suggestion-bio {
@@ -437,6 +442,7 @@
 
 .repo-suggestions-list {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   gap: 0.3rem;
 }

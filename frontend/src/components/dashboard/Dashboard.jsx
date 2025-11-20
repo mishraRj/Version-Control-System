@@ -156,9 +156,6 @@ const Dashboard = (req, res) => {
             <strong>🚧 Project in Progress!</strong>
             <ul>
               <li>
-                🔐 <b>Backend Authorization</b> setup coming soon
-              </li>
-              <li>
                 📰 <b>Chat Functionality</b> will be available on the home page
               </li>
               <li>

@@ -22,7 +22,6 @@ const UserRepos = ({ user, isOwner, apiUrl }) => {
           },
         });
         const data = await response.json();
-        console.log(data);
         setRepositories(data.repositories);
       } catch (err) {
         console.log("Error while passing repositories", err);

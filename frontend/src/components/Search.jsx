@@ -11,7 +11,7 @@ const Search = () => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null); // session user
-  const [isLoading, setLoading] = useState(false);
+  const [loadingUserIds, setLoadingUserIds] = useState([]);
   const [suggestedRepositories, setSuggestedRepositories] = useState([]);
 
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -68,7 +68,8 @@ const Search = () => {
 
   const handleFollowToggle = async (visitedUserId, currentlyFollowing) => {
     if (!loggedInUser?._id || !visitedUserId) return;
-    setLoading(true);
+    // Add user to loading ids
+    setLoadingUserIds(prev => [...prev, visitedUserId]);
     try {
       const token = localStorage.getItem("token");
       await axios.post(
@@ -83,10 +84,11 @@ const Search = () => {
             : user
         )
       );
-      setLoading(false);
     } catch (err) {
       console.error("Cannot follow/unfollow user: ", err);
-      setLoading(false);
+    } finally {
+      // Remove user from loading ids
+      setLoadingUserIds(prev => prev.filter(id => id !== visitedUserId));
     }
   };
 
@@ -184,13 +186,15 @@ const Search = () => {
                         e.stopPropagation();
                         handleFollowToggle(user._id, user.isFollowing);
                       }}
-                      className={user.isFollowing ? "following-btn" : ""}>
-                      {isLoading
+                      className={user.isFollowing ? "following-btn" : ""}
+                      disabled={loadingUserIds.includes(user._id)}>
+                      {loadingUserIds.includes(user._id)
                         ? "Loading..."
                         : user.isFollowing
                         ? "Following"
                         : "Follow"}
                     </button>
+
                     <button onClick={e => e.stopPropagation()}>
                       Connect +
                     </button>
