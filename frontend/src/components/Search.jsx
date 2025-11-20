@@ -32,7 +32,10 @@ const Search = () => {
     }
     const fetchUsers = async () => {
       try {
-        const resp = await axios.get(`${apiUrl}/searchUser/${searchTerm}`);
+        const token = localStorage.getItem("token");
+        const resp = await axios.get(`${apiUrl}/searchUser/${searchTerm}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         // Calculate isFollowing for each
         const apiUsers = resp.data.users || [];
         const processedUsers = apiUsers.map(user => ({
@@ -50,9 +53,12 @@ const Search = () => {
   // Fetch logged-in user by localStorage userId
   useEffect(() => {
     const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
     if (!userId) return;
     axios
-      .get(`${apiUrl}/getUserProfile/${userId}`)
+      .get(`${apiUrl}/getUserProfile/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then(res => setLoggedInUser(res.data))
       .catch(() => setLoggedInUser(null));
   }, []);
@@ -64,9 +70,12 @@ const Search = () => {
     if (!loggedInUser?._id || !visitedUserId) return;
     setLoading(true);
     try {
-      await axios.post(`${apiUrl}/toggleFollow/${visitedUserId}`, {
-        loggedInUserId: loggedInUser._id,
-      });
+      const token = localStorage.getItem("token");
+      await axios.post(
+        `${apiUrl}/toggleFollow/${visitedUserId}`,
+        { loggedInUserId: loggedInUser._id },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setSearchedUsers(prev =>
         prev.map(user =>
           user._id === visitedUserId
@@ -83,12 +92,22 @@ const Search = () => {
 
   // Fetching Suggested Repos
   useEffect(() => {
-    if (!loggedInUser?._id) return; // Don't run until loggedInUser is loaded
+    if (!loggedInUser?._id) return;
     const fetchSuggestedRepositories = async () => {
       try {
-        const response = await fetch(`${apiUrl}/repo/user/${loggedInUser._id}`);
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          `${apiUrl}/repo/user/${loggedInUser._id}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
         const data = await response.json();
-        setSuggestedRepositories(data.repositories); // Only set array!
+        setSuggestedRepositories(data.repositories);
       } catch (err) {
         console.log("Error while passing repositories", err);
       }

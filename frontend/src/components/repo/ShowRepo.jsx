@@ -46,11 +46,15 @@ const ShowRepo = () => {
   useEffect(() => {
     const fetchLoggedInUserDetails = async () => {
       const userId = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
 
       if (userId) {
         try {
           const response = await axios.get(
-            `${apiUrl}/getUserProfile/${userId}`
+            `${apiUrl}/getUserProfile/${userId}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
           );
           setLoggedInUserDetails(response.data);
         } catch (err) {
@@ -66,7 +70,11 @@ const ShowRepo = () => {
     if (!username) return;
     const fetchVisitedUser = async () => {
       try {
-        const resp = await axios.get(`${apiUrl}/searchUser/${username}`);
+        // If it's protected, add:
+        const token = localStorage.getItem("token");
+        const resp = await axios.get(`${apiUrl}/searchUser/${username}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         console.log("visitedUser resp", resp.data);
         const user = (resp.data.users && resp.data.users[0]) || null;
         setVisitedUser(user);

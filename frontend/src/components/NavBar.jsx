@@ -23,11 +23,12 @@ const NavBar = ({ onUserSearch }) => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       const userId = localStorage.getItem("userId");
-
+      const token = localStorage.getItem("token");
       if (userId) {
         try {
           const response = await axios.get(
-            `${apiUrl}/getUserProfile/${userId}`
+            `${apiUrl}/getUserProfile/${userId}`,
+            { headers: { Authorization: `Bearer ${token}` } }
           );
           setUserDetails(response.data);
         } catch (err) {
@@ -52,7 +53,10 @@ const NavBar = ({ onUserSearch }) => {
       navigate("/");
     }
     try {
-      const response = await axios.get(`${apiUrl}/searchUser/${searchValue}`);
+      const token = localStorage.getItem("token");
+      const response = await axios.get(`${apiUrl}/searchUser/${searchValue}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (onUserSearch) {
         onUserSearch(response.data.users || []);
       }

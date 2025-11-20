@@ -13,7 +13,14 @@ const StarRepos = ({ userId, canEdit, apiUrl }) => {
     const fetchStarredRepos = async () => {
       if (userId) {
         try {
-          const response = await fetch(`${apiUrl}/repo/starred/${userId}`);
+          const token = localStorage.getItem("token");
+          const response = await fetch(`${apiUrl}/repo/starred/${userId}`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
           const data = await response.json();
           setRepositories(data.repositories);
           setStarredRepos((data.starRepos || []).map(id => id.toString()));
@@ -39,36 +46,35 @@ const StarRepos = ({ userId, canEdit, apiUrl }) => {
   }, [searchQuery, repositories]);
 
   // ⭐ Toggle star
-  if (canEdit) {
-    const toggleStar = async repoId => {
-      if (!userId) return;
+  const toggleStar = async repoId => {
+    if (!userId) return;
+    const isStarred = starredRepos.includes(repoId.toString());
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${apiUrl}/repo/${repoId}/star`, {
+        method: isStarred ? "DELETE" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ userId }),
+      });
 
-      const isStarred = starredRepos.includes(repoId.toString());
-
-      try {
-        const res = await fetch(`${apiUrl}/repo/${repoId}/star`, {
-          method: isStarred ? "DELETE" : "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId }),
-        });
-
-        if (!res.ok) {
-          const errorText = await res.text(); // fallback if not JSON
-          throw new Error(`HTTP ${res.status}: ${errorText}`);
-        }
-
-        const data = await res.json();
-        setStarredRepos((data.starRepos || []).map(id => id.toString()));
-        // ⭐ if unstarred, remove from local repositories list (immediate re-render)
-        if (isStarred) {
-          setRepositories(prev => prev.filter(r => r._id !== repoId));
-          setSearchResults(prev => prev.filter(r => r._id !== repoId));
-        }
-      } catch (err) {
-        console.error("Error toggling star:", err);
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`HTTP ${res.status}: ${errorText}`);
       }
-    };
-  }
+
+      const data = await res.json();
+      setStarredRepos((data.starRepos || []).map(id => id.toString()));
+      if (isStarred) {
+        setRepositories(prev => prev.filter(r => r._id !== repoId));
+        setSearchResults(prev => prev.filter(r => r._id !== repoId));
+      }
+    } catch (err) {
+      console.error("Error toggling star:", err);
+    }
+  };
 
   return (
     <>

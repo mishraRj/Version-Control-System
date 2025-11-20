@@ -1,17 +1,14 @@
 import React, { useEffect } from "react";
 import { useNavigate, useRoutes } from "react-router-dom";
-
-// Pages List
 import Dashboard from "./components/dashboard/Dashboard";
 import Profile from "./components/user/Profile";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import CreateRepo from "./components/repo/CreateRepo";
 import ShowRepo from "./components/repo/ShowRepo";
-
-// Auth Context
 import { useAuth } from "./authContext";
 import Search from "./components/Search";
+import ProtectedRoute from "../src/components/ProtectedRoute"; // <--- Import ye line add karo
 
 const ProjectRoutes = () => {
   const { currentUser, setCurrentUser } = useAuth();
@@ -19,19 +16,16 @@ const ProjectRoutes = () => {
 
   useEffect(() => {
     const userIdFromStorage = localStorage.getItem("userId");
-
     if (userIdFromStorage && !currentUser) {
       setCurrentUser(userIdFromStorage);
     }
-
     if (
       !userIdFromStorage &&
       !["/auth", "/signup"].includes(window.location.pathname)
     ) {
       navigate("/auth");
     }
-
-    if (userIdFromStorage && window.location.pathname == "/auth") {
+    if (userIdFromStorage && window.location.pathname === "/auth") {
       navigate("/");
     }
   }, [currentUser, navigate, setCurrentUser]);
@@ -39,7 +33,11 @@ const ProjectRoutes = () => {
   let elements = useRoutes([
     {
       path: "/",
-      element: <Dashboard />,
+      element: (
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/auth",
@@ -51,19 +49,35 @@ const ProjectRoutes = () => {
     },
     {
       path: "/profile/:userName",
-      element: <Profile />,
+      element: (
+        <ProtectedRoute>
+          <Profile />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/create",
-      element: <CreateRepo />,
+      element: (
+        <ProtectedRoute>
+          <CreateRepo />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/search",
-      element: <Search />,
+      element: (
+        <ProtectedRoute>
+          <Search />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/:username/:repoName",
-      element: <ShowRepo />,
+      element: (
+        <ProtectedRoute>
+          <ShowRepo />
+        </ProtectedRoute>
+      ),
     },
   ]);
 

@@ -19,7 +19,14 @@ const Issues = ({ userAvatar, resetSectionSignal, canEdit, user, apiUrl }) => {
   useEffect(() => {
     const fetchRepository = async () => {
       try {
-        const response = await fetch(`${apiUrl}/repo/name/${repoName}`);
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${apiUrl}/repo/name/${repoName}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         const data = await response.json();
         const repoData = Array.isArray(data) ? data[0] : data;
         setRepo(repoData);
@@ -27,19 +34,24 @@ const Issues = ({ userAvatar, resetSectionSignal, canEdit, user, apiUrl }) => {
         console.log("Error while fetching repository", err);
       }
     };
-
     fetchRepository();
   }, [repoName]);
 
   // Fetch Issues Logic
   const fetchIssues = async () => {
-    // Stop if repo id is not set
     if (!repo._id) {
       setIssues([]);
       return;
     }
     try {
-      const response = await fetch(`${apiUrl}/issue/all/${repo._id}`);
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${apiUrl}/issue/all/${repo._id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
       const data = await response.json();
       setIssues(data); // as array
     } catch (err) {

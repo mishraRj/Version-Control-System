@@ -12,11 +12,15 @@ const CreateRepo = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       const userId = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
 
       if (userId) {
         try {
           const response = await axios.get(
-            `${apiUrl}/getUserProfile/${userId}`
+            `${apiUrl}/getUserProfile/${userId}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
           );
           setUserDetails(response.data);
         } catch (err) {
@@ -38,18 +42,26 @@ const CreateRepo = () => {
 
     try {
       setLoading(true);
+      const token = localStorage.getItem("token");
       console.log({
-        name: repoName,
-        description: repoDescription,
-        owner: userDetails._id, // ID bhejna hai, object nahi
-        visibility: repoVisibility,
-      });
-      const res = await axios.post(`${apiUrl}/repo/create`, {
         name: repoName,
         description: repoDescription,
         owner: userDetails._id,
         visibility: repoVisibility,
       });
+
+      const res = await axios.post(
+        `${apiUrl}/repo/create`,
+        {
+          name: repoName,
+          description: repoDescription,
+          owner: userDetails._id,
+          visibility: repoVisibility,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       window.location.href = `/profile/${userDetails.username}`;
     } catch (err) {
       console.error(err);

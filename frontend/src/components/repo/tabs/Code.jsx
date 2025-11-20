@@ -17,7 +17,14 @@ const Code = ({ userAvatar, resetSectionSignal, canEdit, apiUrl }) => {
   useEffect(() => {
     const fetchRepository = async () => {
       try {
-        const response = await fetch(`${apiUrl}/repo/name/${repoName}`);
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${apiUrl}/repo/name/${repoName}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         const data = await response.json();
         setRepo(data[0]);
       } catch (err) {
@@ -34,8 +41,14 @@ const Code = ({ userAvatar, resetSectionSignal, canEdit, apiUrl }) => {
       return;
     }
     try {
-      if (!repo || !repo._id) return;
-      const response = await fetch(`${apiUrl}/repo/getFiles/${repo._id}`);
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${apiUrl}/repo/getFiles/${repo._id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
       const data = await response.json();
       setCommits(data);
     } catch (err) {

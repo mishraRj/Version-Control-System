@@ -8,6 +8,7 @@ const Dashboard = (req, res) => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [userFeed, setUserFeed] = useState([]);
   const [suggestedUsers, setSuggestedUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -18,34 +19,53 @@ const Dashboard = (req, res) => {
   // Fetching User Feed
   useEffect(() => {
     const userId = localStorage.getItem("userId");
-
+    const token = localStorage.getItem("token"); // JWT from login
+    console.log("TOKEN →", token);
     const fetchFeed = async () => {
+      setLoading(true);
       try {
-        const response = await fetch(`${apiUrl}/feed/${userId}`);
+        const response = await fetch(`${apiUrl}/feed/${userId}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         const data = await response.json();
-        console.log(data);
         setUserFeed(data);
       } catch (err) {
         console.log("Error while passing repositories", err);
+        console.log(err.response?.data);
+      } finally {
+        setLoading(false);
       }
     };
     fetchFeed();
   }, []);
 
   // Fetching Suggested Users
-
   useEffect(() => {
+    const token = localStorage.getItem("token"); // JWT from login
     const fetchSuggestedUsers = async () => {
+      setLoading(true);
       try {
-        const response = await fetch(`${apiUrl}/allUsers`);
+        const response = await fetch(`${apiUrl}/allUsers`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         const data = await response.json();
         // Randomly shuffle and pick 5
         const shuffled = data.sort(() => 0.5 - Math.random());
         const result = shuffled.slice(0, 5);
-        console.log(result);
         setSuggestedUsers(result);
       } catch (err) {
         console.log("Error while fetching Suggested Users", err);
+        console.log(err.response?.data);
+      } finally {
+        setLoading(false);
       }
     };
     fetchSuggestedUsers();
@@ -59,22 +79,28 @@ const Dashboard = (req, res) => {
         <aside className="suggestions">
           <h3 className="suggestions-title">Active Users</h3>
           <div className="suggestions-list">
-            {suggestedUsers.map(user => (
-              <div
-                className="suggestion-row"
-                key={user._id}
-                onClick={() => navigate(`/profile/${user.username}`)}>
-                <img
-                  className="suggestion-avatar"
-                  src={user.avatar}
-                  alt={user.username}
-                />
-                <div className="suggestion-info">
-                  <div className="suggestion-username">{user.username}</div>
-                  <div className="suggestion-bio">{user.about1}</div>
-                </div>
-              </div>
-            ))}
+            {loading ? (
+              "Loading..."
+            ) : (
+              <>
+                {suggestedUsers.map(user => (
+                  <div
+                    className="suggestion-row"
+                    key={user._id}
+                    onClick={() => navigate(`/profile/${user.username}`)}>
+                    <img
+                      className="suggestion-avatar"
+                      src={user.avatar}
+                      alt={user.username}
+                    />
+                    <div className="suggestion-info">
+                      <div className="suggestion-username">{user.username}</div>
+                      <div className="suggestion-bio">{user.about1}</div>
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </aside>
 
@@ -82,40 +108,46 @@ const Dashboard = (req, res) => {
           {/* --- ACTIVITY FEED --- */}
           <div className="activity-feed dark mb-4">
             <h3 className="activity-feed-title">Personal Feed</h3>
-            {userFeed.length === 0 ? (
-              <div className="activity-feed-empty dark">
-                No recent activity yet. <br /> Start Following Users to start
-                with
-              </div>
+            {loading ? (
+              "Loading..."
             ) : (
-              <ul className="activity-feed-list dark">
-                {userFeed.map(activity => (
-                  <li
-                    className={`activity-item activity-type-${activity.type} dark`}
-                    key={activity._id}>
-                    <img
-                      className="activity-avatar"
-                      src={activity.user?.avatar || "/default-avatar.png"}
-                      alt={activity.user?.username || "User"}
-                    />
-                    <div
-                      className="activity-content"
-                      onClick={() =>
-                        navigate(`/profile/${activity.user?.username}`)
-                      }>
-                      <span className="activity-user">
-                        {activity.user?.username || "User"}
-                      </span>
-                      <span className="activity-desc">
-                        {activity.description}
-                      </span>
-                    </div>
-                    <span className="activity-time">
-                      {new Date(activity.timestamp).toLocaleString()}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              <>
+                {userFeed.length === 0 ? (
+                  <div className="activity-feed-empty dark">
+                    No recent activity yet. <br /> Start Following Users to
+                    start with
+                  </div>
+                ) : (
+                  <ul className="activity-feed-list dark">
+                    {userFeed.map(activity => (
+                      <li
+                        className={`activity-item activity-type-${activity.type} dark`}
+                        key={activity._id}>
+                        <img
+                          className="activity-avatar"
+                          src={activity.user?.avatar || "/default-avatar.png"}
+                          alt={activity.user?.username || "User"}
+                        />
+                        <div
+                          className="activity-content"
+                          onClick={() =>
+                            navigate(`/profile/${activity.user?.username}`)
+                          }>
+                          <span className="activity-user">
+                            {activity.user?.username || "User"}
+                          </span>
+                          <span className="activity-desc">
+                            {activity.description}
+                          </span>
+                        </div>
+                        <span className="activity-time">
+                          {new Date(activity.timestamp).toLocaleString()}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </>
             )}
           </div>
 

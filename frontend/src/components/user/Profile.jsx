@@ -21,6 +21,7 @@ const Profile = () => {
   const [username, setUsername] = useState("");
   const [userBio, setUserBio] = useState("");
   const [loading, setLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const tabFromUrl = searchParams.get("tab") || "overview";
   const [activeTab, setActiveTab] = useState(tabFromUrl);
@@ -38,9 +39,12 @@ const Profile = () => {
   useEffect(() => {
     if (!userName) return;
     const fetchVisitedUser = async () => {
+      setUserLoading(true);
       try {
-        const resp = await axios.get(`${apiUrl}/searchUser/${userName}`);
-        // Correct:
+        const token = localStorage.getItem("token");
+        const resp = await axios.get(`${apiUrl}/searchUser/${userName}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         const user = (resp.data.users && resp.data.users[0]) || null;
         if (user && loggedInUser) {
           user.isFollowing = loggedInUser.followedUsers?.includes(user._id);
@@ -50,6 +54,8 @@ const Profile = () => {
         setUserBio(user?.bio || "");
       } catch (error) {
         setVisitedUser(null);
+      } finally {
+        setUserLoading(false);
       }
     };
     fetchVisitedUser();
@@ -58,9 +64,12 @@ const Profile = () => {
   // Fetch logged-in user by localStorage userId
   useEffect(() => {
     const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
     if (!userId) return;
     axios
-      .get(`${apiUrl}/getUserProfile/${userId}`)
+      .get(`${apiUrl}/getUserProfile/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then(res => setLoggedInUser(res.data))
       .catch(() => setLoggedInUser(null));
   }, []);
@@ -77,10 +86,12 @@ const Profile = () => {
 
   // Edit mode handlers
   const handleEditProfile = () => setEnableEdit(prev => !prev);
+
   const handleProfileUpdation = async e => {
     e.preventDefault();
     try {
       setLoading(true);
+      const token = localStorage.getItem("token");
       const formData = new FormData();
       formData.append("username", username);
       formData.append("bio", userBio);
@@ -93,6 +104,7 @@ const Profile = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -102,7 +114,9 @@ const Profile = () => {
       setLoading(false);
     }
   };
+
   const handleImageClick = () => fileInputRef.current?.click();
+
   const handleFileChange = e => {
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
@@ -113,10 +127,12 @@ const Profile = () => {
     if (!loggedInUser?._id || !visitedUserId) return;
     setLoading(true);
     try {
-      await axios.post(`${apiUrl}/toggleFollow/${visitedUserId}`, {
-        loggedInUserId: loggedInUser._id,
-      });
-      // Optimistically update loggedInUser state too:
+      const token = localStorage.getItem("token");
+      await axios.post(
+        `${apiUrl}/toggleFollow/${visitedUserId}`,
+        { loggedInUserId: loggedInUser._id },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setLoggedInUser(prev => {
         if (!prev) return prev;
         let updated;
@@ -134,8 +150,7 @@ const Profile = () => {
           };
         }
         return updated;
-      });
-      // For visitedUser followers count:
+      }); // For visitedUser followers count:
       setVisitedUser(prev => {
         if (!prev) return prev;
         let updated;
@@ -162,173 +177,182 @@ const Profile = () => {
     }
   };
 
-  // Loading or error fallback
-  if (!visitedUser)
+  if (userLoading) {
+    return (
+      <div className="blankPage">
+        <h1>Loading...</h1>
+      </div>
+    );
+  } else if (!visitedUser) {
     return (
       <div className="profile-page-wrapper">
         <NavBar />
         User not found.
       </div>
     );
-
-  return (
-    <>
-      <NavBar />
-      <UnderlineNav aria-label="Repository">
-        <UnderlineNav.Item
-          aria-current={activeTab === "overview" ? "page" : undefined}
-          icon="book"
-          onClick={() => handleTabChange("overview")}
-          sx={{ backgroundColor: "transparent", color: "white" }}>
-          Overview
-        </UnderlineNav.Item>
-        {canEdit ? (
+  } else {
+    return (
+      <>
+        <NavBar />
+        <UnderlineNav aria-label="Repository">
           <UnderlineNav.Item
-            aria-current={activeTab === "repos" ? "page" : undefined}
-            icon="repo"
-            onClick={() => handleTabChange("repos")}
-            sx={{ backgroundColor: "transparent", color: "whitesmoke" }}>
-            Your Repositories
+            aria-current={activeTab === "overview" ? "page" : undefined}
+            icon="book"
+            onClick={() => handleTabChange("overview")}
+            sx={{ backgroundColor: "transparent", color: "white" }}>
+            Overview
           </UnderlineNav.Item>
-        ) : (
+          {canEdit ? (
+            <UnderlineNav.Item
+              aria-current={activeTab === "repos" ? "page" : undefined}
+              icon="repo"
+              onClick={() => handleTabChange("repos")}
+              sx={{ backgroundColor: "transparent", color: "whitesmoke" }}>
+              Your Repositories
+            </UnderlineNav.Item>
+          ) : (
+            <UnderlineNav.Item
+              aria-current={activeTab === "repos" ? "page" : undefined}
+              icon="repo"
+              onClick={() => handleTabChange("repos")}
+              sx={{ backgroundColor: "transparent", color: "whitesmoke" }}>
+              Repositories
+            </UnderlineNav.Item>
+          )}
           <UnderlineNav.Item
-            aria-current={activeTab === "repos" ? "page" : undefined}
-            icon="repo"
-            onClick={() => handleTabChange("repos")}
+            aria-current={activeTab === "starred" ? "page" : undefined}
+            icon="star"
+            onClick={() => handleTabChange("starred")}
             sx={{ backgroundColor: "transparent", color: "whitesmoke" }}>
-            Repositories
+            Starred Repositories
           </UnderlineNav.Item>
-        )}
-        <UnderlineNav.Item
-          aria-current={activeTab === "starred" ? "page" : undefined}
-          icon="star"
-          onClick={() => handleTabChange("starred")}
-          sx={{ backgroundColor: "transparent", color: "whitesmoke" }}>
-          Starred Repositories
-        </UnderlineNav.Item>
-      </UnderlineNav>
+        </UnderlineNav>
 
-      <div className="profile-page-wrapper">
-        {!enableEdit ? (
-          <div className="user-profile-section">
-            <div className="profile-image">
-              <img
-                src={visitedUser.avatar || "/default-avatar.png"}
-                alt="avatar"
-              />
-            </div>
-            <div className="name">
-              <h3>{visitedUser.username}</h3>
-              <p>{visitedUser.bio}</p>
-            </div>
-            {canEdit ? (
-              <button className="follow-btn" onClick={handleEditProfile}>
-                Edit Profile
-              </button>
-            ) : (
-              <button
-                className="follow-btn"
-                onClick={e => {
-                  handleFollowToggle(visitedUser._id, visitedUser.isFollowing);
-                }}>
-                {loading
-                  ? "Loading..."
-                  : visitedUser.isFollowing
-                  ? "Following"
-                  : "Follow"}
-              </button>
-            )}
-            <div className="follower">
-              <p>{visitedUser.followers?.length || 0} Followers</p>
-              <p> | </p>
-              <p>{visitedUser.followedUsers?.length || 0} Following</p>
-            </div>
-          </div>
-        ) : (
-          <form action="" className="userUpdate-form">
-            <div className="user-edit-profile-section">
+        <div className="profile-page-wrapper">
+          {!enableEdit ? (
+            <div className="user-profile-section">
               <div className="profile-image">
-                <input
-                  type="file"
-                  id="upload"
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                  style={{ display: "none" }}
-                />
                 <img
-                  src={
-                    selectedFile
-                      ? URL.createObjectURL(selectedFile)
-                      : visitedUser.avatar
-                  }
+                  src={visitedUser.avatar || "/default-avatar.png"}
                   alt="avatar"
-                  onClick={handleImageClick}
-                  style={{ cursor: "pointer" }}
                 />
               </div>
               <div className="name">
-                <label htmlFor="username">Username:</label>
-                <input
-                  type="text"
-                  id="username"
-                  value={username}
-                  onChange={e => setUsername(e.target.value)}
-                  required
-                />
-                <label htmlFor="userBio">Bio:</label>
-                <textarea
-                  placeholder="Write something..."
-                  id="userBio"
-                  value={userBio}
-                  maxLength={300}
-                  rows={4}
-                  onChange={e => setUserBio(e.target.value)}></textarea>
-                <p className="text-secondary fs-6 text fw-lighter">
-                  {userBio.length}/300 characters
-                </p>
+                <h3>{visitedUser.username}</h3>
+                <p>{visitedUser.bio}</p>
               </div>
-              <div className="saving-btns d-flex justify-content-center align-items-center gap-3 mt-2">
-                <button
-                  type="button"
-                  className="btn btn-success"
-                  disabled={loading}
-                  onClick={handleProfileUpdation}>
-                  {loading ? "Loading..." : "Save"}
+              {canEdit ? (
+                <button className="follow-btn" onClick={handleEditProfile}>
+                  Edit Profile
                 </button>
+              ) : (
                 <button
-                  className="btn btn-secondary"
-                  onClick={handleEditProfile}>
-                  Cancel
+                  className="follow-btn"
+                  onClick={e => {
+                    handleFollowToggle(
+                      visitedUser._id,
+                      visitedUser.isFollowing
+                    );
+                  }}>
+                  {loading
+                    ? "Loading..."
+                    : visitedUser.isFollowing
+                    ? "Following"
+                    : "Follow"}
                 </button>
-              </div>
+              )}
               <div className="follower">
                 <p>{visitedUser.followers?.length || 0} Followers</p>
                 <p> | </p>
                 <p>{visitedUser.followedUsers?.length || 0} Following</p>
               </div>
             </div>
-          </form>
-        )}
+          ) : (
+            <form action="" className="userUpdate-form">
+              <div className="user-edit-profile-section">
+                <div className="profile-image">
+                  <input
+                    type="file"
+                    id="upload"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    style={{ display: "none" }}
+                  />
+                  <img
+                    src={
+                      selectedFile
+                        ? URL.createObjectURL(selectedFile)
+                        : visitedUser.avatar
+                    }
+                    alt="avatar"
+                    onClick={handleImageClick}
+                    style={{ cursor: "pointer" }}
+                  />
+                </div>
+                <div className="name">
+                  <label htmlFor="username">Username:</label>
+                  <input
+                    type="text"
+                    id="username"
+                    value={username}
+                    onChange={e => setUsername(e.target.value)}
+                    required
+                  />
+                  <label htmlFor="userBio">Bio:</label>
+                  <textarea
+                    placeholder="Write something..."
+                    id="userBio"
+                    value={userBio}
+                    maxLength={300}
+                    rows={4}
+                    onChange={e => setUserBio(e.target.value)}></textarea>
+                  <p className="text-secondary fs-6 text fw-lighter">
+                    {userBio.length}/300 characters
+                  </p>
+                </div>
+                <div className="saving-btns d-flex justify-content-center align-items-center gap-3 mt-2">
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    disabled={loading}
+                    onClick={handleProfileUpdation}>
+                    {loading ? "Loading..." : "Save"}
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={handleEditProfile}>
+                    Cancel
+                  </button>
+                </div>
+                <div className="follower">
+                  <p>{visitedUser.followers?.length || 0} Followers</p>
+                  <p> | </p>
+                  <p>{visitedUser.followedUsers?.length || 0} Following</p>
+                </div>
+              </div>
+            </form>
+          )}
 
-        <div className="right-section">
-          {activeTab === "overview" && (
-            <Overview user={visitedUser} canEdit={canEdit} apiUrl={apiUrl} />
-          )}
-          {activeTab === "repos" && (
-            <UserRepos user={visitedUser} isOwner={canEdit} apiUrl={apiUrl} />
-          )}
-          {activeTab === "starred" && (
-            <StarRepos
-              userId={visitedUser._id}
-              canEdit={canEdit}
-              apiUrl={apiUrl}
-            />
-          )}
+          <div className="right-section">
+            {activeTab === "overview" && (
+              <Overview user={visitedUser} canEdit={canEdit} apiUrl={apiUrl} />
+            )}
+            {activeTab === "repos" && (
+              <UserRepos user={visitedUser} isOwner={canEdit} apiUrl={apiUrl} />
+            )}
+            {activeTab === "starred" && (
+              <StarRepos
+                userId={visitedUser._id}
+                canEdit={canEdit}
+                apiUrl={apiUrl}
+              />
+            )}
+          </div>
         </div>
-      </div>
-      <Footer />
-    </>
-  );
+        <Footer />
+      </>
+    );
+  }
 };
 
 export default Profile;

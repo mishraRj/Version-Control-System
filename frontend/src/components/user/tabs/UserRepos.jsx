@@ -11,11 +11,16 @@ const UserRepos = ({ user, isOwner, apiUrl }) => {
   const [filterType, setFilterType] = useState("all");
 
   useEffect(() => {
-    // const userId = localStorage.getItem("userId");
-
     const fetchRepositories = async () => {
       try {
-        const response = await fetch(`${apiUrl}/repo/user/${user._id}`);
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${apiUrl}/repo/user/${user._id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         const data = await response.json();
         console.log(data);
         setRepositories(data.repositories);
@@ -55,9 +60,17 @@ const UserRepos = ({ user, isOwner, apiUrl }) => {
     const userId = localStorage.getItem("userId");
     if (!userId) return;
 
+    const token = localStorage.getItem("token");
+
     const fetchStarred = async () => {
       try {
-        const res = await fetch(`${apiUrl}/repo/starred/${userId}`);
+        const res = await fetch(`${apiUrl}/repo/starred/${userId}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         const data = await res.json();
         setStarredRepos((data.starRepos || []).map(id => id.toString()));
       } catch (err) {
@@ -74,16 +87,20 @@ const UserRepos = ({ user, isOwner, apiUrl }) => {
     if (!userId) return;
 
     const isStarred = starredRepos.includes(repoId.toString());
+    const token = localStorage.getItem("token");
 
     try {
       const res = await fetch(`${apiUrl}/repo/${repoId}/star`, {
         method: isStarred ? "DELETE" : "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ userId }),
       });
 
       if (!res.ok) {
-        const errorText = await res.text(); // fallback if not JSON
+        const errorText = await res.text();
         throw new Error(`HTTP ${res.status}: ${errorText}`);
       }
 

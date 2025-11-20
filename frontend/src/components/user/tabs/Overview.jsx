@@ -39,16 +39,22 @@ const Overview = ({ user, canEdit, apiUrl }) => {
 
   const handleReadMeUpdation = async e => {
     e.preventDefault();
-
     try {
       setLoading(true);
-      const res = await axios.put(`${apiUrl}/updateUserProfile/${user._id}`, {
-        about1: userAbout1,
-        about2: userAbout2,
-        about3: userAbout3,
-        skills: userSkills,
-        caption: userCaption,
-      });
+      const token = localStorage.getItem("token");
+      const res = await axios.put(
+        `${apiUrl}/updateUserProfile/${user._id}`,
+        {
+          about1: userAbout1,
+          about2: userAbout2,
+          about3: userAbout3,
+          skills: userSkills,
+          caption: userCaption,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       window.location.href = `/profile/${user.username}`;
     } catch (err) {
       console.error(err);
@@ -56,6 +62,7 @@ const Overview = ({ user, canEdit, apiUrl }) => {
       setLoading(false);
     }
   };
+
   return (
     <>
       <div className="overview-container">

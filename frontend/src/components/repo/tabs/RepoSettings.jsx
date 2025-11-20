@@ -12,11 +12,19 @@ const RepoSettings = ({ apiUrl }) => {
   const [repositoryName, setRepositoryName] = useState("");
   const [repoDescription, setRepoDescription] = useState("");
   const [loading, setLoading] = useState(false);
+
   // Fetch Repo
   useEffect(() => {
     const fetchRepository = async () => {
       try {
-        const response = await fetch(`${apiUrl}/repo/name/${repoName}`);
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${apiUrl}/repo/name/${repoName}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
         const data = await response.json();
         const repoData = Array.isArray(data) ? data[0] : data;
         setRepo(repoData);
@@ -36,14 +44,19 @@ const RepoSettings = ({ apiUrl }) => {
 
   //Fetch User Details
   const [userDetails, setUserDetails] = useState({ username: "username" });
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       const userId = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
 
       if (userId) {
         try {
           const response = await axios.get(
-            `${apiUrl}/getUserProfile/${userId}`
+            `${apiUrl}/getUserProfile/${userId}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
           );
           setUserDetails(response.data);
         } catch (err) {
@@ -51,22 +64,29 @@ const RepoSettings = ({ apiUrl }) => {
         }
       }
     };
+
     fetchUserDetails();
   }, []);
 
   const handleRepoUpdation = async e => {
     e.preventDefault();
-
     try {
       setLoading(true);
+      const token = localStorage.getItem("token");
       console.log({
         name: repositoryName,
         description: repoDescription,
       });
-      const res = await axios.put(`${apiUrl}/repo/update/${repo._id}`, {
-        name: repositoryName,
-        description: repoDescription,
-      });
+      const res = await axios.put(
+        `${apiUrl}/repo/update/${repo._id}`,
+        {
+          name: repositoryName,
+          description: repoDescription,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       window.location.href = `/profile/${userDetails.username}`;
     } catch (err) {
       console.error(err);
@@ -77,10 +97,12 @@ const RepoSettings = ({ apiUrl }) => {
 
   const handleRepoDeletion = async e => {
     e.preventDefault();
-
     try {
       setLoading(true);
-      const res = await axios.delete(`${apiUrl}/repo/delete/${repo._id}`);
+      const token = localStorage.getItem("token");
+      const res = await axios.delete(`${apiUrl}/repo/delete/${repo._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       window.location.href = `/profile/${userDetails.username}`;
     } catch (err) {
       console.error(err);
@@ -88,12 +110,19 @@ const RepoSettings = ({ apiUrl }) => {
       setLoading(false);
     }
   };
+
   const handleRepoVisibility = async e => {
     e.preventDefault();
-
     try {
       setLoading(true);
-      const res = await axios.patch(`${apiUrl}/repo/toggle/${repo._id}`);
+      const token = localStorage.getItem("token");
+      const res = await axios.patch(
+        `${apiUrl}/repo/toggle/${repo._id}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       window.location.href = `/profile/${userDetails.username}`;
     } catch (err) {
       console.error(err);

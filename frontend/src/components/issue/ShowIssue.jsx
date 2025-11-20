@@ -21,6 +21,7 @@ const ShowIssue = ({
   const handleToggleStatus = async () => {
     setLoading(true);
     try {
+      const token = localStorage.getItem("token");
       const newStatus = localIssue.status === "open" ? "closed" : "open";
       const response = await axios.put(
         `${apiUrl}/issue/update/${localIssue._id}`,
@@ -28,6 +29,9 @@ const ShowIssue = ({
           title: localIssue.title,
           description: localIssue.description,
           status: newStatus,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       setLocalIssue(
@@ -43,12 +47,16 @@ const ShowIssue = ({
   const handleEditSave = async () => {
     setLoading(true);
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.put(
         `${apiUrl}/issue/update/${localIssue._id}`,
         {
           title: editTitle,
           description: editDesc,
           status: localIssue.status,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       setLocalIssue(
@@ -76,9 +84,12 @@ const ShowIssue = ({
     e.preventDefault();
     try {
       setLoading(true);
-      await axios.delete(`${apiUrl}/issue/delete/${issue._id}`);
+      const token = localStorage.getItem("token");
+      await axios.delete(`${apiUrl}/issue/delete/${issue._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setShowDeleteModal(false);
-      if (onDeleteIssue) onDeleteIssue(); // switch to issue list and reload list
+      if (onDeleteIssue) onDeleteIssue();
     } catch (err) {
       console.error(err);
       alert("Issue Deletion Failed!");
