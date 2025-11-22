@@ -11,8 +11,6 @@ const Code = ({ userAvatar, resetSectionSignal, canEdit, apiUrl }) => {
   const [showCode, setShowCode] = useState(false);
   const [selectedFileData, setSelectedFileData] = useState(null);
 
-  console.log(userAvatar);
-
   // Fetch Repo
   useEffect(() => {
     const fetchRepository = async () => {

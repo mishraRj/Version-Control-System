@@ -88,25 +88,6 @@ const CreateRepo = () => {
           <div className="general-section">
             <h4>General</h4>
             <div className="general-content mt-2">
-              {/* <div className="owner-box">
-                <label htmlFor="ownerName">Owner*</label>
-                <div className="dropdown" id="ownerName">
-                  <button
-                    className="btn btn-secondary dropdown-toggle owner-btn"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    username
-                  </button>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        current owner
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div> */}
               <div className="repoName-box">
                 <label htmlFor="input-field">Repository name *</label>
                 <input
@@ -180,52 +161,6 @@ const CreateRepo = () => {
                   </p>
                 </div>
               </div>
-
-              {/* .gitignore */}
-              {/* <div className="config-item">
-              <div className="main-content">
-                <label className="config-label">Add .gitignore</label>
-                <select className="config-select">
-                  <option value="none">No .gitignore</option>
-                  <option value="node">Node</option>
-                  <option value="python">Python</option>
-                  <option value="java">Java</option>
-                </select>
-              </div>
-              <div className="subpara">
-                <p className="text-secondary">
-                  .gitignore tells git which files not to track.{" "}
-                  <a
-                    href="https://docs.github.com/en/get-started/git-basics/ignoring-files"
-                    target="_blanket">
-                    About ignoring files
-                  </a>
-                </p>
-              </div>
-            </div> */}
-
-              {/* License */}
-              {/* <div className="config-item">
-              <div className="main-content">
-                <label className="config-label">Add license</label>
-                <select className="config-select">
-                  <option value="none">No license</option>
-                  <option value="mit">MIT License</option>
-                  <option value="apache">Apache 2.0</option>
-                  <option value="gpl">GNU GPL v3</option>
-                </select>
-              </div>
-              <div className="sub-para">
-                <p className="text-secondary">
-                  Licenses explain how others can use your code.{" "}
-                  <a
-                    href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository"
-                    target="_blank">
-                    About licenses
-                  </a>
-                </p>
-              </div>
-            </div> */}
             </div>
           </div>
 

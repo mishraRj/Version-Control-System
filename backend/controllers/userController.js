@@ -135,9 +135,8 @@ const updateUserProfile = async (req, res) => {
     ) {
       try {
         await cloudinary.uploader.destroy(existingUser.avatarPublicId);
-        // (log if you want)
       } catch (err) {
-        // Optional: log if needed
+        console.log("error while updating", err);
       }
     }
 

@@ -20,7 +20,6 @@ const Dashboard = (req, res) => {
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token"); // JWT from login
-    console.log("TOKEN →", token);
     const fetchFeed = async () => {
       setLoading(true);
       try {

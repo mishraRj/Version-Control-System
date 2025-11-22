@@ -19,7 +19,6 @@ const Search = () => {
   // Get search term from URL on mount/update (react-router v6)
   const searchTerm = new URLSearchParams(location.search).get("q") || "";
 
-  // Always update input box too
   useEffect(() => {
     setSearchValue(searchTerm);
   }, [searchTerm]);

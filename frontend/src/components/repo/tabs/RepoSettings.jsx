@@ -73,10 +73,6 @@ const RepoSettings = ({ apiUrl }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      console.log({
-        name: repositoryName,
-        description: repoDescription,
-      });
       const res = await axios.put(
         `${apiUrl}/repo/update/${repo._id}`,
         {

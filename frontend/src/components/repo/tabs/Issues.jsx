@@ -10,11 +10,10 @@ const Issues = ({ userAvatar, resetSectionSignal, canEdit, user, apiUrl }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [repo, setRepo] = useState({});
-  const [issues, setIssues] = useState([]); // Array, not single object
+  const [issues, setIssues] = useState([]);
   const [activeSection, setActiveSection] = useState("list"); // "list" | "create" | "single"
   const [selectedIssue, setSelectedIssue] = useState(null); // used for single view
 
-  // const [loading, setLoading] = useState(false);
   // Fetch Repo
   useEffect(() => {
     const fetchRepository = async () => {

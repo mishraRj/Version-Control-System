@@ -32,7 +32,7 @@ const ShowRepo = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    setActiveTab(tabFromUrl); // url change hote hi tab update
+    setActiveTab(tabFromUrl); // Tab updates as per URL change
   }, [tabFromUrl]);
 
   const handleTabChange = tab => {
