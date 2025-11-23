@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import HeatMapProfile from "../Heatmap";
 import "./CSS/overview.css";
 import { PencilIcon } from "@primer/octicons-react";
 
-const Overview = ({ user, canEdit, apiUrl }) => {
+const Overview = ({ user, canEdit, apiUrl, refreshUser }) => {
   // const [user, setuser] = useState({ username: "username" });
+  const navigate = useNavigate();
   const [enableEdit, setEnableEdit] = useState(false);
   const [userAbout1, setUserAbout1] = useState();
   const [userAbout2, setUserAbout2] = useState();
@@ -13,6 +15,7 @@ const Overview = ({ user, canEdit, apiUrl }) => {
   const [userSkills, setUserSkills] = useState();
   const [userCaption, setUserCaption] = useState();
   const [loading, setLoading] = useState(false);
+  const [readeMeTrigger, setReadMeTrigger] = useState(0);
 
   // Set Data
   useEffect(() => {
@@ -30,13 +33,28 @@ const Overview = ({ user, canEdit, apiUrl }) => {
       }
     };
     setData();
-  }, [user._id]);
+  }, [user._id, readeMeTrigger]);
 
   // ✏️ Toggle edit mode
   const handleEditReadme = () => {
     setEnableEdit(prev => !prev);
   };
 
+  const updating = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.get(`${apiUrl}/getUserProfile/${user._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUserAbout1(res.data.about1);
+      setUserAbout2(res.data.about2);
+      setUserAbout3(res.data.about3);
+      setUserSkills(res.data.skills);
+      setUserCaption(res.data.caption);
+    } catch (err) {
+      console.error("Could not re-fetch user after update", err);
+    }
+  };
   const handleReadMeUpdation = async e => {
     e.preventDefault();
     try {
@@ -55,10 +73,15 @@ const Overview = ({ user, canEdit, apiUrl }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      window.location.href = `/profile/${user.username}`;
+      setReadMeTrigger(prev => prev + 1);
+      setEnableEdit(false);
+      if (typeof refreshUser === "function") {
+        await refreshUser(); // Parent state update hogi
+      }
     } catch (err) {
       console.error(err);
       alert("Repo updation Failed!");
+    } finally {
       setLoading(false);
     }
   };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import NavBar from "../NavBar";
 import { UnderlineNav } from "@primer/react";
 import Overview from "./tabs/Overview";
@@ -11,6 +11,7 @@ import Footer from "../Footer";
 
 const Profile = () => {
   const { userName } = useParams();
+  const navigate = useNavigate();
   const [visitedUser, setVisitedUser] = useState(null); // user being viewed
   const [loggedInUser, setLoggedInUser] = useState(null); // session user
 
@@ -21,6 +22,7 @@ const Profile = () => {
   const [username, setUsername] = useState("");
   const [userBio, setUserBio] = useState("");
   const [loading, setLoading] = useState(false);
+  const [followLoading, setFollowLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const tabFromUrl = searchParams.get("tab") || "overview";
@@ -35,29 +37,31 @@ const Profile = () => {
     setActiveTab(tabFromUrl);
   }, [tabFromUrl]);
 
+  const fetchVisitedUser = async () => {
+    setUserLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const resp = await axios.get(`${apiUrl}/searchUser/${userName}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const user = (resp.data.users && resp.data.users[0]) || null;
+      if (user && loggedInUser) {
+        user.isFollowing = loggedInUser.followedUsers?.includes(user._id);
+      }
+      setVisitedUser(user);
+      setUsername(user?.username || "");
+      setUserBio(user?.bio || "");
+    } catch (error) {
+      setVisitedUser(null);
+    } finally {
+      setUserLoading(false);
+    }
+  };
+
   // Fetch visited user details by username param
   useEffect(() => {
     if (!userName) return;
-    const fetchVisitedUser = async () => {
-      setUserLoading(true);
-      try {
-        const token = localStorage.getItem("token");
-        const resp = await axios.get(`${apiUrl}/searchUser/${userName}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const user = (resp.data.users && resp.data.users[0]) || null;
-        if (user && loggedInUser) {
-          user.isFollowing = loggedInUser.followedUsers?.includes(user._id);
-        }
-        setVisitedUser(user);
-        setUsername(user?.username || "");
-        setUserBio(user?.bio || "");
-      } catch (error) {
-        setVisitedUser(null);
-      } finally {
-        setUserLoading(false);
-      }
-    };
+
     fetchVisitedUser();
   }, [userName, loggedInUser, followTrigger]);
 
@@ -108,10 +112,12 @@ const Profile = () => {
           },
         }
       );
-      window.location.href = `/profile/${username}`;
+      navigate(`/profile/${username}`);
     } catch (err) {
       alert("User updation Failed!");
+    } finally {
       setLoading(false);
+      handleEditProfile();
     }
   };
 
@@ -125,7 +131,7 @@ const Profile = () => {
 
   const handleFollowToggle = async (visitedUserId, currentlyFollowing) => {
     if (!loggedInUser?._id || !visitedUserId) return;
-    setLoading(true);
+    setFollowLoading(true);
     try {
       const token = localStorage.getItem("token");
       await axios.post(
@@ -170,10 +176,11 @@ const Profile = () => {
           isFollowing: !currentlyFollowing,
         };
       });
-      setLoading(false);
+      setFollowTrigger(prev => prev + 1);
     } catch (err) {
       console.error("Cannot follow/unfollow user: ", err);
-      setLoading(false);
+    } finally {
+      setFollowLoading(false);
     }
   };
 
@@ -253,7 +260,7 @@ const Profile = () => {
                       visitedUser.isFollowing
                     );
                   }}>
-                  {loading
+                  {followLoading
                     ? "Loading..."
                     : visitedUser.isFollowing
                     ? "Following"
@@ -334,7 +341,12 @@ const Profile = () => {
 
           <div className="right-section">
             {activeTab === "overview" && (
-              <Overview user={visitedUser} canEdit={canEdit} apiUrl={apiUrl} />
+              <Overview
+                user={visitedUser}
+                canEdit={canEdit}
+                apiUrl={apiUrl}
+                refreshUser={fetchVisitedUser}
+              />
             )}
             {activeTab === "repos" && (
               <UserRepos user={visitedUser} isOwner={canEdit} apiUrl={apiUrl} />

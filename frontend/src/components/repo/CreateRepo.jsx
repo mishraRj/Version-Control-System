@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./CreateRepo.css";
+import { useNavigate } from "react-router-dom";
 import NavBar from "../NavBar";
 import Footer from "../Footer";
 
 const CreateRepo = () => {
   // Fetching Current User
+  const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({ username: "username" });
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -62,10 +64,11 @@ const CreateRepo = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      window.location.href = `/profile/${userDetails.username}`;
+      navigate(`/profile/${userDetails.username}`);
     } catch (err) {
       console.error(err);
       alert("Repo Creation Failed!");
+    } finally {
       setLoading(false);
     }
   };

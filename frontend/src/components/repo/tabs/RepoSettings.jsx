@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../CreateRepo.css";
 import DeleteRepoModal from "./DeleteRepoModal";
 import ChangeVisibilityModal from "./ChangeVisibilityModal";
 
 const RepoSettings = ({ apiUrl }) => {
   const { repoName } = useParams();
+  const navigate = useNavigate();
   const [repo, setRepo] = useState({});
   // Fetching Repo Details
   const [repositoryName, setRepositoryName] = useState("");
@@ -83,10 +84,11 @@ const RepoSettings = ({ apiUrl }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      window.location.href = `/profile/${userDetails.username}`;
+      navigate(`/profile/${userDetails.username}`);
     } catch (err) {
       console.error(err);
       alert("Repo updation Failed!");
+    } finally {
       setLoading(false);
     }
   };
@@ -99,10 +101,11 @@ const RepoSettings = ({ apiUrl }) => {
       const res = await axios.delete(`${apiUrl}/repo/delete/${repo._id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      window.location.href = `/profile/${userDetails.username}`;
+      navigate(`/profile/${userDetails.username}`);
     } catch (err) {
       console.error(err);
       alert("Repo Deletion Failed!");
+    } finally {
       setLoading(false);
     }
   };
@@ -119,10 +122,11 @@ const RepoSettings = ({ apiUrl }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      window.location.href = `/profile/${userDetails.username}`;
+      navigate(`/profile/${userDetails.username}`);
     } catch (err) {
       console.error(err);
       alert("Repo Visibility Toggle Failed!");
+    } finally {
       setLoading(false);
     }
   };
