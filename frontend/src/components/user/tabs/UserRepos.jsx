@@ -9,9 +9,12 @@ const UserRepos = ({ user, isOwner, apiUrl }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [filterType, setFilterType] = useState("all");
+  const [repoLoading, setRepoLoading] = useState(false);
 
+  // fetch repos
   useEffect(() => {
     const fetchRepositories = async () => {
+      setRepoLoading(true);
       try {
         const token = localStorage.getItem("token");
         const response = await fetch(`${apiUrl}/repo/user/${user._id}`, {
@@ -25,6 +28,8 @@ const UserRepos = ({ user, isOwner, apiUrl }) => {
         setRepositories(data.repositories);
       } catch (err) {
         console.log("Error while passing repositories", err);
+      } finally {
+        setRepoLoading(false);
       }
     };
 
@@ -54,7 +59,7 @@ const UserRepos = ({ user, isOwner, apiUrl }) => {
 
   const [starredRepos, setStarredRepos] = useState([]);
 
-  // ⭐ Fetch starred repos once on mount
+  //  Fetch starred repos once on mount
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (!userId) return;
@@ -80,7 +85,7 @@ const UserRepos = ({ user, isOwner, apiUrl }) => {
     fetchStarred();
   }, []);
 
-  // ⭐ Toggle star
+  //  Toggle star
   const toggleStar = async repoId => {
     const userId = localStorage.getItem("userId");
     if (!userId) return;
@@ -181,55 +186,61 @@ const UserRepos = ({ user, isOwner, apiUrl }) => {
             <></>
           )}
         </div>
-        {searchResults
-          .filter(repo => {
-            if (isOwner) {
-              // Owner: show all repos
-              return true;
-            } else {
-              // Not owner: only show public repos
-              return repo.visibility !== "private";
-            }
-          })
-          .map(repo => (
-            <div
-              key={repo._id}
-              style={{
-                borderBottom: "0.5px solid #3d444db3",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "0.5rem 0",
-              }}>
-              <Link to={`/${user.username}/${repo.name}`}>
-                <div className="repoName">
-                  <h4 className="text-primary">{repo.name}</h4>
-                  <p className="text-secondary fs-6 fw-medium">
-                    {repo.description}
-                  </p>
-                </div>
-              </Link>
-              {isOwner ? (
+        {repoLoading ? (
+          "Loading..."
+        ) : (
+          <>
+            {searchResults
+              .filter(repo => {
+                if (isOwner) {
+                  // Owner: show all repos
+                  return true;
+                } else {
+                  // Not owner: only show public repos
+                  return repo.visibility !== "private";
+                }
+              })
+              .map(repo => (
                 <div
-                  onClick={() => toggleStar(repo._id)}
+                  key={repo._id}
                   style={{
-                    cursor: "pointer",
-                    color: starredRepos.includes(repo._id.toString())
-                      ? "gold"
-                      : "white",
-                    marginLeft: "1rem",
+                    borderBottom: "0.5px solid #3d444db3",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "0.5rem 0",
                   }}>
-                  {starredRepos.includes(repo._id.toString()) ? (
-                    <StarFillIcon size={20} />
+                  <Link to={`/${user.username}/${repo.name}`}>
+                    <div className="repoName">
+                      <h4 className="text-primary">{repo.name}</h4>
+                      <p className="text-secondary fs-6 fw-medium">
+                        {repo.description}
+                      </p>
+                    </div>
+                  </Link>
+                  {isOwner ? (
+                    <div
+                      onClick={() => toggleStar(repo._id)}
+                      style={{
+                        cursor: "pointer",
+                        color: starredRepos.includes(repo._id.toString())
+                          ? "gold"
+                          : "white",
+                        marginLeft: "1rem",
+                      }}>
+                      {starredRepos.includes(repo._id.toString()) ? (
+                        <StarFillIcon size={20} />
+                      ) : (
+                        <StarIcon size={20} />
+                      )}
+                    </div>
                   ) : (
-                    <StarIcon size={20} />
+                    <div></div>
                   )}
                 </div>
-              ) : (
-                <div></div>
-              )}
-            </div>
-          ))}
+              ))}
+          </>
+        )}
       </main>
     </>
   );

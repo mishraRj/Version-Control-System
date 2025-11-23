@@ -8,10 +8,13 @@ const StarRepos = ({ userId, canEdit, apiUrl }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [starredRepos, setStarredRepos] = useState([]);
+  const [repoLoading, setRepoLoading] = useState(false);
 
+  // fetch starred Repos
   useEffect(() => {
     const fetchStarredRepos = async () => {
       if (userId) {
+        setRepoLoading(true);
         try {
           const token = localStorage.getItem("token");
           const response = await fetch(`${apiUrl}/repo/starred/${userId}`, {
@@ -26,6 +29,8 @@ const StarRepos = ({ userId, canEdit, apiUrl }) => {
           setStarredRepos((data.starRepos || []).map(id => id.toString()));
         } catch (err) {
           console.error("Error while fetching starred repos", err);
+        } finally {
+          setRepoLoading(false);
         }
       }
     };
@@ -81,59 +86,67 @@ const StarRepos = ({ userId, canEdit, apiUrl }) => {
       <main className="middle">
         <h2>Starred Repositories</h2>
 
-        {searchResults.length === 0 ? (
-          <h1>No starred repos yet</h1>
+        {repoLoading ? (
+          "Loading..."
         ) : (
           <>
-            <div id="search" style={{ borderBottom: "0.5px solid #3d444db3" }}>
-              <input
-                type="text"
-                value={searchQuery}
-                placeholder="Find a repository..."
-                onChange={e => setSearchQuery(e.target.value)}
-                style={{ marginBottom: "10px" }}
-              />
-            </div>
+            {searchResults.length === 0 ? (
+              <h1>No starred repos yet</h1>
+            ) : (
+              <>
+                <div
+                  id="search"
+                  style={{ borderBottom: "0.5px solid #3d444db3" }}>
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    placeholder="Find a repository..."
+                    onChange={e => setSearchQuery(e.target.value)}
+                    style={{ marginBottom: "10px" }}
+                  />
+                </div>
 
-            {searchResults.map(repo => (
-              <div
-                key={repo._id}
-                style={{
-                  borderBottom: "0.5px solid #3d444db3",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "0.5rem 0",
-                }}>
-                <Link to={`/repo/${repo.name}`}>
-                  <div className="repoName">
-                    <h4 className="text-primary">{repo.name}</h4>
-                    <p className="text-secondary fs-6 fw-medium">
-                      {repo.description}
-                    </p>
-                  </div>
-                </Link>
-                {canEdit ? (
+                {searchResults.map(repo => (
                   <div
-                    onClick={() => toggleStar(repo._id)}
+                    key={repo._id}
                     style={{
-                      cursor: "pointer",
-                      color: starredRepos.includes(repo._id.toString())
-                        ? "gold"
-                        : "white",
-                      marginLeft: "1rem",
+                      borderBottom: "0.5px solid #3d444db3",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "0.5rem 0",
                     }}>
-                    {starredRepos.includes(repo._id.toString()) ? (
-                      <StarFillIcon size={20} />
+                    <Link to={`/repo/${repo.name}`}>
+                      <div className="repoName">
+                        <h4 className="text-primary">{repo.name}</h4>
+                        <p className="text-secondary fs-6 fw-medium">
+                          {repo.description}
+                        </p>
+                      </div>
+                    </Link>
+                    {canEdit ? (
+                      <div
+                        onClick={() => toggleStar(repo._id)}
+                        style={{
+                          cursor: "pointer",
+                          color: starredRepos.includes(repo._id.toString())
+                            ? "gold"
+                            : "white",
+                          marginLeft: "1rem",
+                        }}>
+                        {starredRepos.includes(repo._id.toString()) ? (
+                          <StarFillIcon size={20} />
+                        ) : (
+                          <StarIcon size={20} />
+                        )}
+                      </div>
                     ) : (
-                      <StarIcon size={20} />
+                      <div></div>
                     )}
                   </div>
-                ) : (
-                  <div></div>
-                )}
-              </div>
-            ))}
+                ))}
+              </>
+            )}
           </>
         )}
       </main>
