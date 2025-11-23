@@ -108,7 +108,7 @@ const Profile = () => {
           },
         }
       );
-      window.location.href = `/profile/${res.data.username}`;
+      window.location.href = `/profile/${username}`;
     } catch (err) {
       alert("User updation Failed!");
       setLoading(false);
