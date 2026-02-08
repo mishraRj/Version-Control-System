@@ -75,6 +75,7 @@ const Dashboard = (req, res) => {
       <NavBar onUserSearch={setSearchedUsers} />
 
       <section id="dashboard">
+        {/* left most part  */}
         <aside className="suggestions">
           <h3 className="suggestions-title">Active Users</h3>
           <div className="suggestions-list">
@@ -102,7 +103,7 @@ const Dashboard = (req, res) => {
             )}
           </div>
         </aside>
-
+        {/* middle part  */}
         <main className="middle">
           {/* --- ACTIVITY FEED --- */}
           <div className="activity-feed dark mb-4">
@@ -176,6 +177,7 @@ const Dashboard = (req, res) => {
             </p>
           </div>
         </main>
+        {/* right most side or box  */}
         <aside>
           <h3>Upcoming Events</h3>
           <ul>
