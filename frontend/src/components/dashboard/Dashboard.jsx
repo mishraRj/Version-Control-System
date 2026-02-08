@@ -42,7 +42,7 @@ const Dashboard = (req, res) => {
     fetchFeed();
   }, []);
 
-  // Fetching Suggested Users
+  // Fetching Active Users
   useEffect(() => {
     const token = localStorage.getItem("token"); // JWT from login
     const fetchSuggestedUsers = async () => {

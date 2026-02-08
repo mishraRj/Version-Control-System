@@ -61,7 +61,6 @@ const Profile = () => {
   // Fetch visited user details by username param
   useEffect(() => {
     if (!userName) return;
-
     fetchVisitedUser();
   }, [userName, loggedInUser, followTrigger]);
 
