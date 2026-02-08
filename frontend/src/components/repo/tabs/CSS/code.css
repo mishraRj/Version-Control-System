@@ -356,3 +356,191 @@
   width: 100%;
   display: block;
 }
+/* --- Mobile Responsive Repo Code View --- */
+@media screen and (max-width: 768px) {
+
+  /* 1. Main Container Padding */
+  .code-container {
+    width: 100% !important;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  /* 2. Header Adjustments */
+  .repo-header-row {
+    flex-wrap: wrap; /* Allow wrapping for very long names */
+    gap: 10px !important;
+    margin-bottom: 20px;
+  }
+
+  .repo-title {
+    font-size: 1.3rem !important;
+    word-break: break-word; /* Prevent overflow */
+  }
+
+  /* 3. Column Layout: Stack Files and About sections */
+  .row.no-gutters {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .files-column,
+  .about-column {
+    width: 100% !important;
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  /* 4. File List Styling */
+  .repo-files-list {
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 30px; /* Space between files and 'About' section */
+  }
+
+  .repo-file-row {
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Ensure rows don't cause scroll */
+    width: 100%; 
+    box-sizing: border-box;
+  }
+
+  .repo-file-name {
+    flex: 1; /* Take up available space */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add "..." if filename is too long */
+    font-size: 0.95rem;
+    color: #c9d1d9;
+  }
+
+  /* 5. Hide Commit Message on Mobile to save space */
+  .repo-commit-message {
+    display: none; 
+  }
+
+  /* Keep the Date visible but smaller */
+  .repo-commit-date {
+    font-size: 0.8rem;
+    color: #8b949e;
+    white-space: nowrap;
+  }
+
+  /* 6. Empty State (Instructions) */
+  .noFiles {
+    padding: 10px;
+  }
+  
+  .instruction-list code {
+    /* Ensure code blocks wrap nicely */
+    word-break: break-all;
+    white-space: pre-wrap;
+    font-size: 0.85rem;
+  }
+
+  /* 7. About Section (Right Column moved to bottom) */
+  .about-column {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #30363d; /* Separator line */
+  }
+
+  .about-title {
+    font-size: 1.1rem;
+    margin-top: 15px;
+  }
+
+  .about-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    word-break: break-word; /* Handle long Repo IDs */
+  }
+}
+/* --- Mobile Responsive File Viewer --- */
+@media screen and (max-width: 768px) {
+
+  /* 1. Main Container Wrapper */
+  .files-column {
+    width: 100% !important;
+    padding: 0;
+    margin-bottom: 20px;
+    overflow-x: hidden;
+  }
+
+  .showcode-wrap {
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background-color: #0d1117;
+  }
+
+  /* 2. Top Bar (Filename + Commit Message) */
+  .showcode-bar {
+    display: flex;
+    flex-direction: column; /* Stack them vertically */
+    align-items: flex-start;
+    padding: 12px;
+    gap: 8px;
+    background-color: #161b22;
+    border-bottom: 1px solid #30363d;
+  }
+
+  /* Filename line */
+  .showcode-bar > span:first-child {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .showcode-filename {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-left: 8px;
+    word-break: break-all; /* Handle long filenames like utils.test.js */
+    color: #c9d1d9;
+  }
+
+  /* Commit Message line */
+  .showcode-msg {
+    font-size: 0.9rem;
+    color: #8b949e;
+    word-break: break-word; /* Wrap long messages */
+    width: 100%;
+  }
+
+  /* 3. Meta Info (Date) */
+  .showcode-meta {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    color: #8b949e;
+    border-bottom: 1px solid #30363d;
+    background-color: #0d1117;
+  }
+
+  /* 4. Code Content Area */
+  .instructions {
+    padding: 10px;
+    overflow-x: auto; /* Enable horizontal scroll for code */
+    -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+    background-color: #0d1117; /* Ensure background matches theme */
+    border-radius: 0 0 6px 6px;
+  }
+
+  .showcode-content {
+    display: block;
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+    font-size: 0.85rem; /* readable on mobile */
+    line-height: 1.5;
+    white-space: pre; /* Keep code formatting intact */
+    color: #c9d1d9;
+    
+    /* Ensure code block is wide enough to scroll */
+    min-width: 100%; 
+  }
+}

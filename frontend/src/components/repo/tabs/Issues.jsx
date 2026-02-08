@@ -70,7 +70,8 @@ const Issues = ({ userAvatar, resetSectionSignal, canEdit, user, apiUrl }) => {
     fetchIssues();
   }, [resetSectionSignal]);
   return (
-    <>
+    <div className="issues-tab-wrapper">
+      
       {/* // 1. Default: ShowIssuesBox */}
       {activeSection === "list" && (
         <IssueList
@@ -116,7 +117,7 @@ const Issues = ({ userAvatar, resetSectionSignal, canEdit, user, apiUrl }) => {
           }}
         />
       )}
-    </>
+    </div>
   );
 };
 

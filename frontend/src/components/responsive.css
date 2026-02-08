@@ -1,0 +1,3541 @@
+/* ========================================================Auth css=============  */
+body {
+  background-color: #0d1117;
+  color: #c9d1d9;          
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  background-color: #0d1117;
+}
+
+/* =========================================
+   LOGIN WRAPPER (Centers everything)
+   ========================================= */
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   LOGO SECTION
+   ========================================= */
+.login-logo-container {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.logo-login {
+  width: 48px;
+  height: 48px;
+}
+
+/* =========================================
+   HEADING SECTION
+   ========================================= */
+.login-heading {
+  margin-bottom: 16px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-heading h1, 
+.login-heading h2 {
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: -0.5px;
+  color: #c9d1d9;
+  margin: 0;
+}
+
+/* =========================================
+   LOGIN CARD (The Box)
+   ========================================= */
+.login-box-wrapper {
+  width: 100%;
+  max-width: 350px; /* Standard width for GitHub login card */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-box {
+  background-color: #161b22; /* Card Background */
+  border: 1px solid #30363d; /* Subtle Border */
+  border-radius: 6px;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box; /* Ensures padding doesn't break width */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================================
+   INPUT FIELDS
+   ========================================= */
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #c9d1d9;
+  text-align: left;
+}
+
+.input {
+  width: 100%;
+  padding: 5px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #c9d1d9;
+  background-color: #0d1117; /* Input darker than card */
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  outline: none;
+  height: 35px;
+  transition: border-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+}
+
+.input:focus {
+  border-color: #58a6ff; /* GitHub Blue focus ring */
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+}
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+.login-btn,
+.submit-btn {
+  width: 100%;
+  background-color: #238636; /* GitHub Green */
+  color: #ffffff;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  border-radius: 6px;
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  height: 35px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-btn:hover,
+.submit-btn:hover {
+  background-color: #2ea043;
+}
+
+.login-btn:disabled {
+  background-color: #238636;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   "NEW TO GITHUB?" BOX
+   ========================================= */
+.pass-box {
+  background-color: transparent;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 15px 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #c9d1d9;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pass-box a {
+  color: #58a6ff;
+  text-decoration: none;
+}
+
+.pass-box a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================
+   MOBILE RESPONSIVE TWEAKS
+   ========================================= */
+@media screen and (max-width: 480px) {
+  
+  .login-wrapper {
+    padding: 15px;
+    justify-content: flex-start; /* Move to top on mobile */
+    padding-top: 40px;
+  }
+
+  .login-box-wrapper {
+    max-width: 100%; /* Allow full width on small screens */
+  }
+
+  /* Increase touch targets for mobile */
+  .input {
+    font-size: 16px; /* Prevents iOS zoom */
+    height: 40px;
+  }
+
+  .login-btn {
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .logo-login {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+
+
+/*=========================================Navbar==================================*/
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 10px 5px;
+  margin-bottom: 5px;
+  border-bottom: 0.5px solid #3d444db3;
+  width: 100%;
+  position: relative;
+  top: 5px;
+}
+
+.gitHubLogo {
+  width: 40px;
+  height: 40px;
+}
+.logoContainer {
+  padding-left: 20px;
+}
+
+.profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: gray;
+  margin-left: 10px;
+}
+.profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+nav img {
+  height: 50px;
+  border-radius: 100%;
+}
+nav div {
+  display: flex;
+}
+
+nav h3 {
+  margin-left: 15px;
+  color: white;
+}
+
+nav p {
+  margin-left: 50px;
+  font-weight: bold;
+  color: white;
+}
+
+nav h3:hover,
+nav p:hover {
+  text-decoration: underline;
+}
+
+.navFields {
+  display: flex;
+  width: 38%;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.search-bar {
+  background-color: transparent;
+  width: 20rem !important;
+  height: 2.5rem !important;
+  padding: 0.25rem;
+  border: 0.5px solid #30363d;
+  border-radius: 10px;
+  margin-right: 5px;
+}
+
+.repoCreate {
+  background-color: transparent;
+  width: 3rem;
+  height: 2.7rem;
+  padding: 0.4rem;
+  border: 0.5px solid #30363d;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.issueCheck {
+  background-color: transparent;
+  width: 3rem;
+  height: 2.7rem;
+  padding: 0.4rem;
+  border: 0.5px solid #30363d;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Dropdown container */
+.dropdown-menu {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  background-color: #161b22; /* GitHub dark background */
+  border: 1px solid #30363d; /* GitHub border color */
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  padding: 6px 0;
+  width: 200px;
+  z-index: 1000;
+  display: block;
+}
+
+/* Dropdown item */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #c9d1d9; /* light gray text */
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+/* Hover effect */
+.dropdown-item:hover {
+  background-color: #1f6feb; /* GitHub blue hover */
+  color: #ffffff;
+}
+
+@media screen and (max-width: 768px) {
+  nav {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px;
+    align-items: center;
+  }
+
+  .logoContainer {
+    padding-left: 5px;
+    flex-grow: 1;
+  }
+
+  nav p {
+    display: none; 
+  }
+
+  .navFields {
+    width: 100%;
+    order: 3; 
+    margin-top: 15px;
+    justify-content: space-between;
+  }
+  .search-bar {
+    width: 100% !important; 
+    flex: 1; 
+    margin-right: 8px;
+    min-width: 0; 
+  }
+  .repoCreate, 
+  .issueCheck {
+    flex-shrink: 0;
+  }
+
+  .dropdown-menu {
+    top: 130px; 
+    width: 40vw;
+    right: 5vw; 
+  }
+}
+
+/* =============================================================================Footer==========  */
+.compact-footer {
+  background: #161b22;
+  color: #8b949e;
+  padding: 0;
+  margin-top: 32px;
+  width: 100%;
+  border-top: 1px solid #21262d;
+  font-size: 1rem;
+}
+
+.compact-footer-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 0 2px 0;
+}
+
+.compact-footer-copy {
+  color: #c9d1d9;
+  font-size: 1.06rem;
+  font-weight: 600;
+}
+
+.compact-footer-social a {
+  color: #8b949e;
+  font-size: 1.25rem;
+  margin: 0 6px;
+  transition: color 0.18s;
+  vertical-align: middle;
+}
+.compact-footer-social a:hover {
+  color: #58a6ff;
+}
+
+.compact-footer-note {
+  text-align: center;
+  font-size: 0.98rem;
+  color: #7d8590;
+  padding-bottom: 7px;
+  font-style: italic;
+  margin-top: 2px;
+}
+
+/* Responsive: Footer stays tight */
+@media (max-width: 600px) {
+  .compact-footer-row {
+    flex-direction: column;
+    gap: 7px;
+    padding-left: 10px; 
+    padding-right: 10px;
+  }
+  .compact-footer-copy {
+    font-size: 1rem;
+  }
+}
+
+/*======================================================================================= Dashboard  */
+#dashboard {
+  display: grid;
+  grid-template-columns: 260px 1fr 300px; /* left, middle, right */
+  gap: 1rem;
+  padding: 1rem;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* -------- Left: Suggested Repositories -------- */
+.suggestions {
+  background: #161b22;
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  width: 100%;
+  min-width: 250px;
+  max-width: 340px;
+  color: #c9d1d9;
+  box-shadow: 0 2px 8px rgba(27, 31, 35, 0.06);
+}
+
+.suggestions-title {
+  font-size: 1.19rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: #c9d1d9;
+}
+
+.suggestions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.suggestion-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.6rem 0.7rem;
+  border-radius: 6px;
+  background: transparent;
+  transition: background 0.18s, box-shadow 0.2s;
+  cursor: pointer;
+  border: none;
+  position: relative;
+}
+
+.suggestion-row:hover {
+  background: #21262d;
+  box-shadow: 0 2px 6px rgba(56, 139, 253, 0.08);
+}
+
+.suggestion-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 0.85rem;
+  border: 2px solid #21262d;
+  background: #161b22;
+  box-shadow: 0 1px 4px rgba(27, 31, 35, 0.06);
+}
+
+.suggestion-info {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.suggestion-username {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #388bfd;
+  margin-bottom: 0.14rem;
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-all; /* 👈 THIS LINE is the key! */
+  overflow-wrap: anywhere; /* 👈 For polyfill support */
+}
+
+.suggestion-bio {
+  font-size: 0.96rem;
+  color: #8b949e;
+  font-style: italic;
+}
+
+/* -------- Middle: Feed Placeholder -------- */
+.middle {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.middle h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+#search {
+  margin-bottom: 1rem;
+}
+
+#search input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #30363d;
+  background-color: #161b22;
+  color: #c9d1d9;
+}
+
+/* -------- Right: Events -------- */
+#dashboard aside:last-child {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+#dashboard aside:last-child h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+#dashboard aside:last-child ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#dashboard aside:last-child li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #30363d;
+}
+
+#dashboard aside:last-child li:last-child {
+  border-bottom: none;
+}
+
+#dashboard aside:last-child p {
+  font-size: 13px;
+  margin: 0;
+  color: #c9d1d9;
+}
+
+.project-status-banner {
+  background: linear-gradient(92deg, #2f3543 0%, #212532 100%);
+  border: 1.5px solid #434a5a;
+  color: #d7deea;
+  border-radius: 11px;
+  padding: 24px 26px 16px 26px;
+  margin-bottom: 33px;
+  box-shadow: 0 2px 12px 0 #10121a10;
+  font-size: 1.13rem;
+  max-width: 57vw;
+}
+
+.project-status-banner ul {
+  margin: 11px 0 5px 0;
+  padding-left: 24px;
+}
+
+.project-status-banner ul li {
+  font-size: 1rem;
+  margin-bottom: 7px;
+  color: #d3eaff;
+}
+
+.status-comingsoon {
+  color: #febc2e;
+  font-weight: 600;
+  font-style: italic;
+  margin-left: 6px;
+}
+
+.project-status-banner strong {
+  color: #ffd700;
+  font-size: 1.12rem;
+  letter-spacing: 0.02em;
+}
+
+.status-note {
+  margin-top: 10px;
+  font-size: 0.99rem;
+  color: #bdbdd1;
+  opacity: 0.68;
+}
+
+.search-users-list {
+  width: 100%;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.searched-user-card {
+  width: 100%;
+  background: linear-gradient(85deg, #23283b 0%, #192030 100%);
+  border-radius: 12px;
+  box-shadow: 0 2px 18px 0 #161a2242;
+  border: 1.8px solid #2d3346;
+  padding: 10px 16px 7px 14px;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.19s, border 0.17s, background 0.19s;
+  cursor: pointer;
+  min-height: 74px;
+}
+.searched-user-card:hover {
+  border-color: #4b92fa;
+  background: linear-gradient(92deg, #25355b 0%, #202a40 100%);
+  box-shadow: 0 4px 22px 0 #23396b31;
+}
+
+.usercard-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 7px;
+}
+
+.usercard-avatar {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #2e3c5b;
+  box-shadow: 0 0 0 1.3px #3d4665;
+  background: #232c3d;
+}
+
+.searched-user-username {
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: #e3e8f7;
+  letter-spacing: 0.04em;
+  transition: color 0.19s;
+}
+
+.searched-user-card:hover .searched-user-username {
+  color: #4b92fa;
+}
+
+.searched-user-bio {
+  font-size: 1.02rem;
+  color: #bac2da;
+  margin-left: 4px;
+  opacity: 0.85;
+  margin-top: 1px;
+  margin-bottom: 0;
+  font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+}
+
+.userBtns {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 8px;
+  /* Keep at right end of parent div */
+}
+
+.userBtns button {
+  background: linear-gradient(90deg, #23283b 0%, #2f3c53 100%);
+  color: #e3ecfa;
+  border: 1.5px solid #3c475d;
+  border-radius: 7px;
+  padding: 6px 26px;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  box-shadow: 0 1px 7px 0 #292f3d1a;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.15s, border 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+.userBtns button:first-child {
+  background: linear-gradient(92deg, #4869ec 0%, #304465 100%);
+  color: #fff;
+  border-color: #4762d9;
+}
+
+.userBtns .following-btn {
+  background: linear-gradient(85deg, #22a5f7 0%, #2767c5 100%);
+  color: #fff;
+  border: 1.8px solid #3296eb;
+  padding: 6px 26px;
+  font-size: 1rem;
+  border-radius: 7px;
+  font-weight: 600;
+  outline: none;
+  transition: background 0.15s, border 0.15s, color 0.15s, box-shadow 0.15s;
+  box-shadow: 0 1px 7px 0 #345d921c;
+  cursor: pointer;
+}
+
+.userBtns .following-btn:hover,
+.following-btn:focus {
+  background: linear-gradient(92deg, #1482c3 0%, #1591ed 100%);
+  border-color: #3174bb;
+  color: #fff;
+  box-shadow: 0 2px 8px 0 #1176c821;
+}
+
+.userBtns button:last-child {
+  background: linear-gradient(90deg, #23283b 0%, #2f3c53 100%);
+  color: #a5b9e4;
+}
+
+.userBtns button:hover,
+.userBtns button:focus {
+  background: linear-gradient(92deg, #2546a1 0%, #223151 100%);
+  border-color: #5b95f7;
+  color: #fff;
+  box-shadow: 0 2px 10px 0 #2546a150;
+}
+
+/*Feed*/
+.activity-feed.dark {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  margin: 1rem 0 0 0;
+  padding: 1rem 2rem;
+  box-shadow: 0 1px 4px rgba(27, 31, 35, 0.05);
+}
+
+.activity-feed-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #c9d1d9;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid #21262d;
+  padding-bottom: 0.25rem;
+}
+
+.activity-feed-list.dark {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.activity-item.dark {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: 0.9rem;
+  background: #0d1117;
+  margin-bottom: 0.65rem;
+  border-radius: 6px;
+  padding: 0.9rem 1.2rem;
+  border-left: 4px solid #30363d;
+  box-shadow: 0 1px 2px rgba(27, 31, 35, 0.04);
+  font-size: 1.08rem;
+  transition: border-color 0.2s;
+}
+
+.activity-type-repo.dark {
+  border-left-color: #388bfd;
+}
+.activity-type-issue.dark {
+  border-left-color: #d29922;
+}
+.activity-type-commit.dark {
+  border-left-color: #3fb950;
+}
+
+.activity-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  margin-right: 0.85rem;
+  border: 2px solid #21262d;
+  object-fit: cover;
+  background: #161b22;
+}
+
+.activity-content {
+  flex: 1;
+  color: #c9d1d9;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.activity-item:hover {
+  transform: scale(1.02);
+  transition: transform 0.4s linear;
+  box-shadow: 0px 2px 8px rgb(0, 30, 255);
+}
+
+.activity-user {
+  color: #58a6ff;
+  font-weight: 600;
+  margin-right: 0.4rem;
+  font-size: 1.02rem;
+}
+
+.activity-desc {
+  color: #c9d1d9;
+}
+
+.activity-time {
+  color: #8b949e;
+  font-size: 0.87rem;
+  margin-left: auto;
+}
+
+.activity-feed-empty.dark {
+  color: #586069;
+  font-style: italic;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.repo-suggestions {
+  background: #161b22;
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  width: 100%;
+  min-width: 250px;
+  max-width: 340px;
+  color: #c9d1d9;
+  box-shadow: 0 2px 8px rgba(27, 31, 35, 0.06);
+}
+
+.repo-suggestions-title {
+  font-size: 1.19rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: #c9d1d9;
+}
+
+.repo-suggestions-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.repo-suggestion-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.6rem 0.7rem;
+  border-radius: 6px;
+  background: transparent;
+  transition: background 0.18s, box-shadow 0.2s;
+  cursor: pointer;
+  border: none;
+  position: relative;
+}
+
+.repo-suggestion-row:hover {
+  background: #21262d;
+  box-shadow: 0 2px 6px rgba(56, 139, 253, 0.09);
+}
+
+.repo-suggestion-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 0.85rem;
+  border: 2px solid #21262d;
+  background: #161b22;
+  box-shadow: 0 1px 4px rgba(27, 31, 35, 0.07);
+}
+
+.repo-suggestion-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.repo-suggestion-name {
+  font-size: 1.07rem;
+  font-weight: 600;
+  color: #c9d1d9;
+  margin-bottom: 0.13rem;
+  word-break: break-all;
+}
+
+.repo-suggestion-status {
+  font-size: 0.95rem;
+  color: #8b949e;
+  font-style: italic;
+}
+
+/* --- Mobile Responsive Dashboard --- */
+@media screen and (max-width: 900px) {
+  
+  #dashboard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;       
+    box-sizing: border-box;
+  }
+
+  #dashboard > aside,
+  #dashboard > .middle {
+    width: 100% !important;
+    max-width: 100%;
+    margin: 0 0 20px 0;   
+    padding: 0;       
+  }
+
+  #dashboard > .middle {
+    order: 1;
+    border: none;        
+  }
+  #dashboard > .suggestions {
+    order: 2;
+    padding: 15px;       
+  }
+  #dashboard > aside:last-child {
+    order: 3;      
+  }
+
+  .activity-feed,
+  .project-status-banner {
+    width: 100% !important;
+    box-sizing: border-box; 
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 6px;  
+    
+  }
+  .activity-item {
+    padding: 10px;
+    flex-wrap: wrap;   
+  }
+
+  .activity-content {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .project-status-banner {
+    width: 100% !important;
+    max-width: none !important; 
+    display: block !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+}
+/* =====================================================================Create New Repository  */
+.repo-creator {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 768px;
+  padding: 30px;
+  border: 0.5px solid #3d444db3;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  position: relative;
+  /* default container only */
+  z-index: auto;
+  /* ensure modal overlay upar rahe */
+}
+
+.general-section {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.general-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.general-content2 {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.slash {
+  padding-left: 10px;
+}
+
+.owner-box {
+  width: 20%;
+  border-right: 0.5px solid #3d444db3;
+}
+
+.owner-btn {
+  margin-top: 0.5rem;
+}
+
+.repoName-box {
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.repoName-box2 {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+#input-field {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 10px;
+  height: 2rem;
+  background: transparent;
+  border: 0.5px solid #3d444db3;
+  border-radius: 10px;
+}
+
+.description-box {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.configuration-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.config-item {
+  padding: 1rem;
+  border: 0.5px solid #3d444db3;
+  border-radius: 8px;
+  background: transparent;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.main-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.config-label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.config-select {
+  width: 200px;
+  height: 2rem;
+  border: 0.5px solid #3d444db3;
+  border-radius: 6px;
+  background: transparent;
+  color: #fff;
+  padding: 0 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.config-select:focus {
+  border: 2px solid rgb(50, 50, 225);
+  outline: none;
+}
+
+/* Toggle switch style */
+.toggle-switch {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  margin-bottom: 0.5rem;
+}
+
+.toggle-switch input {
+  display: none;
+}
+
+.toggle-switch label {
+  position: absolute;
+  cursor: pointer;
+  background: #444;
+  border-radius: 20px;
+  width: 100%;
+  height: 100%;
+  transition: background 0.3s;
+}
+
+.toggle-switch label::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.toggle-switch input:checked+label {
+  background: rgb(50, 50, 225);
+}
+
+.toggle-switch input:checked+label::after {
+  transform: translateX(20px);
+}
+
+/* Dark select look */
+.config-select {
+  background-color: #000;
+  color: #fff;
+  border: 0.5px solid #3d444db3;
+  border-radius: 6px;
+  height: 2rem;
+  padding: 0 0.5rem;
+  outline: none;
+
+  /* remove native arrow so we can show a white one */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  /* white chevron arrow */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='white' d='M3.3 5.3l4.2 4.2 4.2-4.2 1.1 1.1-5.3 5.3L2.2 6.4z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 12px;
+  padding-right: 2rem;
+  /* space for arrow */
+}
+
+.config-select:focus {
+  border: 2px solid rgb(50, 50, 225);
+  outline: none;
+}
+
+/* Dropdown panel (works in most Chromium/Firefox on Win/Linux) */
+.config-select option {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Edge/IE old arrow */
+.config-select::-ms-expand {
+  display: none;
+}
+
+.update-config-item {
+  padding: 1rem;
+  border: 1px solid red;
+  border-radius: 8px;
+  background: transparent;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.visibility-toggle {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.toggle-btn {
+  padding: 5px 20px 5px 20px;
+  color: red;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.598);
+}
+
+.toggle-btn:hover {
+  padding: 5px 20px 5px 20px;
+  background-color: rgb(174, 2, 2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.598);
+}
+
+/* --- Mobile Responsive Create Repo Form --- */
+@media screen and (max-width: 768px) {
+
+  .repo-creator {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .repo-creator form {
+    width: 100%;
+  }
+
+  .headings h3 {
+    font-size: 1.5rem;
+    word-wrap: break-word;
+  }
+
+  .text-secondary {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .repoName-box input,
+  .description-box input,
+  .config-select {
+    width: 100% !important;
+    max-width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin-top: 5px;
+    border-radius: 6px;
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+  }
+
+  .configuration-section {
+    margin-top: 2rem !important;
+  }
+
+  .config-item {
+    border-bottom: 1px solid #21262d;
+    padding-bottom: 15px;
+  }
+
+  .config-item .main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .config-select {
+    width: 50% !important;
+    max-width: 100%;
+    height: 45px;
+    padding: 0 12px;
+    font-size: 16px;
+    background-color: #0d1117;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23c9d1d9%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 12px top 50%;
+    background-size: 12px auto;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+
+  .config-select:focus {
+    outline: none;
+    border-color: #58a6ff;
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+  }
+  .config-item .main-content:has(.toggle-switch) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sub-para {
+    margin-top: 5px;
+    font-size: 0.85rem;
+  }
+  .repo-creator .btn-success {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    margin-top: 15px;
+    display: block;
+  }
+  .d-flex.justify-content-end {
+    display: block !important;
+    width: 100%;
+  }
+}
+/* ============================================================================Profile page  */
+.profile-page-wrapper {
+  display: flex;
+  min-height: 100vh; 
+  height: auto !important; 
+  width: 100%;
+  color: whitesmoke;
+  margin-bottom: 0;
+  overflow: visible !important; 
+  position: relative;
+}
+
+.user-profile-section,
+.userUpdate-form {
+  width: 25%;
+  /* min-height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+  padding: 20px 5px;
+  margin: 20px;
+}
+
+.user-repo-section {
+  margin: 0px auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.user-name {
+  /* width: 250px; */
+  margin: 10px 20px 10px 10px;
+  /* margin: 10px auto; */
+}
+
+.profile-image {
+  margin: 10px auto;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background-color: grey;
+}
+.profile-image img {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background-size: contain;
+}
+
+.follow-btn {
+  background-color: #20272d;
+  width: 250px;
+  margin: 10px auto;
+  height: 40px;
+  border-radius: 10px;
+  color: whitesmoke;
+}
+
+.follower {
+  display: flex;
+  justify-content: center;
+  width: 250px;
+  height: 30px;
+  gap: 10px;
+  margin: 10px auto;
+}
+
+.repo-card-wrapper {
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 40px 20px;
+}
+
+.repo {
+  border: 0.5px solid grey;
+  border-radius: 10px;
+  width: 400px;
+  height: 210px;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.repo-name {
+  cursor: pointer;
+  color: #408ced;
+  font-size: 20px;
+}
+
+.description {
+  color: grey;
+  font-size: 15px;
+}
+
+@media screen and (max-width: 750px) {
+  .repo {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .user-profile-section {
+    margin: auto;
+  }
+
+  .profile-page-wrapper {
+    display: block;
+  }
+}
+
+#logout:hover {
+  border: 1px solid white;
+}
+
+.heat-map-section {
+  width: 500px;
+  height: 250px;
+}
+
+.right-section {
+  width: 75%;
+}
+.name input[type="text"] {
+  margin-bottom: 20px;
+}
+.name input[type="text"],
+.name textarea {
+  width: 100%;
+  max-width: 300px; /* optional: to keep them from stretching too wide */
+  background-color: var(--color-canvas-default, #0d1117);
+  color: var(--color-fg-default, #c9d1d9);
+  border: 1px solid var(--color-border-default, #30363d);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  resize: vertical; /* textarea can be resized vertically */
+}
+
+.name input[type="text"]:focus,
+.name textarea:focus {
+  outline: none;
+  border-color: #58a6ff; /* GitHub blue */
+  box-shadow: 0 0 0 3px rgba(56, 139, 253, 0.3);
+}
+
+.name textarea {
+  min-height: 60px;
+}
+
+.blankPage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* --- Mobile Responsive Fixes --- */
+@media screen and (max-width: 768px) {
+  .profile-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: auto !important;      
+    min-height: 100vh;           
+    overflow: visible !important;
+  }
+  .name{
+    text-align: center;
+  }
+  /* 2. Reset Left & Right Sections */
+  .user-profile-section,
+  .userUpdate-form,
+  .right-section {
+    width: 100% !important;
+    height: auto !important;   
+    margin: 0;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  /* 3. Heatmap Section: "Free" Mode */
+  .heat-map-section {
+    width: 100% !important;
+    height: auto !important;    
+    display: block;            
+  }
+
+  /* 4. Repo Cards: Full display */
+  .repo-card-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    height: auto !important;    
+    padding: 10px 0;
+  }
+
+  .repo {
+    width: 100% !important;       
+    height: auto !important;     
+    min-height: 200px;         
+    margin-bottom: 10px;
+  }
+
+  /* 5. Profile Image Adjustment for Mobile */
+  .profile-image,
+  .profile-image img {
+    width: 150px;         
+    height: 150px;
+    margin: 0 auto 15px auto;
+  }
+  
+}
+/* ==========================================================================================issue css  */
+/* Full width container */
+.code-container {
+  width: 100%;
+  padding: 0;
+  margin: 20px;
+  background-color: #0d1117; /* GitHub dark background */
+  min-height: 100vh;
+}
+
+/* Left column (Files) */
+.issues-column {
+  background-color: #161b22; /* GitHub repo file section bg */
+  color: #c9d1d9;
+  border-right: 1px solid #30363d;
+  padding: 20px;
+  min-height: 600px;
+  border-radius: 10px;
+  width: 96%;
+  /* Center content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.showIssues-column {
+  background-color: #161b2200; /* GitHub repo file section bg */
+  color: #c9d1d9;
+  border-right: 1px solid #30363d;
+  padding: 20px;
+  min-height: 600px;
+  border-radius: 10px;
+  width: 96%;
+  /* Center content */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  border: none;
+}
+
+/* Empty state container */
+.empty-files {
+  text-align: center;
+  animation: bounce 2s ease-in-out infinite alternate;
+}
+
+/* Image styling */
+.empty-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 2px solid #30363d;
+}
+
+/* Text styling */
+.empty-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: #c9d1d9;
+  opacity: 0.85;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+.issues-header {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background: #0d1117;
+  color: #c9d1d9;
+}
+
+.search-input:focus {
+  border: 2px solid rgb(50, 50, 225);
+  outline: none;
+}
+
+.dropdown {
+  padding: 6px 10px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background: #0d1117;
+  color: #c9d1d9;
+}
+
+.new-issue-btn {
+  padding: 6px 12px;
+  background-color: #238636;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.new-issue-btn:hover {
+  background-color: #2ea043;
+}
+
+/* Create Issues Functionality*/
+.createIssueForm {
+  background: #161b22;
+  color: #c9d1d9;
+  border-radius: 10px;
+  padding: 32px 20px 20px 20px;
+  max-width: 700px;
+  margin: 32px auto;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.27);
+  font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+.formHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 16px;
+}
+
+.formTitle {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.label {
+  display: block;
+  margin: 20px 0 5px 0;
+  font-weight: 500;
+}
+.required {
+  color: #fa4549;
+  font-size: 15px;
+  margin-left: 2px;
+}
+
+.input {
+  width: 100%;
+  background: #0d1117;
+  border: 1px solid #444c56;
+  color: #c9d1d9;
+  border-radius: 6px;
+  font-size: 16px;
+  padding: 10px;
+  margin-bottom: 14px;
+}
+
+.descTabs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.tab {
+  background: none;
+  color: #c9d1d9;
+  padding: 8px 18px;
+  border-radius: 6px 6px 0 0;
+  font-weight: 500;
+  cursor: pointer;
+}
+.tab.active {
+  background: #21262c;
+  border-bottom: 2px solid #58a6ff;
+}
+
+.textarea {
+  width: 100%;
+  background: #0d1117;
+  border: 1px solid #444c56;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #c9d1d9;
+  padding: 10px;
+  resize: vertical;
+  min-height: 120px;
+  margin-bottom: 8px;
+}
+
+.descActions {
+  font-size: 13px;
+  color: #8b949e;
+  margin-bottom: 18px;
+}
+
+.formFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.checkboxLabel {
+  font-size: 15px;
+  color: #c9d1d9;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: auto;
+}
+
+.cancelBtn,
+.createBtn {
+  padding: 9px 22px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.cancelBtn {
+  background: #21262c;
+  color: #c9d1d9;
+  cursor: pointer;
+}
+
+.createBtn {
+  background: #238636;
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+}
+.createBtn:hover {
+  background: #2ea043;
+}
+
+.cancelBtn:hover {
+  background: #323943;
+}
+
+/*Show Issue CSS*/
+.issue-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s, border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.issue-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.14);
+  border-color: #58a6ff;
+  color: #0c08f0 !important;
+}
+
+.issue-title {
+  font-size: 1.22rem;
+  color: #c9d1d9;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.issue-card .issue-title:hover {
+  color: #0865f0 !important;
+}
+
+/* Add this for parent hover effect */
+.issue-card:hover .issue-title {
+  color: #0865f0 !important;
+}
+
+.issue-desc {
+  font-size: 16px;
+  color: #8b949e;
+  margin-bottom: 3px;
+}
+
+.issue-status {
+  padding: 3px 14px;
+  border-radius: 16px;
+  background: #21262d;
+  color: #3fb950;
+  font-size: 15px;
+  width: fit-content;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+  margin-top: 2px;
+  border: 1.2px solid #30363d;
+  margin-left: 10px;
+}
+
+/* For closed status, add: */
+.issue-status.closed {
+  background: #2f3039;
+  color: #af45fa;
+}
+
+/* Show Issue Component*/
+.show-issue-container {
+  background: #161b22;
+  padding: 36px 32px;
+  border-radius: 10px;
+  color: #d9dee3;
+  max-width: 760px;
+  margin: 20px auto;
+  border: 1px solid rgba(255, 255, 255, 0.39);
+}
+
+.issue-action-btns {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.issue-edit-btn,
+.issue-delete-btn {
+  background: #222834;
+  color: #58a6ff;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.1s;
+}
+
+.issue-edit-btn:hover {
+  background: #1448ac;
+  color: #fff;
+}
+.issue-delete-btn:hover {
+  background: #a72f21;
+  color: #fff;
+}
+
+.show-issue-main {
+  background: #0d1117;
+  border-radius: 7px;
+  padding: 20px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.issue-author-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.issue-author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #238636;
+  object-fit: cover;
+}
+
+.issue-author-name {
+  font-weight: bold;
+  color: #c9d1d9;
+  font-size: 1.12rem;
+}
+
+.issue-author-role {
+  background: #21262d;
+  color: #87909a;
+  border-radius: 7px;
+  padding: 2px 8px;
+  margin-left: 7px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.issue-description {
+  font-size: 1.16rem;
+  margin-top: 10px;
+  color: #c9d1d9;
+}
+
+.add-comment-section {
+  margin-top: 26px;
+}
+
+.add-comment-section h3 {
+  font-size: 1.2rem;
+  color: #e4e7ec;
+  margin-bottom: 8px;
+}
+
+.add-comment-textarea {
+  width: 100%;
+  background: #0d1117;
+  color: #c9d1d9;
+  border: 2px solid #21262d;
+  border-radius: 8px;
+  min-height: 55px;
+  padding: 12px;
+  margin-bottom: 16px;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.add-comment-textarea:focus {
+  border: 2px solid rgb(50, 50, 225);
+  outline: none;
+}
+
+.add-comment-footer {
+  display: flex;
+  gap: 8px;
+}
+
+.close-issue-btn {
+  background: #21262d;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+}
+
+.close-issue-btn.open {
+  color: #7202fc;
+}
+
+.close-issue-btn.closed {
+  color: #238636 !important;
+}
+
+.close-issue-btn:hover {
+  background: #313945;
+}
+
+.comment-issue-btn {
+  background: #238636;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.11);
+}
+
+.comment-issue-btn:hover {
+  background: #299f4b;
+}
+
+.edit-issue-title-input {
+  font-size: 1.2rem;
+  padding: 8px 12px;
+  margin-right: 1rem;
+  border-radius: 5px;
+  border: 2px solid #21262d;
+  width: 50%;
+  background: #21262d;
+  color: #fff;
+}
+
+.edit-issue-title-input:focus {
+  border: 2px solid rgb(50, 50, 225);
+  outline: none;
+}
+
+.edit-actions button {
+  margin-left: 6px;
+  background: #238636;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.edit-actions .cancel {
+  background: #202521;
+  color: #fff;
+}
+
+.edit-issue-desc-textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 7px;
+  min-height: 70px;
+  border: 2px solid #21262d;
+  background: #21262d;
+  color: #fff;
+  margin-top: 6px;
+}
+
+.edit-issue-desc-textarea:focus {
+  border: 2px solid rgb(50, 50, 225);
+  outline: none;
+}
+.issue-header-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.issue-header-top {
+  display: flex;
+  /* align-items: center; */
+  gap: 2px;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.issue-header-parent {
+  width: 100%;
+  display: flex;
+}
+
+.issue-header-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.show-issue-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #e4e7ec;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.issue-number {
+  font-size: 1.35rem;
+  color: #87909a;
+  font-weight: 600;
+  margin-left: 4px;
+  text-decoration: underline;
+}
+
+.issue-header-badges {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.issue-status-badge {
+  padding: 6px 18px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1.02rem;
+  margin-left: 0;
+}
+
+.issue-status-badge.open {
+  background: #22954c;
+  color: #fff;
+}
+.issue-status-badge.closed {
+  background: #21262d;
+  color: #7202fc;
+}
+
+.repoIssueName-badge {
+  background: #21262d;
+  color: #fff;
+  border-radius: 18px;
+  padding: 7px 22px;
+  font-size: 1.08rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.repo-visibility-badge {
+  margin-left: 12px;
+  background: #252a34;
+  color: #fff;
+  border-radius: 10px;
+  padding: 3px 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border: 1px solid #30363d;
+}
+
+.repo-visibility-badge.public {
+  background: #21262d;
+  color: #23da59;
+}
+
+.repo-visibility-badge.private {
+  background: #21262d;
+  color: #da2323;
+}
+/* --- Mobile Responsive Create Issue Form --- */
+@media screen and (max-width: 768px) {
+  
+  /* 1. Main Container: Full width with padding */
+  .createIssueForm {
+    width: 100% !important;
+    max-width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-x: hidden; /* Prevents side scroll */
+  }
+
+  /* 2. Header: Align items nicely */
+  .formHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .avatar {
+    width: 32px;  /* Slightly smaller for mobile */
+    height: 32px;
+  }
+
+  .formTitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  /* 3. Inputs & Textarea: Full width & Touch friendly */
+  .createIssueForm form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .input, 
+  .textarea {
+    width: 100% !important;
+    max-width: 100%;
+    box-sizing: border-box; /* Keeps padding inside width */
+    
+    font-size: 16px; /* CRITICAL: Prevents iOS from zooming in */
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #30363d;
+    background-color: #0d1117; /* Dark theme bg */
+    color: #c9d1d9;
+    
+    margin-bottom: 15px;
+  }
+
+  /* Adjust textarea height specifically */
+  .textarea {
+    min-height: 150px; /* Don't let it be too short */
+    resize: vertical;  /* Allow vertical resizing only */
+  }
+
+  /* 4. Description Tabs & File Upload Bar */
+  .descTabs, 
+  .descActions {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #30363d;
+    background-color: #161b22;
+    padding: 8px;
+    border-radius: 6px 6px 0 0; /* Tabs top rounded */
+  }
+  
+  .descActions {
+    border-top: none; /* Connect to textarea */
+    border-radius: 0 0 6px 6px; /* Actions bottom rounded */
+    font-size: 0.85rem;
+    color: #8b949e;
+    margin-bottom: 20px;
+  }
+
+  /* 5. Buttons: Stack them for easy tapping */
+  .formFooter {
+    display: flex;
+    flex-direction: column-reverse; /* "Cancel" below "Create" looks better on mobile */
+    gap: 10px;
+    width: 100%;
+  }
+
+  .createBtn, 
+  .cancelBtn {
+    width: 100%; /* Full width buttons */
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  /* Optional: Style the primary button */
+  .createBtn {
+    background-color: #238636;
+    color: white;
+    border: 1px solid rgba(240,246,252,0.1);
+  }
+
+  .cancelBtn {
+    background-color: transparent;
+    color: #c9d1d9;
+    border: 1px solid transparent;
+  }
+}
+/* --- Mobile Responsive Show Issue Page --- */
+@media screen and (max-width: 768px) {
+  
+  /* 1. Main Container */
+  .show-issue-container {
+    padding: 15px;
+    width: 100% !important;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  /* 2. Header Section */
+  .issue-header-parent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .issue-header-top {
+    width: 100%;
+  }
+
+  /* Allow Title to wrap */
+  .show-issue-title {
+    font-size: 1.5rem; /* Slightly smaller for mobile */
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  .issue-number {
+    display: inline-block;
+    margin-left: 5px;
+    color: #8b949e;
+    font-weight: 300;
+  }
+
+  /* Badges Row */
+  .issue-header-badges {
+    flex-wrap: wrap; /* Allow badges to stack if needed */
+    margin-top: 10px !important;
+    gap: 8px !important;
+  }
+
+  /* 3. Action Buttons (Edit/Delete) */
+  .issue-action-btns {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .issue-edit-btn,
+  .issue-delete-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    flex: 1; /* Make buttons grow to fill space equally */
+    text-align: center;
+  }
+
+  /* 4. Issue Description Body */
+  .show-issue-main {
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    margin-top: 20px;
+    overflow: hidden; /* Keeps content inside rounded corners */
+  }
+
+  .issue-author-row {
+    padding: 10px;
+    background-color: #161b22;
+    border-bottom: 1px solid #30363d;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .issue-author-avatar {
+    width: 24px;
+    height: 24px;
+  }
+
+  .issue-description {
+    padding: 15px;
+    font-size: 0.95rem;
+    word-wrap: break-word; /* Prevents long code/urls from breaking layout */
+  }
+
+  /* 5. Edit Mode Inputs */
+  .edit-issue-title-input {
+    width: 100%;
+    font-size: 16px; /* Prevents iOS zoom */
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+
+  .edit-issue-desc-textarea {
+    width: 100%;
+    font-size: 16px;
+    box-sizing: border-box;
+    min-height: 150px;
+  }
+
+  .edit-actions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .edit-actions button {
+    flex: 1; /* Full width buttons for saving */
+    padding: 10px;
+  }
+
+  /* 6. Comment Section */
+  .add-comment-section {
+    margin-top: 30px;
+    border-top: 1px solid #30363d;
+    padding-top: 20px;
+  }
+
+  .add-comment-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+    min-height: 100px;
+    margin-bottom: 10px;
+  }
+
+  .add-comment-footer {
+    display: flex;
+    flex-direction: column-reverse; /* Put primary action (Comment) on top or bottom preference */
+    gap: 10px;
+    align-items: stretch; /* Stretch buttons to full width */
+  }
+
+  .close-issue-btn,
+  .comment-issue-btn {
+    width: 100%;
+    padding: 12px;
+    margin: 0; /* Remove existing margins */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+/* --- Mobile Responsive Issues List --- */
+@media screen and (max-width: 768px) {
+  
+  /* 1. Main Container Padding */
+  .showIssuesBox {
+    width: 100% !important;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  /* 2. Header: Stack Search, Filter, and Button */
+  .issues-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between stacked items */
+    margin-bottom: 20px;
+    align-items: stretch; /* Stretch items to full width */
+  }
+
+  /* 3. Input & Selects: Full Width & Touch Friendly */
+  .search-input {
+    width: 100%;
+    font-size: 16px; /* Prevents iOS zoom */
+    padding: 10px 12px;
+    box-sizing: border-box;
+    height: 45px; /* Taller for touch */
+  }
+
+  .dropdown {
+    width: 50%;
+    height: 45px;
+    font-size: 16px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-top: 5px; /* Add small space if not using gap */
+  }
+
+  /* 4. New Issue Button */
+  .new-issue-btn {
+    width: 100%; /* Full width button */
+    padding: 12px;
+    font-size: 1rem;
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* 5. Issue Card Styling */
+  .issue-card {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    /* Ensure text doesn't overflow */
+    word-wrap: break-word; 
+  }
+
+  .issue-title {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column; /* Stack Title and Status Badge */
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  /* Status Badge Adjustment */
+  .issue-status {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    align-self: flex-start; /* Keeps badge on the left */
+  }
+
+  .issue-desc {
+    font-size: 0.9rem;
+    /* Limit description lines if desired (optional) */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* 6. Empty State */
+  .empty-files {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .empty-image {
+    width: 80px; /* Smaller image for mobile */
+    height: auto;
+    margin-bottom: 15px;
+  }
+}
+/* --- Mobile Responsive Wrapper for Issue Tabs --- */
+@media screen and (max-width: 768px) {
+  
+  .issues-tab-wrapper {
+    width: 100%;
+    max-width: 100%;
+    min-height: 60vh; 
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    display: block;
+  }
+}
+/* ================================================================================delete issue model  */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.delete-issue-modal {
+  background: #161b22;
+  width: 380px;
+  border-radius: 8px;
+  border: 1px solid #30363d;
+  color: #f0f3f6;
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.41);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.delete-issue-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #30363d;
+  padding: 18px 24px 12px 21px;
+}
+
+.delete-issue-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #9499a4;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.close-btn:hover {
+  color: #f85149;
+}
+
+.delete-issue-body {
+  padding: 22px 24px 12px 32px;
+}
+.delete-issue-body ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 16px;
+}
+.delete-issue-body li {
+  margin-bottom: 10px;
+  color: #dddbd1;
+}
+
+.delete-issue-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 18px;
+  padding: 18px 25px 20px 0;
+}
+
+.delete-cancel-btn {
+  background: none;
+  color: #edeef0;
+  font-size: 17px;
+  border: 1.5px solid #30363d;
+  border-radius: 6px;
+  padding: 7px 19px;
+  cursor: pointer;
+  transition: background 0.14s;
+}
+.delete-cancel-btn:hover {
+  background: #252930;
+}
+
+.delete-confirm-btn {
+  background: #f85149;
+  color: #fff;
+  font-size: 17px;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 21px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.delete-confirm-btn:hover {
+  background: #b6231d;
+}
+/* ============================================================================================code css  */
+/* Full width container */
+.code-container {
+  width: 100%;
+  padding: 0;
+  margin: 20px;
+  background-color: #0d1117; /* GitHub dark background */
+  min-height: 100vh;
+}
+
+/* Left column (Files) */
+.files-column {
+  background-color: #161b22; /* GitHub repo file section bg */
+  color: #c9d1d9;
+  border-right: 1px solid #30363d;
+  padding: 20px;
+  min-height: 600px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+}
+
+.files-column .noFiles {
+  /* Center content */
+  display: flex;
+  flex-direction: column; /* vertical stacking */
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Empty state container */
+.empty-files {
+  text-align: center;
+  animation: bounce 2s ease-in-out infinite alternate;
+}
+
+/* Image styling */
+.empty-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 2px solid #30363d;
+}
+
+/* Text styling */
+.empty-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: #c9d1d9;
+  opacity: 0.85;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+/* Right column (About) */
+.about-column {
+  background-color: #0d1117;
+  color: #c9d1d9;
+  padding: 20px;
+}
+
+/* About section styling */
+.about-title {
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.about-text {
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* Horizontal lines like GitHub */
+.about-column hr {
+  border-color: #30363d;
+}
+
+.bottomLine {
+  border-bottom: 0.5px solid rgba(128, 128, 128, 0.578);
+  padding-bottom: 20px;
+}
+
+.copyIcon {
+  cursor: pointer;
+  transition: color 0.18s, transform 0.22s;
+  color: #b6b6b6;
+  position: relative;
+  bottom: 10px;
+}
+
+.copyIcon:hover {
+  color: green !important;
+  transform: scale(1.38) rotate(-8deg);
+}
+
+/* existing empty-files styles are fine */
+
+.instructions {
+  width: 100%;
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 20px;
+  color: #c9d1d9;
+}
+
+.instruction-intro {
+  margin-bottom: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #e1e4e8;
+}
+
+.instruction-list {
+  padding-left: 20px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #c9d1d9;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.instruction-list li {
+  margin-bottom: 8px;
+}
+
+.instruction-list code {
+  background-color: #21262d;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Source Code Pro", monospace;
+  font-size: 14px;
+  color: #58a6ff;
+}
+
+.instructions-note {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #8b949e;
+  font-style: italic;
+}
+.repo-files-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 0;
+}
+
+.repo-file-row {
+  display: flex;
+  align-items: center;
+  padding: 9px 18px 9px 4px;
+  border-bottom: 2px solid #313941;
+  font-size: 16px;
+  transition: background 0.17s;
+  cursor: pointer;
+}
+
+.repo-file-item {
+  display: flex;
+  align-items: center;
+  padding: 9px 18px 9px 4px;
+  border-bottom: 2px solid #21262c;
+  font-size: 16px;
+  transition: background 0.17s;
+  cursor: pointer;
+}
+
+.repo-file-row:hover .repo-file-name {
+  text-decoration: underline;
+}
+
+/* .repo-file-item:last-child {
+  border-bottom: none;
+} */
+
+.repo-file-icon {
+  display: flex;
+  align-items: center;
+}
+
+.repo-file-name {
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  color: #e4e6eb;
+  font-weight: 500;
+  font-size: 17px;
+  margin-right: 18px;
+  letter-spacing: 0.05em;
+}
+
+.repo-file-meta {
+  margin-left: auto;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.repo-commit-message {
+  font-size: 15px;
+  color: #9ea4af;
+  background: #181c22;
+  border-radius: 5px;
+  padding: 2px 12px;
+  font-style: italic;
+  margin-right: 5px;
+}
+
+.repo-commit-date {
+  font-size: 14px;
+  color: #b6b7ba;
+  background: #191f28;
+  border-radius: 5px;
+  padding: 1.5px 10px;
+  font-weight: 400;
+  margin-left: 6px;
+}
+
+@media (max-width: 600px) {
+  .repo-file-item {
+    font-size: 13px;
+    padding: 8px 4px;
+  }
+  .repo-file-name {
+    font-size: 14px;
+  }
+}
+
+.repo-header-row {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #30363d;
+}
+
+.repo-profile-pic {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1.5px #363636;
+}
+
+.repo-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.repo-title {
+  display: inline-flex;
+  align-items: center;
+  font-size: 2.15rem;
+  color: #006afe;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding-bottom: 16px;
+  margin-bottom: 0;
+  gap: 18px;
+  cursor: pointer;
+}
+
+.repo-title:hover {
+  text-decoration: underline;
+}
+
+.repo-visibility.capsule {
+  background: rgba(180, 180, 180, 0.13);
+  color: #b3bac4;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 33px;
+  padding: 4px 15px;
+  margin-left: 15px;
+  border: 1px solid #30363d;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  top: -4px;
+  transition: background 0.18s;
+  user-select: none;
+}
+
+/*Show Code*/
+.showcode-wrap {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 6px;
+}
+
+.showcode-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #131518;
+  border-radius: 7px 7px 0 0;
+  border-bottom: 1.1px solid #292d34;
+  padding: 22px 22px 10px 17px;
+}
+
+.showcode-fileicon {
+  position: relative;
+  top: 2.5px;
+  margin-right: 9px;
+}
+
+.showcode-filename {
+  color: #e4e7ee;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  font-size: 1.5rem;
+  font-family: inherit;
+}
+
+.showcode-msg {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #a6adc2;
+  font-style: italic;
+  opacity: 0.72;
+  margin-left: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 44%;
+}
+
+.showcode-meta {
+  font-size: 1.05rem;
+  color: #aebac7;
+  margin-bottom: 1px;
+  margin-left: 10px;
+  padding: 5px 0 10px 5px;
+  background: transparent;
+}
+
+.showcode-content {
+  font-size: 1.11rem;
+  font-family: "Fira Mono", "Consolas", "Menlo", "Monaco", "monospace";
+  color: #eae9f1;
+  background: transparent;
+  border: none;
+  white-space: pre-wrap;
+  line-height: 1.65;
+  word-break: break-word;
+  width: 100%;
+  display: block;
+}
+/* --- Mobile Responsive Repo Code View --- */
+@media screen and (max-width: 768px) {
+
+  /* 1. Main Container Padding */
+  .code-container {
+    width: 100% !important;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  /* 2. Header Adjustments */
+  .repo-header-row {
+    flex-wrap: wrap; /* Allow wrapping for very long names */
+    gap: 10px !important;
+    margin-bottom: 20px;
+  }
+
+  .repo-title {
+    font-size: 1.3rem !important;
+    word-break: break-word; /* Prevent overflow */
+  }
+
+  /* 3. Column Layout: Stack Files and About sections */
+  .row.no-gutters {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .files-column,
+  .about-column {
+    width: 100% !important;
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  /* 4. File List Styling */
+  .repo-files-list {
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 30px; /* Space between files and 'About' section */
+  }
+
+  .repo-file-row {
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Ensure rows don't cause scroll */
+    width: 100%; 
+    box-sizing: border-box;
+  }
+
+  .repo-file-name {
+    flex: 1; /* Take up available space */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add "..." if filename is too long */
+    font-size: 0.95rem;
+    color: #c9d1d9;
+  }
+
+  /* 5. Hide Commit Message on Mobile to save space */
+  .repo-commit-message {
+    display: none; 
+  }
+
+  /* Keep the Date visible but smaller */
+  .repo-commit-date {
+    font-size: 0.8rem;
+    color: #8b949e;
+    white-space: nowrap;
+  }
+
+  /* 6. Empty State (Instructions) */
+  .noFiles {
+    padding: 10px;
+  }
+  
+  .instruction-list code {
+    /* Ensure code blocks wrap nicely */
+    word-break: break-all;
+    white-space: pre-wrap;
+    font-size: 0.85rem;
+  }
+
+  /* 7. About Section (Right Column moved to bottom) */
+  .about-column {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #30363d; /* Separator line */
+  }
+
+  .about-title {
+    font-size: 1.1rem;
+    margin-top: 15px;
+  }
+
+  .about-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    word-break: break-word; /* Handle long Repo IDs */
+  }
+}
+/* --- Mobile Responsive File Viewer --- */
+@media screen and (max-width: 768px) {
+
+  /* 1. Main Container Wrapper */
+  .files-column {
+    width: 100% !important;
+    padding: 0;
+    margin-bottom: 20px;
+    overflow-x: hidden;
+  }
+
+  .showcode-wrap {
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background-color: #0d1117;
+  }
+
+  /* 2. Top Bar (Filename + Commit Message) */
+  .showcode-bar {
+    display: flex;
+    flex-direction: column; /* Stack them vertically */
+    align-items: flex-start;
+    padding: 12px;
+    gap: 8px;
+    background-color: #161b22;
+    border-bottom: 1px solid #30363d;
+  }
+
+  /* Filename line */
+  .showcode-bar > span:first-child {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .showcode-filename {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-left: 8px;
+    word-break: break-all; /* Handle long filenames like utils.test.js */
+    color: #c9d1d9;
+  }
+
+  /* Commit Message line */
+  .showcode-msg {
+    font-size: 0.9rem;
+    color: #8b949e;
+    word-break: break-word; /* Wrap long messages */
+    width: 100%;
+  }
+
+  /* 3. Meta Info (Date) */
+  .showcode-meta {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    color: #8b949e;
+    border-bottom: 1px solid #30363d;
+    background-color: #0d1117;
+  }
+
+  /* 4. Code Content Area */
+  .instructions {
+    padding: 10px;
+    overflow-x: auto; /* Enable horizontal scroll for code */
+    -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+    background-color: #0d1117; /* Ensure background matches theme */
+    border-radius: 0 0 6px 6px;
+  }
+
+  .showcode-content {
+    display: block;
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+    font-size: 0.85rem; /* readable on mobile */
+    line-height: 1.5;
+    white-space: pre; /* Keep code formatting intact */
+    color: #c9d1d9;
+    
+    /* Ensure code block is wide enough to scroll */
+    min-width: 100%; 
+  }
+}
+/*================================================================================ delete repo model  */
+/* Overlay background */
+.modal-overlay {
+  position: fixed;
+  inset: 0; /* shorthand for top:0; right:0; bottom:0; left:0 */
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Modal box */
+.modal {
+  background: #0d1117;
+  color: white;
+  position: relative;
+  width: 600px; /* fixed width */
+  height: 300px;
+  max-width: 90%; /* responsive on small screens */
+  border-radius: 8px;
+  border: 1px solid #30363d;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.firstBlock {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.76);
+  width: 100%;
+  padding: 12px;
+}
+.secondBlock {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.76);
+  width: 100%;
+  padding: 24px;
+  text-align: center;
+}
+
+.thirdBlock {
+  width: 100%;
+  text-align: center;
+}
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: #8b949e;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close-btn:hover {
+  color: rgb(17, 0, 255) !important;
+}
+
+/* Title */
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+.modal-title .highlight {
+  color: #f85149;
+}
+
+/* Delete button */
+.delete-btn {
+  width: 90%; /* only within modal width */
+  background: #f85149;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.delete-btn:hover {
+  background: #da3633;
+}
+/* --- Mobile Responsive Modal --- */
+@media screen and (max-width: 768px) {
+
+  /* 1. Modal Overlay & Positioning */
+  .modal-overlay {
+    /* Ensure overlay covers everything even on scroll */
+    position: fixed;
+    inset: 0; 
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centers vertically */
+    padding: 20px;       /* Safety padding from screen edges */
+    background-color: rgba(0, 0, 0, 0.7); /* Darker dim for mobile focus */
+  }
+
+  /* 2. The Modal Box */
+  .modal {
+    width: 100% !important;
+    max-width: 100%;
+    /* Let height adjust automatically */
+    height: auto !important; 
+    max-height: 90vh; /* Prevent it from being taller than screen */
+    overflow-y: auto; /* Scroll inside modal if content is huge */
+    
+    border-radius: 12px;
+    padding: 0; /* Reset padding, manage via blocks */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  /* 3. Header Section (First Block) */
+  .firstBlock {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align to top in case title wraps */
+    gap: 10px;
+    border-bottom: 1px solid #30363d;
+  }
+
+  .modal-title {
+    font-size: 1.1rem;
+    line-height: 1.4;
+    word-break: break-word; /* Crucial for long repo names */
+    margin: 0;
+  }
+
+  .highlight {
+    color: #c9d1d9;
+    font-weight: 600;
+  }
+
+  .close-btn {
+    padding: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #8b949e;
+    /* Increase touch target */
+    min-width: 44px; 
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 4. Content Section (Second Block) */
+  .secondBlock {
+    padding: 20px 15px;
+    text-align: center;
+  }
+
+  .repo-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .repo-name {
+    font-size: 1rem;
+    font-weight: 600;
+    word-break: break-all; /* Ensure slash doesn't break layout */
+    margin: 5px 0;
+  }
+
+  .repo-stats {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9rem;
+    color: #8b949e;
+    justify-content: center;
+  }
+
+  /* 5. Footer/Action Section (Third Block) */
+  .thirdBlock {
+    padding: 15px;
+    border-top: 1px solid #30363d;
+    background-color: #161b22; /* Slightly darker bottom area */
+    border-radius: 0 0 12px 12px;
+  }
+
+  .delete-btn {
+    width: 100%; /* Full width button for easy tapping */
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Ensure it looks clickable */
+    background-color: #21262d; 
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+  }
+}
+/* --- Mobile Responsive Delete Modal --- */
+@media screen and (max-width: 768px) {
+
+  /* 1. The Dark Overlay */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /* Dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px; /* Prevents modal from touching screen edges */
+    box-sizing: border-box;
+    backdrop-filter: blur(2px); /* Optional: Blur effect behind modal */
+  }
+
+  /* 2. The Modal Box */
+  .modal {
+    width: 100% !important;
+    max-width: 400px; /* Keep it neat on tablets */
+    background-color: #161b22; /* GitHub Dark Mode bg */
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Keeps children inside rounded corners */
+  }
+
+  /* 3. Header Section */
+  .firstBlock {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #30363d;
+  }
+
+  .modal-title {
+    font-size: 1.1rem;
+    color: #c9d1d9;
+    margin: 0;
+    line-height: 1.4;
+    word-break: break-word; /* CRITICAL: Wraps long repo names */
+  }
+
+  .highlight {
+    font-weight: 600;
+    color: #c9d1d9;
+  }
+
+  /* Close Button */
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: #8b949e;
+    padding: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    /* Increase touch area */
+    min-width: 32px; 
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 4. Content Section */
+  .secondBlock {
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #c9d1d9;
+  }
+
+  .repo-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Repo Name in middle */
+  .repo-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    word-break: break-all; /* Handles extremely long strings */
+    margin: 0;
+  }
+
+  /* Stars/Watchers */
+  .repo-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 0.9rem;
+    color: #8b949e;
+    margin-top: 5px;
+  }
+  
+  .repo-stats span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* 5. Footer / Delete Action */
+  .thirdBlock {
+    padding: 16px;
+    background-color: #0d1117; /* Slightly darker footer */
+    border-top: 1px solid #30363d;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Danger Button Styling */
+  .delete-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f85149; /* Red text for danger */
+    background-color: transparent;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  /* Active state for better mobile feel */
+  .delete-btn:active {
+    background-color: rgba(185, 58, 58, 0.1);
+    border-color: #8b949e;
+  }
+}
