@@ -621,3 +621,375 @@
   background: #21262d;
   color: #da2323;
 }
+/* --- Mobile Responsive Create Issue Form --- */
+@media screen and (max-width: 768px) {
+  
+  /* 1. Main Container: Full width with padding */
+  .createIssueForm {
+    width: 100% !important;
+    max-width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-x: hidden; /* Prevents side scroll */
+  }
+
+  /* 2. Header: Align items nicely */
+  .formHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .avatar {
+    width: 32px;  /* Slightly smaller for mobile */
+    height: 32px;
+  }
+
+  .formTitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  /* 3. Inputs & Textarea: Full width & Touch friendly */
+  .createIssueForm form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .input, 
+  .textarea {
+    width: 100% !important;
+    max-width: 100%;
+    box-sizing: border-box; /* Keeps padding inside width */
+    
+    font-size: 16px; /* CRITICAL: Prevents iOS from zooming in */
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #30363d;
+    background-color: #0d1117; /* Dark theme bg */
+    color: #c9d1d9;
+    
+    margin-bottom: 15px;
+  }
+
+  /* Adjust textarea height specifically */
+  .textarea {
+    min-height: 150px; /* Don't let it be too short */
+    resize: vertical;  /* Allow vertical resizing only */
+  }
+
+  /* 4. Description Tabs & File Upload Bar */
+  .descTabs, 
+  .descActions {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #30363d;
+    background-color: #161b22;
+    padding: 8px;
+    border-radius: 6px 6px 0 0; /* Tabs top rounded */
+  }
+  
+  .descActions {
+    border-top: none; /* Connect to textarea */
+    border-radius: 0 0 6px 6px; /* Actions bottom rounded */
+    font-size: 0.85rem;
+    color: #8b949e;
+    margin-bottom: 20px;
+  }
+
+  /* 5. Buttons: Stack them for easy tapping */
+  .formFooter {
+    display: flex;
+    flex-direction: column-reverse; /* "Cancel" below "Create" looks better on mobile */
+    gap: 10px;
+    width: 100%;
+  }
+
+  .createBtn, 
+  .cancelBtn {
+    width: 100%; /* Full width buttons */
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  /* Optional: Style the primary button */
+  .createBtn {
+    background-color: #238636;
+    color: white;
+    border: 1px solid rgba(240,246,252,0.1);
+  }
+
+  .cancelBtn {
+    background-color: transparent;
+    color: #c9d1d9;
+    border: 1px solid transparent;
+  }
+}
+/* --- Mobile Responsive Show Issue Page --- */
+@media screen and (max-width: 768px) {
+  
+  /* 1. Main Container */
+  .show-issue-container {
+    padding: 15px;
+    width: 100% !important;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  /* 2. Header Section */
+  .issue-header-parent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .issue-header-top {
+    width: 100%;
+  }
+
+  /* Allow Title to wrap */
+  .show-issue-title {
+    font-size: 1.5rem; /* Slightly smaller for mobile */
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  .issue-number {
+    display: inline-block;
+    margin-left: 5px;
+    color: #8b949e;
+    font-weight: 300;
+  }
+
+  /* Badges Row */
+  .issue-header-badges {
+    flex-wrap: wrap; /* Allow badges to stack if needed */
+    margin-top: 10px !important;
+    gap: 8px !important;
+  }
+
+  /* 3. Action Buttons (Edit/Delete) */
+  .issue-action-btns {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .issue-edit-btn,
+  .issue-delete-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    flex: 1; /* Make buttons grow to fill space equally */
+    text-align: center;
+  }
+
+  /* 4. Issue Description Body */
+  .show-issue-main {
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    margin-top: 20px;
+    overflow: hidden; /* Keeps content inside rounded corners */
+  }
+
+  .issue-author-row {
+    padding: 10px;
+    background-color: #161b22;
+    border-bottom: 1px solid #30363d;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .issue-author-avatar {
+    width: 24px;
+    height: 24px;
+  }
+
+  .issue-description {
+    padding: 15px;
+    font-size: 0.95rem;
+    word-wrap: break-word; /* Prevents long code/urls from breaking layout */
+  }
+
+  /* 5. Edit Mode Inputs */
+  .edit-issue-title-input {
+    width: 100%;
+    font-size: 16px; /* Prevents iOS zoom */
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+
+  .edit-issue-desc-textarea {
+    width: 100%;
+    font-size: 16px;
+    box-sizing: border-box;
+    min-height: 150px;
+  }
+
+  .edit-actions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .edit-actions button {
+    flex: 1; /* Full width buttons for saving */
+    padding: 10px;
+  }
+
+  /* 6. Comment Section */
+  .add-comment-section {
+    margin-top: 30px;
+    border-top: 1px solid #30363d;
+    padding-top: 20px;
+  }
+
+  .add-comment-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+    min-height: 100px;
+    margin-bottom: 10px;
+  }
+
+  .add-comment-footer {
+    display: flex;
+    flex-direction: column-reverse; /* Put primary action (Comment) on top or bottom preference */
+    gap: 10px;
+    align-items: stretch; /* Stretch buttons to full width */
+  }
+
+  .close-issue-btn,
+  .comment-issue-btn {
+    width: 100%;
+    padding: 12px;
+    margin: 0; /* Remove existing margins */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+/* --- Mobile Responsive Issues List --- */
+@media screen and (max-width: 768px) {
+  
+  /* 1. Main Container Padding */
+  .showIssuesBox {
+    width: 100% !important;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  /* 2. Header: Stack Search, Filter, and Button */
+  .issues-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between stacked items */
+    margin-bottom: 20px;
+    align-items: stretch; /* Stretch items to full width */
+  }
+
+  /* 3. Input & Selects: Full Width & Touch Friendly */
+  .search-input {
+    width: 100%;
+    font-size: 16px; /* Prevents iOS zoom */
+    padding: 10px 12px;
+    box-sizing: border-box;
+    height: 45px; /* Taller for touch */
+  }
+
+  .dropdown {
+    width: 50%;
+    height: 45px;
+    font-size: 16px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-top: 5px; /* Add small space if not using gap */
+  }
+
+  /* 4. New Issue Button */
+  .new-issue-btn {
+    width: 100%; /* Full width button */
+    padding: 12px;
+    font-size: 1rem;
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* 5. Issue Card Styling */
+  .issue-card {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    /* Ensure text doesn't overflow */
+    word-wrap: break-word; 
+  }
+
+  .issue-title {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column; /* Stack Title and Status Badge */
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  /* Status Badge Adjustment */
+  .issue-status {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    align-self: flex-start; /* Keeps badge on the left */
+  }
+
+  .issue-desc {
+    font-size: 0.9rem;
+    /* Limit description lines if desired (optional) */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* 6. Empty State */
+  .empty-files {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .empty-image {
+    width: 80px; /* Smaller image for mobile */
+    height: auto;
+    margin-bottom: 15px;
+  }
+}
+/* --- Mobile Responsive Wrapper for Issue Tabs --- */
+@media screen and (max-width: 768px) {
+  
+  .issues-tab-wrapper {
+    width: 100%;
+    max-width: 100%;
+    min-height: 60vh; 
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    display: block;
+  }
+}
