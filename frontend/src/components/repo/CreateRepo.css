@@ -7,8 +7,10 @@
   border: 0.5px solid #3d444db3;
   border-radius: 15px;
   margin-bottom: 20px;
-  position: relative; /* default container only */
-  z-index: auto; /* ensure modal overlay upar rahe */
+  position: relative;
+  /* default container only */
+  z-index: auto;
+  /* ensure modal overlay upar rahe */
 }
 
 .general-section {
@@ -27,6 +29,7 @@
   display: flex;
   flex-wrap: wrap;
 }
+
 .slash {
   padding-left: 10px;
 }
@@ -39,12 +42,14 @@
 .owner-btn {
   margin-top: 0.5rem;
 }
+
 .repoName-box {
   width: 80%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
 }
+
 .repoName-box2 {
   width: 100%;
   display: flex;
@@ -66,6 +71,7 @@
   width: 100%;
   margin-top: 1rem;
 }
+
 .configuration-content {
   width: 100%;
   display: flex;
@@ -146,11 +152,11 @@
   transition: transform 0.3s;
 }
 
-.toggle-switch input:checked + label {
+.toggle-switch input:checked+label {
   background: rgb(50, 50, 225);
 }
 
-.toggle-switch input:checked + label::after {
+.toggle-switch input:checked+label::after {
   transform: translateX(20px);
 }
 
@@ -174,7 +180,8 @@
   background-repeat: no-repeat;
   background-position: right 0.5rem center;
   background-size: 12px;
-  padding-right: 2rem; /* space for arrow */
+  padding-right: 2rem;
+  /* space for arrow */
 }
 
 .config-select:focus {
@@ -221,4 +228,229 @@
   background-color: rgb(174, 2, 2);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.598);
+}
+
+/* --- Mobile Responsive Create Repo Form --- */
+@media screen and (max-width: 768px) {
+
+  /* 1. Main Container Wrapper */
+  .repo-creator {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
+  }
+
+  /* 2. Form & Text Basics */
+  .repo-creator form {
+    width: 100%;
+  }
+
+  .headings h3 {
+    font-size: 1.5rem;
+    /* Slightly smaller title for mobile */
+    word-wrap: break-word;
+  }
+
+  .text-secondary {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  /* 3. INPUTS: The most important part */
+  /* Force all inputs to fill the screen width */
+  .repoName-box input,
+  .description-box input,
+  .config-select {
+    width: 100% !important;
+    max-width: 100%;
+    padding: 10px;
+    /* Larger touch target */
+    font-size: 16px;
+    /* Prevents iOS from zooming in on focus */
+    box-sizing: border-box;
+    margin-top: 5px;
+    border-radius: 6px;
+    background-color: #0d1117;
+    /* Matches GitHub dark mode background usually */
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+  }
+
+  /* 4. Configuration Section Layout */
+  .configuration-section {
+    margin-top: 2rem !important;
+  }
+
+  .config-item {
+    border-bottom: 1px solid #21262d;
+    padding-bottom: 15px;
+  }
+
+  /* Stack Label and Input vertically for better space usage */
+  .config-item .main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+  }
+
+  /* --- Dropdown / Select Box Styling --- */
+  .config-select {
+    width: 50% !important;
+    max-width: 100%;
+    height: 45px;
+    padding: 0 12px;
+    font-size: 16px;
+    background-color: #0d1117;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23c9d1d9%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 12px top 50%;
+    background-size: 12px auto;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+
+  /* Change border color when clicked/focused */
+  .config-select:focus {
+    outline: none;
+    border-color: #58a6ff;
+    /* GitHub blue focus ring */
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+  }
+
+  .config-item .main-content:has(.toggle-switch) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sub-para {
+    margin-top: 5px;
+    font-size: 0.85rem;
+  }
+
+  /* 5. CREATE BUTTON */
+  /* Make the button span the full width for easy thumb reach */
+  .repo-creator .btn-success {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    margin-top: 15px;
+    display: block;
+  }
+
+  /* Fix the flex container alignment */
+  .d-flex.justify-content-end {
+    display: block !important;
+    /* Overrides Bootstrap flex */
+    width: 100%;
+  }
+}
+/* --- Mobile Responsive Update Repo Form --- */
+@media screen and (max-width: 768px) {
+
+  /* 1. Main Container */
+  .repo-creator {
+    width: 100% !important;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  /* 2. Typography Adjustments */
+  .headings h3 {
+    font-size: 1.5rem;
+    word-wrap: break-word;
+  }
+
+  .text-secondary {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  /* 3. General Section Inputs */
+  /* Force inputs to fill screen width & prevent iOS zoom */
+  .repositoryName-box2 input,
+  .description-box input {
+    width: 100% !important;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    font-size: 16px;       /* Critical for mobile form usability */
+    margin-top: 8px;
+    
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+    border-radius: 6px;
+  }
+
+  /* 4. Danger Zone (Configuration Section) */
+  .configuration-section {
+    margin-top: 30px !important;
+  }
+
+  .update-config-item {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #21262d; /* Separator between items */
+  }
+
+  /* Stack Label and Button vertically */
+  .update-config-item .main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+  }
+
+  /* Style the Labels */
+  .update-config-item label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #c9d1d9;
+  }
+
+  /* Style the Buttons (Change Visibility / Delete) */
+  .visibility-toggle.toggle-btn {
+    width: 100%;           /* Full width button */
+    padding: 12px;
+    margin-left: 0 !important; /* Remove any desktop margins */
+    margin-top: 5px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: #21262d;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    color: #f85149; /* Red text implies danger/action */
+    font-weight: 500;
+  }
+
+  /* 5. Save Button (Bottom) */
+  /* Override Bootstrap d-flex to stack the button */
+  .repo-creator .d-flex.justify-content-end {
+    display: block !important;
+    width: 100%;
+  }
+
+  .repo-creator .btn-success {
+    width: 100%;
+    display: block;
+    padding: 12px;
+    font-size: 1rem;
+    margin-top: 20px;
+  }
 }

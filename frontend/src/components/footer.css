@@ -47,6 +47,8 @@
   .compact-footer-row {
     flex-direction: column;
     gap: 7px;
+    padding-left: 10px; 
+    padding-right: 10px;
   }
   .compact-footer-copy {
     font-size: 1rem;

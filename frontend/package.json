@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "18": "^0.0.0",
     "@primer/octicons-react": "^19.16.0",
     "@primer/react": "^37.31.0",
     "@uiw/react-heat-map": "^2.3.3",

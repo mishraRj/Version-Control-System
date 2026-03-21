@@ -494,3 +494,64 @@
   color: #8b949e;
   font-style: italic;
 }
+
+/* --- Mobile Responsive Dashboard --- */
+@media screen and (max-width: 900px) {
+  
+  #dashboard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;       
+    box-sizing: border-box;
+  }
+
+  #dashboard > aside,
+  #dashboard > .middle {
+    width: 100% !important;
+    max-width: 100%;
+    margin: 0 0 20px 0;   
+    padding: 0;       
+  }
+
+  #dashboard > .middle {
+    order: 1;
+    border: none;        
+  }
+  #dashboard > .suggestions {
+    order: 2;
+    padding: 15px;       
+  }
+  #dashboard > aside:last-child {
+    order: 3;      
+  }
+
+  .activity-feed,
+  .project-status-banner {
+    width: 100% !important;
+    box-sizing: border-box; 
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 6px;  
+    
+  }
+  .activity-item {
+    padding: 10px;
+    flex-wrap: wrap;   
+  }
+
+  .activity-content {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .project-status-banner {
+    width: 100% !important;
+    max-width: none !important; 
+    display: block !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+}
