@@ -1,15 +1,22 @@
 /* ========================================================Auth css=============  */
-body {
-  background-color: #0c1116;
-  overflow-x: hidden;
-}
-#root {
-  padding: 5px;
+/* body {
+  background-color: #0d1117;
+  color: #c9d1d9;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica,
+    Arial, sans-serif;
   margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+} */
+
+/* #root {
+  width: 100%;
+  min-height: 100vh;
   display: flex;
-  flex-wrap: wrap;
-  background-color: #0c1116;
-}
+  justify-content: center;
+  background-color: #0d1117;
+} */
 
 /* =========================================
    LOGIN WRAPPER (Centers everything)
@@ -49,7 +56,7 @@ body {
   justify-content: center;
 }
 
-.login-heading h1, 
+.login-heading h1,
 .login-heading h2 {
   font-size: 24px;
   font-weight: 300;
@@ -172,7 +179,6 @@ body {
    MOBILE RESPONSIVE TWEAKS
    ========================================= */
 @media screen and (max-width: 480px) {
-  
   .login-wrapper {
     padding: 15px;
     justify-content: flex-start; /* Move to top on mobile */
@@ -199,8 +205,6 @@ body {
     height: 40px;
   }
 }
-
-
 
 /*=========================================Navbar==================================*/
 nav {
@@ -349,30 +353,30 @@ nav p:hover {
   }
 
   nav p {
-    display: none; 
+    display: none;
   }
 
   .navFields {
     width: 100%;
-    order: 3; 
+    order: 3;
     margin-top: 15px;
     justify-content: space-between;
   }
   .search-bar {
-    width: 100% !important; 
-    flex: 1; 
+    width: 100% !important;
+    flex: 1;
     margin-right: 8px;
-    min-width: 0; 
+    min-width: 0;
   }
-  .repoCreate, 
+  .repoCreate,
   .issueCheck {
     flex-shrink: 0;
   }
 
   .dropdown-menu {
-    top: 130px; 
+    top: 130px;
     width: 40vw;
-    right: 5vw; 
+    right: 5vw;
   }
 }
 
@@ -426,7 +430,7 @@ nav p:hover {
   .compact-footer-row {
     flex-direction: column;
     gap: 7px;
-    padding-left: 10px; 
+    padding-left: 10px;
     padding-right: 10px;
   }
   .compact-footer-copy {
@@ -476,7 +480,9 @@ nav p:hover {
   padding: 0.6rem 0.7rem;
   border-radius: 6px;
   background: transparent;
-  transition: background 0.18s, box-shadow 0.2s;
+  transition:
+    background 0.18s,
+    box-shadow 0.2s;
   cursor: pointer;
   border: none;
   position: relative;
@@ -646,7 +652,10 @@ nav p:hover {
   padding: 10px 16px 7px 14px;
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.19s, border 0.17s, background 0.19s;
+  transition:
+    box-shadow 0.19s,
+    border 0.17s,
+    background 0.19s;
   cursor: pointer;
   min-height: 74px;
 }
@@ -717,7 +726,11 @@ nav p:hover {
   box-shadow: 0 1px 7px 0 #292f3d1a;
   cursor: pointer;
   outline: none;
-  transition: background 0.15s, border 0.15s, color 0.15s, box-shadow 0.15s;
+  transition:
+    background 0.15s,
+    border 0.15s,
+    color 0.15s,
+    box-shadow 0.15s;
 }
 
 .userBtns button:first-child {
@@ -735,7 +748,11 @@ nav p:hover {
   border-radius: 7px;
   font-weight: 600;
   outline: none;
-  transition: background 0.15s, border 0.15s, color 0.15s, box-shadow 0.15s;
+  transition:
+    background 0.15s,
+    border 0.15s,
+    color 0.15s,
+    box-shadow 0.15s;
   box-shadow: 0 1px 7px 0 #345d921c;
   cursor: pointer;
 }
@@ -890,7 +907,9 @@ nav p:hover {
   padding: 0.6rem 0.7rem;
   border-radius: 6px;
   background: transparent;
-  transition: background 0.18s, box-shadow 0.2s;
+  transition:
+    background 0.18s,
+    box-shadow 0.2s;
   cursor: pointer;
   border: none;
   position: relative;
@@ -934,12 +953,11 @@ nav p:hover {
 
 /* --- Mobile Responsive Dashboard --- */
 @media screen and (max-width: 900px) {
-  
   #dashboard {
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 10px;       
+    padding: 10px;
     box-sizing: border-box;
   }
 
@@ -947,34 +965,33 @@ nav p:hover {
   #dashboard > .middle {
     width: 100% !important;
     max-width: 100%;
-    margin: 0 0 20px 0;   
-    padding: 0;       
+    margin: 0 0 20px 0;
+    padding: 0;
   }
 
   #dashboard > .middle {
     order: 1;
-    border: none;        
+    border: none;
   }
   #dashboard > .suggestions {
     order: 2;
-    padding: 15px;       
+    padding: 15px;
   }
   #dashboard > aside:last-child {
-    order: 3;      
+    order: 3;
   }
 
   .activity-feed,
   .project-status-banner {
     width: 100% !important;
-    box-sizing: border-box; 
+    box-sizing: border-box;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    border-radius: 6px;  
-    
+    border-radius: 6px;
   }
   .activity-item {
     padding: 10px;
-    flex-wrap: wrap;   
+    flex-wrap: wrap;
   }
 
   .activity-content {
@@ -985,7 +1002,7 @@ nav p:hover {
 
   .project-status-banner {
     width: 100% !important;
-    max-width: none !important; 
+    max-width: none !important;
     display: block !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
@@ -1147,11 +1164,11 @@ nav p:hover {
   transition: transform 0.3s;
 }
 
-.toggle-switch input:checked+label {
+.toggle-switch input:checked + label {
   background: rgb(50, 50, 225);
 }
 
-.toggle-switch input:checked+label::after {
+.toggle-switch input:checked + label::after {
   transform: translateX(20px);
 }
 
@@ -1227,7 +1244,6 @@ nav p:hover {
 
 /* --- Mobile Responsive Create Repo Form --- */
 @media screen and (max-width: 768px) {
-
   .repo-creator {
     width: 100%;
     padding: 15px;
@@ -1293,7 +1309,7 @@ nav p:hover {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23c9d1d9%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23c9d1d9%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
     background-repeat: no-repeat;
     background-position: right 12px top 50%;
     background-size: 12px auto;
@@ -1331,12 +1347,12 @@ nav p:hover {
 /* ============================================================================Profile page  */
 .profile-page-wrapper {
   display: flex;
-  min-height: 100vh; 
-  height: auto !important; 
+  min-height: 100vh;
+  height: auto !important;
   width: 100%;
   color: whitesmoke;
   margin-bottom: 0;
-  overflow: visible !important; 
+  overflow: visible !important;
   position: relative;
 }
 
@@ -1501,11 +1517,11 @@ nav p:hover {
   .profile-page-wrapper {
     display: flex;
     flex-direction: column;
-    height: auto !important;      
-    min-height: 100vh;           
+    height: auto !important;
+    min-height: 100vh;
     overflow: visible !important;
   }
-  .name{
+  .name {
     text-align: center;
   }
   /* 2. Reset Left & Right Sections */
@@ -1513,7 +1529,7 @@ nav p:hover {
   .userUpdate-form,
   .right-section {
     width: 100% !important;
-    height: auto !important;   
+    height: auto !important;
     margin: 0;
     padding: 10px;
     box-sizing: border-box;
@@ -1522,8 +1538,8 @@ nav p:hover {
   /* 3. Heatmap Section: "Free" Mode */
   .heat-map-section {
     width: 100% !important;
-    height: auto !important;    
-    display: block;            
+    height: auto !important;
+    display: block;
   }
 
   /* 4. Repo Cards: Full display */
@@ -1531,25 +1547,24 @@ nav p:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    height: auto !important;    
+    height: auto !important;
     padding: 10px 0;
   }
 
   .repo {
-    width: 100% !important;       
-    height: auto !important;     
-    min-height: 200px;         
+    width: 100% !important;
+    height: auto !important;
+    min-height: 200px;
     margin-bottom: 10px;
   }
 
   /* 5. Profile Image Adjustment for Mobile */
   .profile-image,
   .profile-image img {
-    width: 150px;         
+    width: 150px;
     height: 150px;
     margin: 0 auto 15px auto;
   }
-  
 }
 /* ==========================================================================================issue css  */
 /* Full width container */
@@ -1811,7 +1826,9 @@ nav p:hover {
   padding: 18px 20px;
   margin-bottom: 18px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.2s, border-color 0.2s;
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -2177,7 +2194,6 @@ nav p:hover {
 }
 /* --- Mobile Responsive Create Issue Form --- */
 @media screen and (max-width: 768px) {
-  
   /* 1. Main Container: Full width with padding */
   .createIssueForm {
     width: 100% !important;
@@ -2196,7 +2212,7 @@ nav p:hover {
   }
 
   .avatar {
-    width: 32px;  /* Slightly smaller for mobile */
+    width: 32px; /* Slightly smaller for mobile */
     height: 32px;
   }
 
@@ -2212,30 +2228,30 @@ nav p:hover {
     width: 100%;
   }
 
-  .input, 
+  .input,
   .textarea {
     width: 100% !important;
     max-width: 100%;
     box-sizing: border-box; /* Keeps padding inside width */
-    
+
     font-size: 16px; /* CRITICAL: Prevents iOS from zooming in */
     padding: 10px 12px;
     border-radius: 6px;
     border: 1px solid #30363d;
     background-color: #0d1117; /* Dark theme bg */
     color: #c9d1d9;
-    
+
     margin-bottom: 15px;
   }
 
   /* Adjust textarea height specifically */
   .textarea {
     min-height: 150px; /* Don't let it be too short */
-    resize: vertical;  /* Allow vertical resizing only */
+    resize: vertical; /* Allow vertical resizing only */
   }
 
   /* 4. Description Tabs & File Upload Bar */
-  .descTabs, 
+  .descTabs,
   .descActions {
     width: 100%;
     box-sizing: border-box;
@@ -2244,7 +2260,7 @@ nav p:hover {
     padding: 8px;
     border-radius: 6px 6px 0 0; /* Tabs top rounded */
   }
-  
+
   .descActions {
     border-top: none; /* Connect to textarea */
     border-radius: 0 0 6px 6px; /* Actions bottom rounded */
@@ -2261,7 +2277,7 @@ nav p:hover {
     width: 100%;
   }
 
-  .createBtn, 
+  .createBtn,
   .cancelBtn {
     width: 100%; /* Full width buttons */
     padding: 12px;
@@ -2277,7 +2293,7 @@ nav p:hover {
   .createBtn {
     background-color: #238636;
     color: white;
-    border: 1px solid rgba(240,246,252,0.1);
+    border: 1px solid rgba(240, 246, 252, 0.1);
   }
 
   .cancelBtn {
@@ -2288,7 +2304,6 @@ nav p:hover {
 }
 /* --- Mobile Responsive Show Issue Page --- */
 @media screen and (max-width: 768px) {
-  
   /* 1. Main Container */
   .show-issue-container {
     padding: 15px;
@@ -2397,7 +2412,7 @@ nav p:hover {
     gap: 10px;
     width: 100%;
   }
-  
+
   .edit-actions button {
     flex: 1; /* Full width buttons for saving */
     padding: 10px;
@@ -2437,7 +2452,6 @@ nav p:hover {
 }
 /* --- Mobile Responsive Issues List --- */
 @media screen and (max-width: 768px) {
-  
   /* 1. Main Container Padding */
   .showIssuesBox {
     width: 100% !important;
@@ -2491,7 +2505,7 @@ nav p:hover {
     margin-bottom: 10px;
     box-sizing: border-box;
     /* Ensure text doesn't overflow */
-    word-wrap: break-word; 
+    word-wrap: break-word;
   }
 
   .issue-title {
@@ -2536,11 +2550,10 @@ nav p:hover {
 }
 /* --- Mobile Responsive Wrapper for Issue Tabs --- */
 @media screen and (max-width: 768px) {
-  
   .issues-tab-wrapper {
     width: 100%;
     max-width: 100%;
-    min-height: 60vh; 
+    min-height: 60vh;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
@@ -2738,7 +2751,9 @@ nav p:hover {
 
 .copyIcon {
   cursor: pointer;
-  transition: color 0.18s, transform 0.22s;
+  transition:
+    color 0.18s,
+    transform 0.22s;
   color: #b6b6b6;
   position: relative;
   bottom: 10px;
@@ -3005,7 +3020,6 @@ nav p:hover {
 }
 /* --- Mobile Responsive Repo Code View --- */
 @media screen and (max-width: 768px) {
-
   /* 1. Main Container Padding */
   .code-container {
     width: 100% !important;
@@ -3054,7 +3068,7 @@ nav p:hover {
     align-items: center;
     gap: 10px;
     /* Ensure rows don't cause scroll */
-    width: 100%; 
+    width: 100%;
     box-sizing: border-box;
   }
 
@@ -3069,7 +3083,7 @@ nav p:hover {
 
   /* 5. Hide Commit Message on Mobile to save space */
   .repo-commit-message {
-    display: none; 
+    display: none;
   }
 
   /* Keep the Date visible but smaller */
@@ -3083,7 +3097,7 @@ nav p:hover {
   .noFiles {
     padding: 10px;
   }
-  
+
   .instruction-list code {
     /* Ensure code blocks wrap nicely */
     word-break: break-all;
@@ -3111,7 +3125,6 @@ nav p:hover {
 }
 /* --- Mobile Responsive File Viewer --- */
 @media screen and (max-width: 768px) {
-
   /* 1. Main Container Wrapper */
   .files-column {
     width: 100% !important;
@@ -3181,14 +3194,14 @@ nav p:hover {
 
   .showcode-content {
     display: block;
-    font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+    font-family: "Courier New", Courier, monospace; /* Monospaced font */
     font-size: 0.85rem; /* readable on mobile */
     line-height: 1.5;
     white-space: pre; /* Keep code formatting intact */
     color: #c9d1d9;
-    
+
     /* Ensure code block is wide enough to scroll */
-    min-width: 100%; 
+    min-width: 100%;
   }
 }
 /*================================================================================ delete repo model  */
@@ -3278,17 +3291,16 @@ nav p:hover {
 }
 /* --- Mobile Responsive Modal --- */
 @media screen and (max-width: 768px) {
-
   /* 1. Modal Overlay & Positioning */
   .modal-overlay {
     /* Ensure overlay covers everything even on scroll */
     position: fixed;
-    inset: 0; 
+    inset: 0;
     z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center; /* Centers vertically */
-    padding: 20px;       /* Safety padding from screen edges */
+    padding: 20px; /* Safety padding from screen edges */
     background-color: rgba(0, 0, 0, 0.7); /* Darker dim for mobile focus */
   }
 
@@ -3297,10 +3309,10 @@ nav p:hover {
     width: 100% !important;
     max-width: 100%;
     /* Let height adjust automatically */
-    height: auto !important; 
+    height: auto !important;
     max-height: 90vh; /* Prevent it from being taller than screen */
     overflow-y: auto; /* Scroll inside modal if content is huge */
-    
+
     border-radius: 12px;
     padding: 0; /* Reset padding, manage via blocks */
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
@@ -3335,7 +3347,7 @@ nav p:hover {
     cursor: pointer;
     color: #8b949e;
     /* Increase touch target */
-    min-width: 44px; 
+    min-width: 44px;
     min-height: 44px;
     display: flex;
     align-items: center;
@@ -3388,14 +3400,13 @@ nav p:hover {
     justify-content: center;
     align-items: center;
     /* Ensure it looks clickable */
-    background-color: #21262d; 
+    background-color: #21262d;
     color: #c9d1d9;
     border: 1px solid #30363d;
   }
 }
 /* --- Mobile Responsive Delete Modal --- */
 @media screen and (max-width: 768px) {
-
   /* 1. The Dark Overlay */
   .modal-overlay {
     position: fixed;
@@ -3457,7 +3468,7 @@ nav p:hover {
     cursor: pointer;
     margin-left: 10px;
     /* Increase touch area */
-    min-width: 32px; 
+    min-width: 32px;
     min-height: 32px;
     display: flex;
     align-items: center;
@@ -3498,7 +3509,7 @@ nav p:hover {
     color: #8b949e;
     margin-top: 5px;
   }
-  
+
   .repo-stats span {
     display: flex;
     align-items: center;
