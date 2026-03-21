@@ -8,6 +8,7 @@ import CreateRepo from "./components/repo/CreateRepo";
 import ShowRepo from "./components/repo/ShowRepo";
 import { useAuth } from "./authContext";
 import Search from "./components/Search";
+import ChatPage from "./components/chat/ChatPage";
 import ProtectedRoute from "../src/components/ProtectedRoute"; // <--- Import ye line add karo
 
 const ProjectRoutes = () => {
@@ -68,6 +69,14 @@ const ProjectRoutes = () => {
       element: (
         <ProtectedRoute>
           <Search />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/chat",
+      element: (
+        <ProtectedRoute>
+          <ChatPage />
         </ProtectedRoute>
       ),
     },

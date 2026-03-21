@@ -1,15 +1,13 @@
-// server.js
-require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const http = require("http");
-const { Server } = require("socket.io");
 const mainRouter = require("./routes/main.router");
 const Commit = require("./models/commit"); // keep as used
 const errorHandler = require("./middlewares/errorHandler");
 const ExpressError = require("./utils/ExpressError");
+const { initSocket } = require("./socket");
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -28,24 +26,8 @@ mongoose
     console.log("❌Error connecting to DB!!!", err);
   });
 
-let user = "test";
 const httpServer = http.createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: "*",
-    methods: ["Get", "Post"],
-  },
-});
-
-io.on("connection", socket => {
-  socket.on("joinRoom", userId => {
-    user = userId;
-    console.log("=========");
-    console.log(user);
-    console.log("=========");
-    socket.join(userId);
-  });
-});
+const io = initSocket(httpServer);
 
 const db = mongoose.connection;
 db.once("open", async () => {

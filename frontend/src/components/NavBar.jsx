@@ -28,7 +28,7 @@ const NavBar = ({ onUserSearch }) => {
         try {
           const response = await axios.get(
             `${apiUrl}/getUserProfile/${userId}`,
-            { headers: { Authorization: `Bearer ${token}` } }
+            { headers: { Authorization: `Bearer ${token}` } },
           );
           setUserDetails(response.data);
         } catch (err) {
@@ -44,6 +44,29 @@ const NavBar = ({ onUserSearch }) => {
     setCurrentUser(null);
     navigate("/login");
   };
+
+  const [unreadChatCount, setUnreadChatCount] = useState(0);
+
+  const fetchUnreadChatCount = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(`${apiUrl}/chat/list`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const conversations = res.data.conversations || [];
+      const count = conversations.reduce(
+        (acc, c) => acc + (c.unreadCount || 0),
+        0,
+      );
+      setUnreadChatCount(count);
+    } catch (err) {
+      console.error("Unable to fetch unread chat count:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUnreadChatCount();
+  }, []);
 
   const handleSearch = async () => {
     // Update the URL with query param (q=...)
@@ -97,8 +120,11 @@ const NavBar = ({ onUserSearch }) => {
         <Link to={"/create"}>
           <div className="repoCreate"> + </div>
         </Link>
-        <div className="issueCheck">
+        <div className="issueCheck" onClick={() => navigate("/chat")}>
           <IssueOpenedIcon size={16} />
+          {unreadChatCount > 0 && (
+            <span className="issueCheckBadge">{unreadChatCount}</span>
+          )}
         </div>
         <div className="profile">
           <img

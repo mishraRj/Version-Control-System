@@ -1,0 +1,110 @@
+.issueCheck {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c9d1d9;
+  cursor: pointer;
+}
+
+.issueCheckBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(56, 139, 253, 0.25);
+  border: 1px solid #3b6cdd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d7e8ff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  box-shadow: 0 0 4px rgba(56, 139, 253, 0.35);
+}
+
+.chat-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  height: calc(100vh - 70px);
+  gap: 1px;
+  background: #0f1720;
+}
+
+.chat-left-panel {
+  background: #0f1720;
+  border-right: 1px solid #30363d;
+  overflow-y: auto;
+}
+
+.chat-right-panel {
+  background: #0d1117;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-splash {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #8b949e;
+  font-size: 1.45rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.chat-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid #222c3b;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.chat-list-item:hover,
+.chat-list-item.active {
+  background: #161f2d;
+}
+
+.chat-list-item .chat-user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-list-item .chat-user-name {
+  color: #c9d1d9;
+  font-weight: 700;
+  font-size: 0.96rem;
+}
+
+.chat-list-item .chat-last {
+  color: #8b949e;
+  font-size: 0.82rem;
+  max-width: 135px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chat-list-item .chat-unread {
+  background: rgba(56, 139, 253, 0.25);
+  color: #bce0ff;
+  border: 1px solid #3f74e2;
+  border-radius: 999px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
