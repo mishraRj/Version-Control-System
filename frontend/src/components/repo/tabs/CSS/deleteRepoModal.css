@@ -70,17 +70,23 @@
 /* Delete button */
 .delete-btn {
   width: 90%; /* only within modal width */
-  background: #f85149;
+  background: linear-gradient(135deg, #ff6d66 0%, #f85149 48%, #c83b36 100%);
   border: none;
   padding: 10px 14px;
   border-radius: 6px;
   font-weight: 600;
   color: white;
   cursor: pointer;
-  transition: background 0.2s;
+  box-shadow: 0 10px 22px rgba(248, 81, 73, 0.18);
+  transition:
+    background 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 .delete-btn:hover {
-  background: #da3633;
+  background: linear-gradient(135deg, #ff8477 0%, #ff5f57 45%, #d9433c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(248, 81, 73, 0.24);
 }
 /* --- Mobile Responsive Modal --- */
 @media screen and (max-width: 768px) {
@@ -194,7 +200,7 @@
     justify-content: center;
     align-items: center;
     /* Ensure it looks clickable */
-    background-color: #21262d; 
+    background: linear-gradient(135deg, #394150 0%, #2b313d 55%, #20252d 100%);
     color: #c9d1d9;
     border: 1px solid #30363d;
   }

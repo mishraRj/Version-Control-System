@@ -8,7 +8,7 @@ import {
   StarIcon,
   SignOutIcon,
   PersonIcon,
-  IssueOpenedIcon,
+  CommentIcon,
 } from "@primer/octicons-react";
 
 const NavBar = ({ onUserSearch }) => {
@@ -50,17 +50,31 @@ const NavBar = ({ onUserSearch }) => {
   const fetchUnreadChatCount = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get(`${apiUrl}/chat/list`, {
+      const userId = localStorage.getItem("userId");
+      const res = await axios.get(`${apiUrl}/previousChats/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const conversations = res.data.conversations || [];
+      const conversations = res.data.users || [];
       const count = conversations.reduce(
         (acc, c) => acc + (c.unreadCount || 0),
         0,
       );
       setUnreadChatCount(count);
     } catch (err) {
-      console.error("Unable to fetch unread chat count:", err);
+      try {
+        const token = localStorage.getItem("token");
+        const fallbackRes = await axios.get(`${apiUrl}/chat/list`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const conversations = fallbackRes.data.conversations || [];
+        const count = conversations.reduce(
+          (acc, c) => acc + (c.unreadCount || 0),
+          0,
+        );
+        setUnreadChatCount(count);
+      } catch (fallbackErr) {
+        console.error("Unable to fetch unread chat count:", fallbackErr);
+      }
     }
   };
 
@@ -121,7 +135,7 @@ const NavBar = ({ onUserSearch }) => {
           <div className="repoCreate"> + </div>
         </Link>
         <div className="issueCheck" onClick={() => navigate("/chat")}>
-          <IssueOpenedIcon size={16} />
+          <CommentIcon size={16} />
           {unreadChatCount > 0 && (
             <span className="issueCheckBadge">{unreadChatCount}</span>
           )}

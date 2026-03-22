@@ -150,32 +150,6 @@ const Dashboard = (req, res) => {
               </>
             )}
           </div>
-
-          {/* Searched Users Box */}
-          <div className="project-status-banner">
-            <strong>🚧 Project in Progress!</strong>
-            <ul>
-              <li>
-                📰 <b>Chat Functionality</b> will be available on the home page
-              </li>
-              <li>
-                📱 <b>Responsiveness</b> coming soon
-              </li>
-              <li>
-                💬 <b>Comments on Issues</b> coming soon
-              </li>
-              <li>
-                ...and much more!{" "}
-                <span className="status-comingsoon">
-                  More features coming soon 🚀
-                </span>
-              </li>
-            </ul>
-            <p className="status-note">
-              Most core functionality is already live. Explore the working
-              GitHub-style repo & commit UI below!
-            </p>
-          </div>
         </main>
         {/* right most side or box  */}
         <aside>

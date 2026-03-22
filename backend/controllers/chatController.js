@@ -41,7 +41,14 @@ const sendMessage = async (req, res) => {
 
 const getChatHistory = async (req, res) => {
   const { otherUserId } = req.params;
-  const userId = req.user.id;
+  const userId = req.user?.id?.toString
+    ? req.user.id.toString()
+    : String(req.user.id);
+  const { Types } = require("mongoose");
+
+  if (!Types.ObjectId.isValid(otherUserId)) {
+    throw new ExpressError(400, "Invalid user id");
+  }
 
   const messages = await ChatMessage.find({
     $or: [
@@ -66,13 +73,16 @@ const getChatHistory = async (req, res) => {
 };
 
 const getChatList = async (req, res) => {
-  const userId = req.user.id;
-  const { ObjectId } = require("mongodb");
+  const userId = req.user?.id?.toString
+    ? req.user.id.toString()
+    : String(req.user.id);
+  const { Types } = require("mongoose");
+  const userObjectId = new Types.ObjectId(userId);
 
   const conversations = await ChatMessage.aggregate([
     {
       $match: {
-        $or: [{ sender: ObjectId(userId) }, { receiver: ObjectId(userId) }],
+        $or: [{ sender: userObjectId }, { receiver: userObjectId }],
       },
     },
     {
@@ -82,7 +92,7 @@ const getChatList = async (req, res) => {
       $group: {
         _id: {
           $cond: [
-            { $eq: ["$sender", ObjectId(userId)] },
+            { $eq: ["$sender", userObjectId] },
             "$receiver",
             "$sender",
           ],
@@ -94,7 +104,7 @@ const getChatList = async (req, res) => {
             $cond: [
               {
                 $and: [
-                  { $eq: ["$receiver", ObjectId(userId)] },
+                  { $eq: ["$receiver", userObjectId] },
                   { $eq: ["$read", false] },
                 ],
               },
@@ -119,7 +129,7 @@ const getChatList = async (req, res) => {
     {
       $project: {
         _id: 0,
-        userId: "$_id",
+        userId: { $toString: "$_id" },
         username: "$participant.username",
         avatar: "$participant.avatar",
         lastMessage: 1,
@@ -131,7 +141,6 @@ const getChatList = async (req, res) => {
       $sort: { lastMessageTime: -1 },
     },
   ]);
-
   res.json({ success: true, conversations });
 };
 
@@ -168,5 +177,7 @@ const deleteChat = async (req, res) => {
 module.exports = {
   sendMessage,
   getChatHistory,
+  getChatList,
+  markMessagesRead,
   deleteChat,
 };

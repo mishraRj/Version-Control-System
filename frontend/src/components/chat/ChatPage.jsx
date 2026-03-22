@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../NavBar";
 import Footer from "../Footer";
 import io from "socket.io-client";
+import "./chat.css";
 import "../dashboard/Dashboard.css";
 
 const ChatPage = () => {
@@ -12,24 +13,155 @@ const ChatPage = () => {
   const [activeChatUser, setActiveChatUser] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const [socket, setSocket] = useState(null);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const messagesEndRef = useRef(null);
+  const activeChatUserRef = useRef(null);
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  const fetchChatList = async () => {
+  const getChatUserId = user => String(user?.userId || user?._id || "");
+
+  const mergeChatUsers = (followedUsers = [], previousChats = []) => {
+    const mergedMap = new Map();
+
+    previousChats.forEach(chatUser => {
+      const normalizedId = getChatUserId(chatUser);
+      if (!normalizedId) return;
+
+      mergedMap.set(normalizedId, {
+        ...chatUser,
+        _id: normalizedId,
+        userId: normalizedId,
+        isFollowedUser: false,
+      });
+    });
+
+    followedUsers.forEach(followedUser => {
+      const key = getChatUserId(followedUser);
+      if (!key) return;
+
+      if (mergedMap.has(key)) {
+        const existingUser = mergedMap.get(key);
+        mergedMap.set(key, {
+          ...followedUser,
+          ...existingUser,
+          _id: key,
+          userId: key,
+          isFollowedUser: true,
+        });
+        return;
+      }
+
+      mergedMap.set(key, {
+        ...followedUser,
+        _id: key,
+        userId: key,
+        lastMessage: "",
+        lastMessageTime: null,
+        unreadCount: 0,
+        isFollowedUser: true,
+      });
+    });
+
+    return Array.from(mergedMap.values()).sort((a, b) => {
+      const timeA = a.lastMessageTime
+        ? new Date(a.lastMessageTime).getTime()
+        : 0;
+      const timeB = b.lastMessageTime
+        ? new Date(b.lastMessageTime).getTime()
+        : 0;
+
+      if (timeA !== timeB) return timeB - timeA;
+      return a.username.localeCompare(b.username);
+    });
+  };
+
+  const fetchFollowedUsersFallback = async () => {
+    const [profileRes, allUsersRes] = await Promise.all([
+      axios.get(`${apiUrl}/getUserProfile/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      axios.get(`${apiUrl}/allUsers`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+    ]);
+
+    const followedUserIds = new Set(
+      (profileRes.data.followedUsers || []).map(id => id.toString()),
+    );
+
+    return (allUsersRes.data || [])
+      .filter(user => followedUserIds.has(user._id?.toString()))
+      .map(user => ({
+        userId: user._id,
+        username: user.username,
+        avatar: user.avatar,
+        bio: user.bio,
+      }));
+  };
+
+  const fetchPreviousChatsFallback = async () => {
     try {
       const res = await axios.get(`${apiUrl}/chat/list`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setChatList(res.data.conversations || []);
+      return res.data.conversations || [];
+    } catch {
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    activeChatUserRef.current = activeChatUser;
+  }, [activeChatUser]);
+
+  useEffect(() => {
+    if (!activeChatUser) return;
+    fetchChatHistory(activeChatUser);
+  }, [activeChatUser]);
+
+  const fetchChatList = async () => {
+    try {
+      const [followedUsersRes, previousChatsRes, chatListRes] =
+        await Promise.allSettled([
+          axios.get(`${apiUrl}/followedUsers/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get(`${apiUrl}/previousChats/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get(`${apiUrl}/chat/list`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        ]);
+
+      const followedUsers =
+        followedUsersRes.status === "fulfilled"
+          ? followedUsersRes.value.data.users || []
+          : await fetchFollowedUsersFallback();
+
+      const previousChatsFromRoute =
+        previousChatsRes.status === "fulfilled"
+          ? previousChatsRes.value.data.users || []
+          : await fetchPreviousChatsFallback();
+
+      const previousChatsFromChatList =
+        chatListRes.status === "fulfilled"
+          ? chatListRes.value.data.conversations || []
+          : [];
+
+      const previousChats = mergeChatUsers(
+        [],
+        [...previousChatsFromRoute, ...previousChatsFromChatList],
+      );
+
+      const mergedChatList = mergeChatUsers(followedUsers, previousChats);
+
+      setChatList(mergedChatList);
       setUnreadCount(
-        res.data.conversations.reduce(
-          (acc, chat) => acc + (chat.unreadCount || 0),
-          0,
-        ),
+        mergedChatList.reduce((acc, chat) => acc + (chat.unreadCount || 0), 0),
       );
     } catch (error) {
       console.error("Failed to fetch chat list:", error);
@@ -37,29 +169,37 @@ const ChatPage = () => {
   };
 
   const fetchChatHistory = async user => {
-    if (!user) return;
+    const otherUserId = getChatUserId(user);
+    if (!otherUserId) return;
+
     try {
-      const res = await axios.get(`${apiUrl}/chat/history/${user.userId}`, {
+      const res = await axios.get(`${apiUrl}/chat/history/${otherUserId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setChatMessages(res.data.messages || []);
 
-      // mark as read
-      await axios.put(`${apiUrl}/chat/read/${user.userId}`, null, {
+      await axios.put(`${apiUrl}/chat/read/${otherUserId}`, null, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       setChatList(prev =>
         prev.map(chat =>
-          chat.userId === user.userId ? { ...chat, unreadCount: 0 } : chat,
+          getChatUserId(chat) === otherUserId
+            ? { ...chat, unreadCount: 0 }
+            : chat,
         ),
       );
-      setUnreadCount(prev => prev - (user.unreadCount || 0));
-
-      setActiveChatUser(user);
+      setUnreadCount(prev => Math.max(0, prev - (user.unreadCount || 0)));
     } catch (error) {
       console.error("Error fetching chat history:", error);
+      setChatMessages([]);
     }
+  };
+
+  const handleChatSelect = user => {
+    if (!user) return;
+    setActiveChatUser(user);
+    setMessage("");
   };
 
   useEffect(() => {
@@ -67,47 +207,47 @@ const ChatPage = () => {
   }, []);
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!token || !userId) return;
 
-    const s = io(apiUrl, { auth: { token } });
-    setSocket(s);
+    const socket = io(apiUrl, { auth: { token } });
 
-    s.on("connect", () => {
-      s.emit("joinRoom", userId);
+    socket.on("connect", () => {
+      socket.emit("joinRoom", userId);
     });
 
-    s.on("newMessage", message => {
-      const activeId = activeChatUser?.userId;
-      const otherId = message.sender?._id || message.sender;
-      const src = otherId === userId ? message.receiver?._id : otherId;
+    socket.on("newMessage", incomingMessage => {
+      const activeId = getChatUserId(activeChatUserRef.current);
+      const otherId = incomingMessage.sender?._id || incomingMessage.sender;
+      const sourceUserId =
+        otherId === userId ? incomingMessage.receiver?._id : otherId;
+      const isActiveChat =
+        activeId && sourceUserId?.toString() === activeId.toString();
 
-      // update list unread
-      setChatList(prev =>
-        prev.map(c => {
-          if (c.userId.toString() === src?.toString()) {
-            const isActive = c.userId.toString() === activeId?.toString();
-            if (isActive) {
-              setChatMessages(chatMessages => [...chatMessages, message]);
-              return { ...c, unreadCount: 0 };
-            }
-            return { ...c, unreadCount: (c.unreadCount || 0) + 1 };
-          }
-          return c;
-        }),
-      );
+      if (isActiveChat) {
+        setChatMessages(currentMessages => [
+          ...currentMessages,
+          incomingMessage,
+        ]);
+      }
 
-      setUnreadCount(prev => {
-        if (activeId && src.toString() === activeId.toString()) {
-          return prev;
-        }
-        return prev + 1;
-      });
+      fetchChatList();
     });
 
     return () => {
-      s.disconnect();
+      socket.disconnect();
     };
-  }, [apiUrl, token, userId, activeChatUser]);
+  }, [apiUrl, token, userId]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -118,9 +258,12 @@ const ChatPage = () => {
   const handleSend = async () => {
     if (!message.trim() || !activeChatUser) return;
 
+    const activeChatUserId = getChatUserId(activeChatUser);
+    if (!activeChatUserId) return;
+
     const outgoing = {
       sender: { _id: userId },
-      receiver: { _id: activeChatUser.userId },
+      receiver: { _id: activeChatUserId },
       message: message.trim(),
       timestamp: new Date().toISOString(),
     };
@@ -129,7 +272,7 @@ const ChatPage = () => {
       await axios.post(
         `${apiUrl}/chat/send`,
         {
-          receiverId: activeChatUser.userId,
+          receiverId: activeChatUserId,
           message: message.trim(),
         },
         {
@@ -139,191 +282,184 @@ const ChatPage = () => {
 
       setChatMessages(prev => [...prev, outgoing]);
       setMessage("");
+      fetchChatList();
     } catch (error) {
       console.error("Could not send message:", error);
     }
   };
 
+  const handleDeleteChat = async () => {
+    if (!activeChatUser) return;
+
+    const activeChatUserId = getChatUserId(activeChatUser);
+    if (!activeChatUserId) return;
+
+    try {
+      await axios.delete(`${apiUrl}/chat/delete/${activeChatUserId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setChatMessages([]);
+      setActiveChatUser(null);
+      fetchChatList();
+    } catch (error) {
+      console.error("Error deleting chat:", error);
+    }
+  };
+
+  const renderChatPanel = panelClassName => (
+    <div className={panelClassName}>
+      <div className="chat-panel-header">
+        <button
+          type="button"
+          className="chat-user-profile chat-page-profile-link"
+          onClick={() => navigate(`/profile/${activeChatUser.username}`)}>
+          <img
+            src={activeChatUser.avatar || "/default-avatar.png"}
+            alt={activeChatUser.username}
+          />
+          <div>
+            <h3>{activeChatUser.username}</h3>
+            <span>Chat window</span>
+          </div>
+        </button>
+        <div className="chat-header-actions">
+          <button className="chat-delete-btn" onClick={handleDeleteChat}>
+            Delete Chat
+          </button>
+          <button
+            className="chat-close-btn"
+            onClick={() => setActiveChatUser(null)}>
+            ×
+          </button>
+        </div>
+      </div>
+
+      <div
+        className={`chat-panel-body ${
+          chatMessages.length > 0 ? "chat-ready" : ""
+        }`}>
+        {chatMessages.length === 0 ? (
+          <div className="chat-empty">
+            <p>
+              <strong>Say Hi to {activeChatUser.username}</strong>
+            </p>
+            <p className="chat-body-hint">
+              Start a conversation. Messages will appear here.
+            </p>
+          </div>
+        ) : (
+          <div className="chat-messages">
+            {chatMessages.map((msg, idx) => {
+              const isMine =
+                msg.sender?._id === userId || msg.sender === userId;
+
+              return (
+                <div
+                  key={idx}
+                  className={`chat-message ${
+                    isMine ? "chat-message-own" : "chat-message-other"
+                  }`}>
+                  <div className="chat-message-content">
+                    <p>{msg.message}</p>
+                    <span className="chat-message-time">
+                      {new Date(msg.timestamp).toLocaleTimeString()}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+            <div ref={messagesEndRef} />
+          </div>
+        )}
+      </div>
+
+      <div className="chat-panel-footer">
+        <input
+          value={message}
+          onChange={e => setMessage(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === "Enter") handleSend();
+          }}
+          placeholder={`Type your message to ${activeChatUser.username}...`}
+        />
+        <button onClick={handleSend} disabled={!message.trim()}>
+          Send
+        </button>
+      </div>
+    </div>
+  );
+
   return (
     <>
       <NavBar />
-      <section id="dashboard" style={{ padding: "0" }}>
-        <aside
-          className="repo-suggestions"
-          style={{
-            width: "30%",
-            minWidth: "300px",
-            maxWidth: "350px",
-            height: "calc(100vh - 70px)",
-            overflowY: "auto",
-          }}>
-          <h3 className="repo-suggestions-title">Chats</h3>
-          <div className="repo-suggestions-list" style={{ paddingTop: "0" }}>
+      <section className="chat-page">
+        <aside className="chat-page-sidebar">
+          <h3 className="chat-page-sidebar-title">Chats</h3>
+          <div className="chat-page-list">
             {chatList.map(chat => (
               <div
                 key={chat.userId}
-                className="suggestion-row"
-                style={{
-                  justifyContent: "space-between",
-                  background:
-                    activeChatUser?.userId === chat.userId
-                      ? "#21262d"
-                      : "transparent",
-                }}
-                onClick={() => fetchChatHistory(chat)}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}>
+                className={`chat-page-list-item ${
+                  getChatUserId(activeChatUser) === getChatUserId(chat)
+                    ? "chat-page-list-item-active"
+                    : ""
+                }`}
+                onClick={() => handleChatSelect(chat)}>
+                <div className="chat-page-list-user">
                   <img
                     src={chat.avatar || "/default-avatar.png"}
-                    className="repo-suggestion-avatar"
+                    className="chat-page-list-avatar"
                     alt="avatar"
                   />
-                  <div>
-                    <div style={{ color: "#58a6ff", fontWeight: 600 }}>
-                      {chat.username}
-                    </div>
-                    <div
-                      style={{
-                        color: "#8b949e",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        width: "180px",
-                      }}>
-                      {chat.lastMessage || "No messages yet"}
+                  <div className="chat-page-list-meta">
+                    <div className="chat-page-list-name">{chat.username}</div>
+                    <div className="chat-page-list-preview">
+                      {chat.lastMessage ||
+                        (chat.isFollowedUser
+                          ? "Start a conversation"
+                          : "No messages yet")}
                     </div>
                   </div>
                 </div>
                 {chat.unreadCount > 0 && (
-                  <span
-                    style={{
-                      background: "rgba(56, 139, 253, .3)",
-                      color: "#dbe9ff",
-                      borderRadius: "999px",
-                      padding: "3px 9px",
-                      fontSize: "0.75rem",
-                    }}>
-                    {chat.unreadCount}
-                  </span>
+                  <span className="chat-page-unread">{chat.unreadCount}</span>
                 )}
               </div>
             ))}
             {chatList.length === 0 && (
-              <div style={{ color: "#8b949e" }}>No chats yet.</div>
+              <div className="chat-page-empty-state">
+                No followed users or chats yet.
+              </div>
             )}
           </div>
         </aside>
 
-        <main
-          className="middle"
-          style={{
-            width: "70%",
-            height: "calc(100vh - 70px)",
-            padding: "0",
-            display: "flex",
-            flexDirection: "column",
-          }}>
-          {!activeChatUser ? (
-            <div
-              style={{
-                flex: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-                color: "#8b949e",
-              }}>
-              <h1>G!thub, by RJTV Universe</h1>
-              <p>Click a chat on the left to start messaging</p>
-            </div>
-          ) : (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100%",
-              }}>
-              <div
-                style={{
-                  padding: "14px 16px",
-                  borderBottom: "1px solid #30363d",
-                  background: "#0d1117",
-                }}>
-                <h3 style={{ margin: 0 }}>{activeChatUser.username}</h3>
-                <small style={{ color: "#8b949e" }}>Chat window</small>
+        {!isMobile && (
+          <main className="chat-page-main">
+            {!activeChatUser ? (
+              <div className="chat-page-placeholder">
+                <h1>
+                  G!thub, by{" "}
+                  <a
+                    href="https://rjtv-universe.onrender.com/"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    RJTV Universe 👽
+                  </a>
+                </h1>
+                <p>Click a chat on the left to open the chat panel</p>
               </div>
-
-              <div
-                style={{
-                  flex: 1,
-                  overflowY: "auto",
-                  padding: "12px",
-                  display: "flex",
-                  flexDirection: "column",
-                }}>
-                {chatMessages.map((msg, idx) => {
-                  const isMine =
-                    msg.sender?._id === userId || msg.sender === userId;
-                  return (
-                    <div
-                      key={idx}
-                      className={`chat-message ${isMine ? "chat-message-own" : "chat-message-other"}`}>
-                      <div className="chat-message-content">
-                        <p>{msg.message}</p>
-                        <span className="chat-message-time">
-                          {new Date(msg.timestamp).toLocaleTimeString()}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-                <div ref={messagesEndRef} />
-              </div>
-
-              <div
-                style={{
-                  borderTop: "1px solid #30363d",
-                  padding: "12px",
-                  display: "flex",
-                  gap: "8px",
-                }}>
-                <input
-                  value={message}
-                  onChange={e => setMessage(e.target.value)}
-                  onKeyDown={e => {
-                    if (e.key === "Enter") handleSend();
-                  }}
-                  placeholder={`Type your message to ${activeChatUser.username}...`}
-                  style={{
-                    flex: 1,
-                    background: "#161b22",
-                    border: "1px solid #30363d",
-                    borderRadius: "10px",
-                    padding: "10px",
-                    color: "#c9d1d9",
-                  }}
-                />
-                <button
-                  onClick={handleSend}
-                  style={{
-                    background: "#388bfd",
-                    border: "1px solid #2868d4",
-                    color: "#fff",
-                    borderRadius: "10px",
-                    padding: "10px 18px",
-                    cursor: "pointer",
-                  }}>
-                  Send
-                </button>
-              </div>
-            </div>
-          )}
-        </main>
+            ) : (
+              renderChatPanel("chat-page-desktop-panel")
+            )}
+          </main>
+        )}
       </section>
+      {isMobile && activeChatUser && (
+        <div className="chat-page-mobile-overlay">
+          {renderChatPanel("chat-right-panel")}
+        </div>
+      )}
       <Footer />
     </>
   );

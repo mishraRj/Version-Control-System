@@ -12,7 +12,6 @@ const initSocket = httpServer => {
 
   io.on("connection", socket => {
     socket.on("joinRoom", userId => {
-      console.log(`User ${userId} joined room`);
       socket.join(userId);
     });
   });

@@ -117,7 +117,7 @@ body {
 .login-btn,
 .submit-btn {
   width: 100%;
-  background-color: #238636; /* GitHub Green */
+  background: linear-gradient(135deg, #2ea043 0%, #238636 55%, #1a7f37 100%);
   color: #ffffff;
   border: 1px solid rgba(240, 246, 252, 0.1);
   border-radius: 6px;
@@ -126,7 +126,11 @@ body {
   font-weight: 600;
   height: 35px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  box-shadow: 0 10px 22px rgba(35, 134, 54, 0.16);
+  transition:
+    background 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -134,13 +138,16 @@ body {
 
 .login-btn:hover,
 .submit-btn:hover {
-  background-color: #2ea043;
+  background: linear-gradient(135deg, #39b655 0%, #2ea043 45%, #238636 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(35, 134, 54, 0.24);
 }
 
 .login-btn:disabled {
-  background-color: #238636;
+  background: linear-gradient(135deg, #2c7f3d 0%, #236833 55%, #1a5327 100%);
   opacity: 0.7;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 /* =========================================

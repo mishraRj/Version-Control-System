@@ -42,5 +42,15 @@ userRouter.get(
   isLoggedIn,
   wrapAsync(userController.getFeedForDashboard)
 );
+userRouter.get(
+  "/followedUsers/:id",
+  isLoggedIn,
+  wrapAsync(userController.followedUsers)
+);
+userRouter.get(
+  "/previousChats/:id",
+  isLoggedIn,
+  wrapAsync(userController.previousChats)
+);
 
 module.exports = userRouter;
