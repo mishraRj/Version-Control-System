@@ -53,7 +53,7 @@ const Signup = () => {
           <Box sx={{ padding: 1 }}>
             <PageHeader>
               <PageHeader.TitleArea variant="large">
-                <PageHeader.Title>Sign Up</PageHeader.Title>
+                <PageHeader.Title>Sign Up to G!thub</PageHeader.Title>
               </PageHeader.TitleArea>
             </PageHeader>
           </Box>

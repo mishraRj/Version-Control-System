@@ -55,7 +55,7 @@ const Login = () => {
           <Box sx={{ padding: 1 }}>
             <PageHeader>
               <PageHeader.TitleArea variant="large">
-                <PageHeader.Title>Sign in to GitHub</PageHeader.Title>
+                <PageHeader.Title>Sign in to G!tHub</PageHeader.Title>
               </PageHeader.TitleArea>
             </PageHeader>
           </Box>
