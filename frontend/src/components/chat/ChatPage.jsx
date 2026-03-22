@@ -17,6 +17,7 @@ const ChatPage = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const messagesEndRef = useRef(null);
   const activeChatUserRef = useRef(null);
+  const [loading, setLoading] = useState(false);
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -123,6 +124,7 @@ const ChatPage = () => {
   }, [activeChatUser]);
 
   const fetchChatList = async () => {
+    setLoading(true);
     try {
       const [followedUsersRes, previousChatsRes, chatListRes] =
         await Promise.allSettled([
@@ -165,6 +167,8 @@ const ChatPage = () => {
       );
     } catch (error) {
       console.error("Failed to fetch chat list:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -396,40 +400,50 @@ const ChatPage = () => {
         <aside className="chat-page-sidebar">
           <h3 className="chat-page-sidebar-title">Chats</h3>
           <div className="chat-page-list">
-            {chatList.map(chat => (
-              <div
-                key={chat.userId}
-                className={`chat-page-list-item ${
-                  getChatUserId(activeChatUser) === getChatUserId(chat)
-                    ? "chat-page-list-item-active"
-                    : ""
-                }`}
-                onClick={() => handleChatSelect(chat)}>
-                <div className="chat-page-list-user">
-                  <img
-                    src={chat.avatar || "/default-avatar.png"}
-                    className="chat-page-list-avatar"
-                    alt="avatar"
-                  />
-                  <div className="chat-page-list-meta">
-                    <div className="chat-page-list-name">{chat.username}</div>
-                    <div className="chat-page-list-preview">
-                      {chat.lastMessage ||
-                        (chat.isFollowedUser
-                          ? "Start a conversation"
-                          : "No messages yet")}
+            {loading ? (
+              "Loading..."
+            ) : (
+              <>
+                {chatList.map(chat => (
+                  <div
+                    key={chat.userId}
+                    className={`chat-page-list-item ${
+                      getChatUserId(activeChatUser) === getChatUserId(chat)
+                        ? "chat-page-list-item-active"
+                        : ""
+                    }`}
+                    onClick={() => handleChatSelect(chat)}>
+                    <div className="chat-page-list-user">
+                      <img
+                        src={chat.avatar || "/default-avatar.png"}
+                        className="chat-page-list-avatar"
+                        alt="avatar"
+                      />
+                      <div className="chat-page-list-meta">
+                        <div className="chat-page-list-name">
+                          {chat.username}
+                        </div>
+                        <div className="chat-page-list-preview">
+                          {chat.lastMessage ||
+                            (chat.isFollowedUser
+                              ? "Start a conversation"
+                              : "No messages yet")}
+                        </div>
+                      </div>
                     </div>
+                    {chat.unreadCount > 0 && (
+                      <span className="chat-page-unread">
+                        {chat.unreadCount}
+                      </span>
+                    )}
                   </div>
-                </div>
-                {chat.unreadCount > 0 && (
-                  <span className="chat-page-unread">{chat.unreadCount}</span>
+                ))}
+                {chatList.length === 0 && (
+                  <div className="chat-page-empty-state">
+                    No followed users or chats yet.
+                  </div>
                 )}
-              </div>
-            ))}
-            {chatList.length === 0 && (
-              <div className="chat-page-empty-state">
-                No followed users or chats yet.
-              </div>
+              </>
             )}
           </div>
         </aside>
