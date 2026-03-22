@@ -88,6 +88,7 @@ nav p:hover {
 .issueCheck {
   background-color: transparent;
   width: 3rem;
+  cursor: pointer;
   height: 2.7rem;
   padding: 0.4rem;
   border: 0.5px solid #30363d;
@@ -95,6 +96,39 @@ nav p:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  transition:
+    border-color 0.18s,
+    box-shadow 0.18s,
+    background 0.18s;
+}
+
+.issueCheckHasUnread {
+  border-color: rgba(88, 166, 255, 0.55);
+  background: linear-gradient(135deg, rgba(56, 139, 253, 0.12) 0%, rgba(35, 134, 54, 0.08) 100%);
+  box-shadow: 0 0 0 1px rgba(56, 139, 253, 0.14);
+}
+
+.issueCheckBadge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #58a6ff 0%, #388bfd 48%, #1f6feb 100%);
+  border: 1px solid #8cc2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f8fbff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow:
+    0 0 0 2px #0d1117,
+    0 8px 16px rgba(31, 111, 235, 0.28);
 }
 /* Dropdown container */
 .dropdown-menu {
@@ -144,28 +178,28 @@ nav p:hover {
   }
 
   nav p {
-    display: none; 
+    display: none;
   }
 
   .navFields {
     width: 100%;
-    order: 3; 
+    order: 3;
     margin-top: 15px;
     justify-content: space-between;
   }
   .search-bar {
-    width: 100% !important; 
-    flex: 1; 
+    width: 100% !important;
+    flex: 1;
     margin-right: 8px;
-    min-width: 0; 
+    min-width: 0;
   }
-  .repoCreate, 
+  .repoCreate,
   .issueCheck {
     flex-shrink: 0;
   }
   .dropdown-menu {
-    top: 130px; 
+    top: 130px;
     width: 40vw;
-    right: 5vw; 
+    right: 5vw;
   }
 }

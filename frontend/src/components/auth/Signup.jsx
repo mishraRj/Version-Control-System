@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../authContext";
-
-import { PageHeader, Box, Button } from "@primer/react";
+import { PageHeader, Box } from "@primer/react";
 import "./auth.css";
+import AuthToast from "./AuthToast";
 
 import logo from "../../assets/github-mark-white.svg";
 import { Link } from "react-router-dom";
+
+const getAuthErrorMessage = (err, fallbackMessage) =>
+  err?.response?.data?.error ||
+  err?.response?.data?.message ||
+  err?.message ||
+  fallbackMessage;
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const { setCurrentUser } = useAuth();
 
@@ -37,13 +44,22 @@ const Signup = () => {
       window.location.href = "/";
     } catch (err) {
       console.error(err);
-      alert("Signup Failed!");
+      setToastMessage(
+        getAuthErrorMessage(
+          err,
+          "Signup failed. Please check the entered details and try again.",
+        ),
+      );
       setLoading(false);
     }
   };
 
   return (
     <div className="login-wrapper">
+      <AuthToast
+        message={toastMessage}
+        onClose={() => setToastMessage("")}
+      />
       <div className="login-logo-container">
         <img className="logo-login" src={logo} alt="Logo" />
       </div>
@@ -53,7 +69,7 @@ const Signup = () => {
           <Box sx={{ padding: 1 }}>
             <PageHeader>
               <PageHeader.TitleArea variant="large">
-                <PageHeader.Title>Sign Up</PageHeader.Title>
+                <PageHeader.Title>Sign Up to G!thub</PageHeader.Title>
               </PageHeader.TitleArea>
             </PageHeader>
           </Box>

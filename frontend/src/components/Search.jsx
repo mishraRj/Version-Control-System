@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./dashboard/Dashboard.css";
 import NavBar from "./NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "./Footer";
+import io from "socket.io-client";
 
 const Search = () => {
   const location = useLocation();
@@ -13,6 +14,12 @@ const Search = () => {
   const [loggedInUser, setLoggedInUser] = useState(null); // session user
   const [loadingUserIds, setLoadingUserIds] = useState([]);
   const [suggestedRepositories, setSuggestedRepositories] = useState([]);
+  const [chatUser, setChatUser] = useState(null);
+  const [chatMessage, setChatMessage] = useState("");
+  const [chatMessages, setChatMessages] = useState([]);
+  const [socket, setSocket] = useState(null);
+  const messagesEndRef = useRef(null);
+  const chatUserRef = useRef(null);
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -22,6 +29,10 @@ const Search = () => {
   useEffect(() => {
     setSearchValue(searchTerm);
   }, [searchTerm]);
+
+  useEffect(() => {
+    chatUserRef.current = chatUser;
+  }, [chatUser]);
 
   // Fetch users by searchTerm
   useEffect(() => {
@@ -62,6 +73,81 @@ const Search = () => {
       .catch(() => setLoggedInUser(null));
   }, []);
 
+  // Socket connection
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    if (!token || !userId || socket) return; // Prevent multiple connections
+
+    try {
+      const newSocket = io(apiUrl, {
+        auth: { token },
+        transports: ["websocket", "polling"], // Fallback transports
+      });
+      setSocket(newSocket);
+
+      newSocket.emit("joinRoom", userId);
+
+      newSocket.on("newMessage", message => {
+        const activeUser = chatUserRef.current;
+        const otherUserId = activeUser?._id;
+        const isActiveChat =
+          otherUserId &&
+          (message.sender?._id === otherUserId ||
+            message.receiver?._id === otherUserId);
+
+        if (isActiveChat) {
+          setChatMessages(prev => [...prev, message]);
+        }
+      });
+
+      newSocket.on("connect", () => {
+        console.log("Connected to chat server");
+      });
+
+      newSocket.on("connect_error", error => {
+        console.error("Socket connection error:", error);
+      });
+
+      return () => {
+        if (newSocket) {
+          newSocket.disconnect();
+        }
+      };
+    } catch (error) {
+      console.error("Failed to initialize socket:", error);
+    }
+  }, [apiUrl, socket]);
+
+  // Fetch chat history when chatUser changes
+  useEffect(() => {
+    if (!chatUser || !loggedInUser) return;
+
+    const fetchChatHistory = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `${apiUrl}/chat/history/${chatUser._id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+        setChatMessages(response.data.messages);
+      } catch (error) {
+        console.error("Error fetching chat history:", error);
+        setChatMessages([]);
+      }
+    };
+
+    fetchChatHistory();
+  }, [chatUser, loggedInUser, apiUrl]);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chatMessages]);
+
   const existingUser =
     loggedInUser && searchedUsers && loggedInUser._id === searchedUsers._id;
 
@@ -74,20 +160,74 @@ const Search = () => {
       await axios.post(
         `${apiUrl}/toggleFollow/${visitedUserId}`,
         { loggedInUserId: loggedInUser._id },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       setSearchedUsers(prev =>
         prev.map(user =>
           user._id === visitedUserId
             ? { ...user, isFollowing: !currentlyFollowing }
-            : user
-        )
+            : user,
+        ),
       );
     } catch (err) {
       console.error("Cannot follow/unfollow user: ", err);
     } finally {
       // Remove user from loading ids
       setLoadingUserIds(prev => prev.filter(id => id !== visitedUserId));
+    }
+  };
+
+  const handleSendMessage = async () => {
+    if (!chatMessage.trim() || !chatUser || !loggedInUser) return;
+
+    const newMessage = {
+      sender: {
+        _id: loggedInUser._id,
+        username: loggedInUser.username,
+        avatar: loggedInUser.avatar,
+      },
+      receiver: {
+        _id: chatUser._id,
+        username: chatUser.username,
+        avatar: chatUser.avatar,
+      },
+      message: chatMessage.trim(),
+      timestamp: new Date().toISOString(),
+    };
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        `${apiUrl}/chat/send`,
+        {
+          receiverId: chatUser._id,
+          message: chatMessage.trim(),
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      // Add outgoing message instantly
+      setChatMessages(prev => [...prev, newMessage]);
+      setChatMessage("");
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
+
+  const handleDeleteChat = async () => {
+    if (!chatUser) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`${apiUrl}/chat/delete/${chatUser._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setChatMessages([]);
+      alert("Chat deleted successfully");
+    } catch (error) {
+      console.error("Error deleting chat:", error);
     }
   };
 
@@ -105,7 +245,7 @@ const Search = () => {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-          }
+          },
         );
         const data = await response.json();
         setSuggestedRepositories(data.repositories);
@@ -190,11 +330,16 @@ const Search = () => {
                       {loadingUserIds.includes(user._id)
                         ? "Loading..."
                         : user.isFollowing
-                        ? "Following"
-                        : "Follow"}
+                          ? "Following"
+                          : "Follow"}
                     </button>
 
-                    <button onClick={e => e.stopPropagation()}>
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        setChatUser(user);
+                        setChatMessage("");
+                      }}>
                       Connect +
                     </button>
                   </div>
@@ -202,6 +347,80 @@ const Search = () => {
               ))}
           </div>
         </main>
+
+        {chatUser && (
+          <div className="chat-right-panel">
+            <div className="chat-panel-header">
+              <div className="chat-user-profile">
+                <img
+                  src={chatUser.avatar || "/default-avatar.png"}
+                  alt={chatUser.username}
+                />
+                <div>
+                  <h3>{chatUser.username}</h3>
+                  <span>Chat window</span>
+                </div>
+              </div>
+              <div className="chat-header-actions">
+                <button className="chat-delete-btn" onClick={handleDeleteChat}>
+                  Delete Chat
+                </button>
+                <button
+                  className="chat-close-btn"
+                  onClick={() => setChatUser(null)}>
+                  ×
+                </button>
+              </div>
+            </div>
+            <div
+              className={`chat-panel-body ${chatMessages.length > 0 ? "chat-ready" : ""}`}>
+              {chatMessages.length === 0 ? (
+                <div className="chat-empty">
+                  <p>
+                    <strong>Say Hi to {chatUser.username}</strong>
+                  </p>
+                  <p className="chat-body-hint">
+                    Start a conversation. Messages will appear here.
+                  </p>
+                </div>
+              ) : (
+                <div className="chat-messages">
+                  {chatMessages.map((msg, index) => (
+                    <div
+                      key={index}
+                      className={`chat-message ${
+                        msg.sender._id === loggedInUser?._id
+                          ? "chat-message-own"
+                          : "chat-message-other"
+                      }`}>
+                      <div className="chat-message-content">
+                        <p>{msg.message}</p>
+                        <span className="chat-message-time">
+                          {new Date(msg.timestamp).toLocaleTimeString()}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                  <div ref={messagesEndRef} />
+                </div>
+              )}
+            </div>
+            <div className="chat-panel-footer">
+              <input
+                value={chatMessage}
+                onChange={e => setChatMessage(e.target.value)}
+                onKeyPress={e => e.key === "Enter" && handleSendMessage()}
+                placeholder={`Type your message to ${chatUser.username}...`}
+              />
+              <button
+                onClick={handleSendMessage}
+                disabled={!chatMessage.trim()}>
+                Send
+              </button>
+            </div>
+          </div>
+        )}
+
         <aside>
           <h3>Upcoming Events</h3>
           <ul>

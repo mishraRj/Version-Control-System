@@ -1,11 +1,10 @@
-
- .overview-container {
-  height: auto !important; 
-  min-height: 100%; 
+.overview-container {
+  height: auto !important;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   padding: 10px;
-  padding-bottom: 10px; 
+  padding-bottom: 10px;
   overflow: visible !important;
 }
 
@@ -71,7 +70,9 @@
   font-size: 0.875rem;
   color: #fff;
   background-color: #181818;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .edit-section2 input[type="text"]:focus,
@@ -103,26 +104,28 @@
 }
 
 .edit-section2 .btn-success {
-  background-color: #28a745;
+  background: linear-gradient(135deg, #33b553 0%, #28a745 55%, #1f8a38 100%);
   color: white;
-  border: 1px solid #28a745;
+  border: 1px solid #238d3b;
+  box-shadow: 0 10px 20px rgba(40, 167, 69, 0.16);
 }
 
 .edit-section2 .btn-success:hover {
-  background-color: #218838;
-  border-color: #1e7e34;
+  background: linear-gradient(135deg, #45c964 0%, #2fb14d 55%, #249640 100%);
+  border-color: #21823a;
 }
 
 .edit-section2 .btn-secondary {
-  background-color: #6c757d;
+  background: linear-gradient(135deg, #7d8791 0%, #6c757d 55%, #586169 100%);
   color: white;
-  border: 1px solid #6c757d;
+  border: 1px solid #606972;
 }
 
 .edit-section2 .btn-secondary:hover {
-  background-color: #5a6268;
-  border-color: #545b62;
+  background: linear-gradient(135deg, #9099a2 0%, #78828b 55%, #656e77 100%);
+  border-color: #5d666f;
 }
-.middle{
+
+.middle {
   margin-top: 10px;
 }

@@ -8,7 +8,7 @@ import {
   StarIcon,
   SignOutIcon,
   PersonIcon,
-  IssueOpenedIcon,
+  CommentIcon,
 } from "@primer/octicons-react";
 
 const NavBar = ({ onUserSearch }) => {
@@ -28,7 +28,7 @@ const NavBar = ({ onUserSearch }) => {
         try {
           const response = await axios.get(
             `${apiUrl}/getUserProfile/${userId}`,
-            { headers: { Authorization: `Bearer ${token}` } }
+            { headers: { Authorization: `Bearer ${token}` } },
           );
           setUserDetails(response.data);
         } catch (err) {
@@ -44,6 +44,43 @@ const NavBar = ({ onUserSearch }) => {
     setCurrentUser(null);
     navigate("/login");
   };
+
+  const [unreadChatCount, setUnreadChatCount] = useState(0);
+
+  const fetchUnreadChatCount = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("userId");
+      const res = await axios.get(`${apiUrl}/previousChats/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const conversations = res.data.users || [];
+      const count = conversations.reduce(
+        (acc, c) => acc + (c.unreadCount || 0),
+        0,
+      );
+      setUnreadChatCount(count);
+    } catch (err) {
+      try {
+        const token = localStorage.getItem("token");
+        const fallbackRes = await axios.get(`${apiUrl}/chat/list`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const conversations = fallbackRes.data.conversations || [];
+        const count = conversations.reduce(
+          (acc, c) => acc + (c.unreadCount || 0),
+          0,
+        );
+        setUnreadChatCount(count);
+      } catch (fallbackErr) {
+        console.error("Unable to fetch unread chat count:", fallbackErr);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchUnreadChatCount();
+  }, []);
 
   const handleSearch = async () => {
     // Update the URL with query param (q=...)
@@ -97,8 +134,15 @@ const NavBar = ({ onUserSearch }) => {
         <Link to={"/create"}>
           <div className="repoCreate"> + </div>
         </Link>
-        <div className="issueCheck">
-          <IssueOpenedIcon size={16} />
+        <div
+          className={`issueCheck ${unreadChatCount > 0 ? "issueCheckHasUnread" : ""}`}
+          onClick={() => navigate("/chat")}>
+          <CommentIcon size={16} />
+          {unreadChatCount > 0 && (
+            <span className="issueCheckBadge">
+              {unreadChatCount > 9 ? "9+" : unreadChatCount}
+            </span>
+          )}
         </div>
         <div className="profile">
           <img

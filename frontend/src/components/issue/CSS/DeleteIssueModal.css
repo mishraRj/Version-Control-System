@@ -77,11 +77,11 @@
   transition: background 0.14s;
 }
 .delete-cancel-btn:hover {
-  background: #252930;
+  background: linear-gradient(135deg, #444c59 0%, #343a46 55%, #262b34 100%);
 }
 
 .delete-confirm-btn {
-  background: #f85149;
+  background: linear-gradient(135deg, #ff6d66 0%, #f85149 48%, #c83b36 100%);
   color: #fff;
   font-size: 17px;
   border: none;
@@ -89,8 +89,14 @@
   padding: 7px 21px;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.18s;
+  box-shadow: 0 10px 22px rgba(248, 81, 73, 0.18);
+  transition:
+    background 0.18s,
+    transform 0.18s,
+    box-shadow 0.18s;
 }
 .delete-confirm-btn:hover {
-  background: #b6231d;
+  background: linear-gradient(135deg, #ff8477 0%, #ff5f57 45%, #d9433c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(248, 81, 73, 0.24);
 }

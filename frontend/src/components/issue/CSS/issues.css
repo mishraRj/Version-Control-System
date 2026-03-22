@@ -101,16 +101,23 @@
 
 .new-issue-btn {
   padding: 6px 12px;
-  background-color: #238636;
+  background: linear-gradient(135deg, #2ea043 0%, #238636 55%, #1a7f37 100%);
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
+  box-shadow: 0 10px 20px rgba(35, 134, 54, 0.16);
+  transition:
+    background 0.15s,
+    transform 0.15s,
+    box-shadow 0.15s;
 }
 
 .new-issue-btn:hover {
-  background-color: #2ea043;
+  background: linear-gradient(135deg, #39b655 0%, #2ea043 45%, #238636 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(35, 134, 54, 0.22);
 }
 
 /* Create Issues Functionality*/
@@ -230,23 +237,33 @@
 }
 
 .cancelBtn {
-  background: #21262c;
+  background: linear-gradient(135deg, #394150 0%, #2b313d 55%, #20252d 100%);
   color: #c9d1d9;
   cursor: pointer;
+  transition:
+    background 0.15s,
+    transform 0.15s;
 }
 
 .createBtn {
-  background: #238636;
+  background: linear-gradient(135deg, #2ea043 0%, #238636 55%, #1a7f37 100%);
   color: #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
   cursor: pointer;
-}
-.createBtn:hover {
-  background: #2ea043;
+  transition:
+    background 0.15s,
+    transform 0.15s,
+    box-shadow 0.15s;
 }
 
 .cancelBtn:hover {
-  background: #323943;
+  background: linear-gradient(135deg, #455062 0%, #343b49 55%, #272d38 100%);
+  transform: translateY(-1px);
+}
+.createBtn:hover {
+  background: linear-gradient(135deg, #39b655 0%, #2ea043 45%, #238636 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(35, 134, 54, 0.2);
 }
 
 /*Show Issue CSS*/
@@ -334,7 +351,7 @@
 
 .issue-edit-btn,
 .issue-delete-btn {
-  background: #222834;
+  background: linear-gradient(135deg, #333d4f 0%, #252d3b 55%, #1d2430 100%);
   color: #58a6ff;
   border: none;
   border-radius: 5px;
@@ -342,16 +359,25 @@
   font-size: 1rem;
   cursor: pointer;
   font-weight: 600;
-  transition: background 0.1s;
+  box-shadow: 0 8px 16px rgba(15, 23, 32, 0.2);
+  transition:
+    background 0.1s,
+    color 0.1s,
+    transform 0.1s,
+    box-shadow 0.1s;
 }
 
 .issue-edit-btn:hover {
-  background: #1448ac;
+  background: linear-gradient(135deg, #58a6ff 0%, #388bfd 52%, #1f6feb 100%);
   color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(56, 139, 253, 0.22);
 }
 .issue-delete-btn:hover {
-  background: #a72f21;
+  background: linear-gradient(135deg, #ff6d66 0%, #f85149 48%, #c83b36 100%);
   color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(248, 81, 73, 0.22);
 }
 
 .show-issue-main {
@@ -433,7 +459,7 @@
 }
 
 .close-issue-btn {
-  background: #21262d;
+  background: linear-gradient(135deg, #394150 0%, #2b313d 55%, #20252d 100%);
   border: none;
   border-radius: 6px;
   padding: 7px 16px;
@@ -441,6 +467,10 @@
   font-size: 1rem;
   cursor: pointer;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  transition:
+    background 0.15s,
+    transform 0.15s,
+    box-shadow 0.15s;
 }
 
 .close-issue-btn.open {
@@ -452,11 +482,12 @@
 }
 
 .close-issue-btn:hover {
-  background: #313945;
+  background: linear-gradient(135deg, #465164 0%, #36404f 55%, #2a313d 100%);
+  transform: translateY(-1px);
 }
 
 .comment-issue-btn {
-  background: #238636;
+  background: linear-gradient(135deg, #2ea043 0%, #238636 55%, #1a7f37 100%);
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -465,10 +496,16 @@
   font-size: 1rem;
   cursor: pointer;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.11);
+  transition:
+    background 0.15s,
+    transform 0.15s,
+    box-shadow 0.15s;
 }
 
 .comment-issue-btn:hover {
-  background: #299f4b;
+  background: linear-gradient(135deg, #39b655 0%, #2ea043 45%, #238636 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(35, 134, 54, 0.22);
 }
 
 .edit-issue-title-input {
@@ -489,7 +526,7 @@
 
 .edit-actions button {
   margin-left: 6px;
-  background: #238636;
+  background: linear-gradient(135deg, #2ea043 0%, #238636 55%, #1a7f37 100%);
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -497,11 +534,23 @@
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
+  transition:
+    background 0.15s,
+    transform 0.15s;
 }
 
 .edit-actions .cancel {
-  background: #202521;
+  background: linear-gradient(135deg, #3a423f 0%, #29302c 55%, #202521 100%);
   color: #fff;
+}
+
+.edit-actions button:hover {
+  background: linear-gradient(135deg, #39b655 0%, #2ea043 45%, #238636 100%);
+  transform: translateY(-1px);
+}
+
+.edit-actions .cancel:hover {
+  background: linear-gradient(135deg, #4a5551 0%, #36403b 55%, #29312d 100%);
 }
 
 .edit-issue-desc-textarea {
@@ -721,7 +770,7 @@
 
   /* Optional: Style the primary button */
   .createBtn {
-    background-color: #238636;
+    background: linear-gradient(135deg, #2ea043 0%, #238636 55%, #1a7f37 100%);
     color: white;
     border: 1px solid rgba(240,246,252,0.1);
   }
