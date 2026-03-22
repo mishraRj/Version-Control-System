@@ -134,10 +134,14 @@ const NavBar = ({ onUserSearch }) => {
         <Link to={"/create"}>
           <div className="repoCreate"> + </div>
         </Link>
-        <div className="issueCheck" onClick={() => navigate("/chat")}>
+        <div
+          className={`issueCheck ${unreadChatCount > 0 ? "issueCheckHasUnread" : ""}`}
+          onClick={() => navigate("/chat")}>
           <CommentIcon size={16} />
           {unreadChatCount > 0 && (
-            <span className="issueCheckBadge">{unreadChatCount}</span>
+            <span className="issueCheckBadge">
+              {unreadChatCount > 9 ? "9+" : unreadChatCount}
+            </span>
           )}
         </div>
         <div className="profile">

@@ -24,6 +24,73 @@ body {
   box-sizing: border-box;
 }
 
+.auth-toast {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 1200;
+  width: min(380px, calc(100vw - 24px));
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 154, 154, 0.45);
+  background: linear-gradient(135deg, #ff6d66 0%, #f85149 42%, #b92b27 100%);
+  color: #fff;
+  box-shadow:
+    0 14px 30px rgba(185, 43, 39, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  animation: authToastSlideIn 0.25s ease;
+}
+
+.auth-toast-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(120, 0, 0, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.auth-toast-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.auth-toast-content strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.auth-toast-content span {
+  font-size: 0.9rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.94);
+  word-break: break-word;
+}
+
+@keyframes authToastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) translateX(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
+}
+
 /* =========================================
    LOGO SECTION
    ========================================= */
@@ -48,7 +115,7 @@ body {
   justify-content: center;
 }
 
-.login-heading h1, 
+.login-heading h1,
 .login-heading h2 {
   font-size: 24px;
   font-weight: 300;
@@ -178,7 +245,6 @@ body {
    MOBILE RESPONSIVE TWEAKS
    ========================================= */
 @media screen and (max-width: 480px) {
-  
   .login-wrapper {
     padding: 15px;
     justify-content: flex-start; /* Move to top on mobile */
@@ -203,5 +269,13 @@ body {
   .logo-login {
     width: 40px;
     height: 40px;
+  }
+
+  .auth-toast {
+    top: 12px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    padding: 12px 14px;
   }
 }
