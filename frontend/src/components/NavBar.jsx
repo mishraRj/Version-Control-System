@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../authContext";
 import "./navbar.css";
+import io from "socket.io-client";
 import {
   RepoIcon,
   StarIcon,
@@ -81,6 +82,25 @@ const NavBar = ({ onUserSearch }) => {
   useEffect(() => {
     fetchUnreadChatCount();
   }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    if (!token || !userId) return;
+
+    const socket = io(apiUrl, {
+      auth: { token },
+      transports: ["websocket", "polling"],
+    });
+
+    socket.on("connect", () => {
+      socket.emit("joinRoom", userId);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [apiUrl]);
 
   const handleSearch = async () => {
     // Update the URL with query param (q=...)

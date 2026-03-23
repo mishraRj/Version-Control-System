@@ -17,7 +17,7 @@ const Search = () => {
   const [chatUser, setChatUser] = useState(null);
   const [chatMessage, setChatMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
-  const [socket, setSocket] = useState(null);
+  const [onlineUserIds, setOnlineUserIds] = useState([]);
   const messagesEndRef = useRef(null);
   const chatUserRef = useRef(null);
 
@@ -77,16 +77,34 @@ const Search = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
-    if (!token || !userId || socket) return; // Prevent multiple connections
+    if (!token || !userId) return;
 
     try {
       const newSocket = io(apiUrl, {
         auth: { token },
         transports: ["websocket", "polling"], // Fallback transports
       });
-      setSocket(newSocket);
 
-      newSocket.emit("joinRoom", userId);
+      newSocket.on("presence:list", onlineUsers => {
+        setOnlineUserIds((onlineUsers || []).map(String));
+      });
+
+      newSocket.on("presence:update", ({ userId: updatedUserId, isOnline }) => {
+        const normalizedUserId = String(updatedUserId || "");
+        if (!normalizedUserId) return;
+
+        setOnlineUserIds(currentOnlineUsers => {
+          if (isOnline) {
+            return currentOnlineUsers.includes(normalizedUserId)
+              ? currentOnlineUsers
+              : [...currentOnlineUsers, normalizedUserId];
+          }
+
+          return currentOnlineUsers.filter(
+            currentUserId => currentUserId !== normalizedUserId,
+          );
+        });
+      });
 
       newSocket.on("newMessage", message => {
         const activeUser = chatUserRef.current;
@@ -102,6 +120,7 @@ const Search = () => {
       });
 
       newSocket.on("connect", () => {
+        newSocket.emit("joinRoom", userId);
         console.log("Connected to chat server");
       });
 
@@ -110,14 +129,12 @@ const Search = () => {
       });
 
       return () => {
-        if (newSocket) {
-          newSocket.disconnect();
-        }
+        newSocket.disconnect();
       };
     } catch (error) {
       console.error("Failed to initialize socket:", error);
     }
-  }, [apiUrl, socket]);
+  }, [apiUrl]);
 
   // Fetch chat history when chatUser changes
   useEffect(() => {
@@ -358,7 +375,18 @@ const Search = () => {
                 />
                 <div>
                   <h3>{chatUser.username}</h3>
-                  <span>Chat window</span>
+                  <span className="chat-user-status">
+                    <span
+                      className={`chat-user-status-dot ${
+                        onlineUserIds.includes(String(chatUser._id))
+                          ? "chat-user-status-dot-online"
+                          : "chat-user-status-dot-offline"
+                      }`}
+                    />
+                    {onlineUserIds.includes(String(chatUser._id))
+                      ? "Online"
+                      : "Offline"}
+                  </span>
                 </div>
               </div>
               <div className="chat-header-actions">

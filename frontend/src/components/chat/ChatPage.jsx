@@ -15,6 +15,7 @@ const ChatPage = () => {
   const [message, setMessage] = useState("");
   const [unreadCount, setUnreadCount] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [onlineUserIds, setOnlineUserIds] = useState([]);
   const messagesEndRef = useRef(null);
   const activeChatUserRef = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -23,6 +24,7 @@ const ChatPage = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const getChatUserId = user => String(user?.userId || user?._id || "");
+  const isUserOnline = user => onlineUserIds.includes(getChatUserId(user));
 
   const mergeChatUsers = (followedUsers = [], previousChats = []) => {
     const mergedMap = new Map();
@@ -230,6 +232,27 @@ const ChatPage = () => {
       socket.emit("joinRoom", userId);
     });
 
+    socket.on("presence:list", onlineUsers => {
+      setOnlineUserIds((onlineUsers || []).map(String));
+    });
+
+    socket.on("presence:update", ({ userId: updatedUserId, isOnline }) => {
+      const normalizedUserId = String(updatedUserId || "");
+      if (!normalizedUserId) return;
+
+      setOnlineUserIds(currentOnlineUsers => {
+        if (isOnline) {
+          return currentOnlineUsers.includes(normalizedUserId)
+            ? currentOnlineUsers
+            : [...currentOnlineUsers, normalizedUserId];
+        }
+
+        return currentOnlineUsers.filter(
+          currentUserId => currentUserId !== normalizedUserId,
+        );
+      });
+    });
+
     socket.on("newMessage", incomingMessage => {
       const activeId = getChatUserId(activeChatUserRef.current);
       const otherId = incomingMessage.sender?._id || incomingMessage.sender;
@@ -323,7 +346,16 @@ const ChatPage = () => {
           />
           <div>
             <h3>{activeChatUser.username}</h3>
-            <span>Chat window</span>
+            <span className="chat-user-status">
+              <span
+                className={`chat-user-status-dot ${
+                  isUserOnline(activeChatUser)
+                    ? "chat-user-status-dot-online"
+                    : "chat-user-status-dot-offline"
+                }`}
+              />
+              {isUserOnline(activeChatUser) ? "Online" : "Offline"}
+            </span>
           </div>
         </button>
         <div className="chat-header-actions">
@@ -397,7 +429,8 @@ const ChatPage = () => {
     <>
       <NavBar />
       <section className="chat-page">
-        <aside className="chat-page-sidebar">
+        {(!isMobile || !activeChatUser) && (
+          <aside className="chat-page-sidebar">
           <h3 className="chat-page-sidebar-title">Chats</h3>
           <div className="chat-page-list">
             {loading ? (
@@ -420,8 +453,15 @@ const ChatPage = () => {
                         alt="avatar"
                       />
                       <div className="chat-page-list-meta">
-                        <div className="chat-page-list-name">
-                          {chat.username}
+                        <div className="chat-page-list-name-row">
+                          <div className="chat-page-list-name">
+                            {chat.username}
+                          </div>
+                          {!activeChatUser && isUserOnline(chat) && (
+                            <span className="chat-page-list-online">
+                              online
+                            </span>
+                          )}
                         </div>
                         <div className="chat-page-list-preview">
                           {chat.lastMessage ||
@@ -446,9 +486,10 @@ const ChatPage = () => {
               </>
             )}
           </div>
-        </aside>
+          </aside>
+        )}
 
-        {!isMobile && (
+        {(!isMobile || activeChatUser) && (
           <main className="chat-page-main">
             {!activeChatUser ? (
               <div className="chat-page-placeholder">
@@ -469,11 +510,6 @@ const ChatPage = () => {
           </main>
         )}
       </section>
-      {isMobile && activeChatUser && (
-        <div className="chat-page-mobile-overlay">
-          {renderChatPanel("chat-right-panel")}
-        </div>
-      )}
       <Footer />
     </>
   );
