@@ -1,36 +1,23 @@
-import React, { useEffect } from "react";
-import { useNavigate, useRoutes } from "react-router-dom";
+import React from "react";
+import { Navigate, useRoutes } from "react-router-dom";
 import Dashboard from "./components/dashboard/Dashboard";
 import Profile from "./components/user/Profile";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import CreateRepo from "./components/repo/CreateRepo";
 import ShowRepo from "./components/repo/ShowRepo";
-import { useAuth } from "./authContext";
 import Search from "./components/Search";
 import ChatPage from "./components/chat/ChatPage";
-import ProtectedRoute from "../src/components/ProtectedRoute"; // <--- Import ye line add karo
+import ProtectedRoute from "./components/ProtectedRoute";
+import { isAuthenticated } from "./utils/auth";
+
+const PublicOnlyRoute = ({ children }) => {
+  if (isAuthenticated()) return <Navigate to="/" replace />;
+
+  return children;
+};
 
 const ProjectRoutes = () => {
-  const { currentUser, setCurrentUser } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const userIdFromStorage = localStorage.getItem("userId");
-    if (userIdFromStorage && !currentUser) {
-      setCurrentUser(userIdFromStorage);
-    }
-    if (
-      !userIdFromStorage &&
-      !["/auth", "/signup"].includes(window.location.pathname)
-    ) {
-      navigate("/auth");
-    }
-    if (userIdFromStorage && window.location.pathname === "/auth") {
-      navigate("/");
-    }
-  }, [currentUser, navigate, setCurrentUser]);
-
   let elements = useRoutes([
     {
       path: "/",
@@ -42,11 +29,19 @@ const ProjectRoutes = () => {
     },
     {
       path: "/auth",
-      element: <Login />,
+      element: (
+        <PublicOnlyRoute>
+          <Login />
+        </PublicOnlyRoute>
+      ),
     },
     {
       path: "/signup",
-      element: <Signup />,
+      element: (
+        <PublicOnlyRoute>
+          <Signup />
+        </PublicOnlyRoute>
+      ),
     },
     {
       path: "/profile/:userName",
@@ -87,6 +82,10 @@ const ProjectRoutes = () => {
           <ShowRepo />
         </ProtectedRoute>
       ),
+    },
+    {
+      path: "*",
+      element: <Navigate to="/" replace />,
     },
   ]);
 

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../authContext";
 import "./navbar.css";
 import io from "socket.io-client";
@@ -38,17 +38,18 @@ const NavBar = ({ onUserSearch }) => {
       }
     };
     fetchUserDetails();
-  }, []);
+  }, [apiUrl]);
 
   const handleSignOut = () => {
+    localStorage.removeItem("token");
     localStorage.removeItem("userId");
     setCurrentUser(null);
-    navigate("/login");
+    navigate("/auth");
   };
 
   const [unreadChatCount, setUnreadChatCount] = useState(0);
 
-  const fetchUnreadChatCount = async () => {
+  const fetchUnreadChatCount = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
       const userId = localStorage.getItem("userId");
@@ -61,7 +62,7 @@ const NavBar = ({ onUserSearch }) => {
         0,
       );
       setUnreadChatCount(count);
-    } catch (err) {
+    } catch {
       try {
         const token = localStorage.getItem("token");
         const fallbackRes = await axios.get(`${apiUrl}/chat/list`, {
@@ -77,11 +78,11 @@ const NavBar = ({ onUserSearch }) => {
         console.error("Unable to fetch unread chat count:", fallbackErr);
       }
     }
-  };
+  }, [apiUrl]);
 
   useEffect(() => {
     fetchUnreadChatCount();
-  }, []);
+  }, [fetchUnreadChatCount]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
