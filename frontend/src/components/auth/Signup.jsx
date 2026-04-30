@@ -27,12 +27,21 @@ const Signup = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     e.preventDefault();
 
+    const normalizedEmail = email.trim();
+    const normalizedUsername = username.trim();
+    const normalizedPassword = password.trim();
+
+    if (!normalizedUsername || !normalizedEmail || !normalizedPassword) {
+      setToastMessage("Username, email, and password are required.");
+      return;
+    }
+
     try {
       setLoading(true);
       const res = await axios.post(`${apiUrl}/signup`, {
-        email: email,
-        password: password,
-        username: username,
+        email: normalizedEmail,
+        password: normalizedPassword,
+        username: normalizedUsername,
       });
 
       localStorage.setItem("token", res.data.token);
@@ -75,7 +84,7 @@ const Signup = () => {
           </Box>
         </div>
 
-        <div className="login-box">
+        <form className="login-box" onSubmit={handleSignup}>
           <div>
             <label className="label">Username</label>
             <input
@@ -84,6 +93,7 @@ const Signup = () => {
               id="username"
               className="input"
               type="text"
+              required
               value={username}
               onChange={e => setUsername(e.target.value)}
             />
@@ -97,6 +107,7 @@ const Signup = () => {
               id="Email"
               className="input"
               type="email"
+              required
               value={email}
               onChange={e => setEmail(e.target.value)}
             />
@@ -110,6 +121,7 @@ const Signup = () => {
               id="Password"
               className="input"
               type="password"
+              required
               value={password}
               onChange={e => setPassword(e.target.value)}
             />
@@ -117,13 +129,13 @@ const Signup = () => {
 
           <button
             variant="primary"
-            type="button"
+            type="submit"
             className="btn btn-success login-btn"
             disabled={loading}
-            onClick={handleSignup}>
+          >
             {loading ? "Loading..." : "Create an account"}
           </button>
-        </div>
+        </form>
 
         <div className="pass-box">
           <p>

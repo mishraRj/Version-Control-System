@@ -31,11 +31,19 @@ const Login = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     e.preventDefault();
 
+    const normalizedEmail = email.trim();
+    const normalizedPassword = password.trim();
+
+    if (!normalizedEmail || !normalizedPassword) {
+      setToastMessage("Email and password are required.");
+      return;
+    }
+
     try {
       setLoading(true);
       const res = await axios.post(`${apiUrl}/login`, {
-        email: email,
-        password: password,
+        email: normalizedEmail,
+        password: normalizedPassword,
       });
 
       localStorage.setItem("token", res.data.token);
@@ -77,7 +85,7 @@ const Login = () => {
             </PageHeader>
           </Box>
         </div>
-        <div className="login-box">
+        <form className="login-box" onSubmit={handleLogin}>
           <div>
             <label className="label">Email address</label>
             <input
@@ -86,6 +94,7 @@ const Login = () => {
               id="Email"
               className="input"
               type="email"
+              required
               value={email}
               onChange={e => setEmail(e.target.value)}
             />
@@ -98,6 +107,7 @@ const Login = () => {
               id="Password"
               className="input"
               type="password"
+              required
               value={password}
               onChange={e => setPassword(e.target.value)}
             />
@@ -105,13 +115,13 @@ const Login = () => {
 
           <button
             variant="primary"
-            type="button"
+            type="submit"
             className="btn btn-success login-btn"
             disabled={loading}
-            onClick={handleLogin}>
+          >
             {loading ? "Loading..." : "Sign in"}
           </button>
-        </div>
+        </form>
         <div className="pass-box">
           <p>
             New to GitHub? <Link to="/signup">Create an account</Link>

@@ -22,25 +22,37 @@ async function connectClient() {
   }
 }
 
+const normalizeRequiredField = value =>
+  typeof value === "string" ? value.trim() : "";
+
 const signup = async (req, res) => {
   const { username, password, email } = req.body;
+
+  const normalizedUsername = normalizeRequiredField(username);
+  const normalizedEmail = normalizeRequiredField(email);
+  const normalizedPassword = normalizeRequiredField(password);
+
+  if (!normalizedUsername || !normalizedEmail || !normalizedPassword) {
+    throw new ExpressError(400, "Username, email, and password are required!");
+  }
+
   await connectClient();
   const db = client.db("githubClone");
   const usersCollection = db.collection("users");
 
-  const user = await usersCollection.findOne({ username });
+  const user = await usersCollection.findOne({ username: normalizedUsername });
   if (user) {
     throw new ExpressError(400, "User Already Exists!");
   }
 
   const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
+  const hashedPassword = await bcrypt.hash(normalizedPassword, salt);
 
   const newUser = {
-    username,
+    username: normalizedUsername,
     password: hashedPassword,
     bio: "Add bio here...",
-    email,
+    email: normalizedEmail,
     avatar:
       "https://raw.githubusercontent.com/mishraRj/Version-Control-System/1efb995ac8e2c352ef0bd1003e4ad0dd20949003/backend/avatars/defaultAvatar.jpg",
     skills: "HTML, CSS, JS ... ... ",
@@ -63,16 +75,24 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
+
+  const normalizedEmail = normalizeRequiredField(email);
+  const normalizedPassword = normalizeRequiredField(password);
+
+  if (!normalizedEmail || !normalizedPassword) {
+    throw new ExpressError(400, "Email and password are required!");
+  }
+
   await connectClient();
   const db = client.db("githubClone");
   const usersCollection = db.collection("users");
 
-  const user = await usersCollection.findOne({ email });
+  const user = await usersCollection.findOne({ email: normalizedEmail });
   if (!user) {
     throw new ExpressError(400, "Invalid Credentials!");
   }
 
-  const isMatch = await bcrypt.compare(password, user.password);
+  const isMatch = await bcrypt.compare(normalizedPassword, user.password);
   if (!isMatch) {
     throw new ExpressError(400, "Invalid Credentials!");
   }
