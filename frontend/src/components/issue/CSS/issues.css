@@ -274,7 +274,9 @@
   padding: 18px 20px;
   margin-bottom: 18px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.2s, border-color 0.2s;
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -422,11 +424,13 @@
 .issue-description {
   font-size: 1.16rem;
   margin-top: 10px;
+  padding: 10px;
   color: #c9d1d9;
 }
 
 .add-comment-section {
   margin-top: 26px;
+  padding: 10px;
 }
 
 .add-comment-section h3 {
@@ -672,7 +676,6 @@
 }
 /* --- Mobile Responsive Create Issue Form --- */
 @media screen and (max-width: 768px) {
-  
   /* 1. Main Container: Full width with padding */
   .createIssueForm {
     width: 100% !important;
@@ -691,7 +694,7 @@
   }
 
   .avatar {
-    width: 32px;  /* Slightly smaller for mobile */
+    width: 32px; /* Slightly smaller for mobile */
     height: 32px;
   }
 
@@ -707,30 +710,30 @@
     width: 100%;
   }
 
-  .input, 
+  .input,
   .textarea {
     width: 100% !important;
     max-width: 100%;
     box-sizing: border-box; /* Keeps padding inside width */
-    
+
     font-size: 16px; /* CRITICAL: Prevents iOS from zooming in */
     padding: 10px 12px;
     border-radius: 6px;
     border: 1px solid #30363d;
     background-color: #0d1117; /* Dark theme bg */
     color: #c9d1d9;
-    
+
     margin-bottom: 15px;
   }
 
   /* Adjust textarea height specifically */
   .textarea {
     min-height: 150px; /* Don't let it be too short */
-    resize: vertical;  /* Allow vertical resizing only */
+    resize: vertical; /* Allow vertical resizing only */
   }
 
   /* 4. Description Tabs & File Upload Bar */
-  .descTabs, 
+  .descTabs,
   .descActions {
     width: 100%;
     box-sizing: border-box;
@@ -739,7 +742,7 @@
     padding: 8px;
     border-radius: 6px 6px 0 0; /* Tabs top rounded */
   }
-  
+
   .descActions {
     border-top: none; /* Connect to textarea */
     border-radius: 0 0 6px 6px; /* Actions bottom rounded */
@@ -756,7 +759,7 @@
     width: 100%;
   }
 
-  .createBtn, 
+  .createBtn,
   .cancelBtn {
     width: 100%; /* Full width buttons */
     padding: 12px;
@@ -772,7 +775,7 @@
   .createBtn {
     background: linear-gradient(135deg, #2ea043 0%, #238636 55%, #1a7f37 100%);
     color: white;
-    border: 1px solid rgba(240,246,252,0.1);
+    border: 1px solid rgba(240, 246, 252, 0.1);
   }
 
   .cancelBtn {
@@ -783,7 +786,6 @@
 }
 /* --- Mobile Responsive Show Issue Page --- */
 @media screen and (max-width: 768px) {
-  
   /* 1. Main Container */
   .show-issue-container {
     padding: 15px;
@@ -892,7 +894,7 @@
     gap: 10px;
     width: 100%;
   }
-  
+
   .edit-actions button {
     flex: 1; /* Full width buttons for saving */
     padding: 10px;
@@ -932,7 +934,39 @@
 }
 /* --- Mobile Responsive Issues List --- */
 @media screen and (max-width: 768px) {
-  
+  .issues-tab-wrapper,
+  .showIssuesBox,
+  .showIssuesBox .code-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .showIssuesBox .code-container {
+    margin-top: 12px !important;
+    padding: 12px !important;
+    min-height: auto;
+  }
+
+  .showIssuesBox .row.no-gutters {
+    width: 100%;
+    min-width: 0;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .showIssues-column,
+  .issues-column {
+    width: 100% !important;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
   /* 1. Main Container Padding */
   .showIssuesBox {
     width: 100% !important;
@@ -986,7 +1020,7 @@
     margin-bottom: 10px;
     box-sizing: border-box;
     /* Ensure text doesn't overflow */
-    word-wrap: break-word; 
+    word-wrap: break-word;
   }
 
   .issue-title {
@@ -1031,11 +1065,10 @@
 }
 /* --- Mobile Responsive Wrapper for Issue Tabs --- */
 @media screen and (max-width: 768px) {
-  
   .issues-tab-wrapper {
     width: 100%;
     max-width: 100%;
-    min-height: 60vh; 
+    min-height: 60vh;
     margin: 0;
     padding: 0;
     overflow-x: hidden;

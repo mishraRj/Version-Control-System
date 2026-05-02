@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../authContext";
 import { PageHeader, Box } from "@primer/react";
+import BrandName from "../BrandName";
 import "./auth.css";
 import AuthToast from "./AuthToast";
 
-import logo from "../../assets/github-mark-white.svg";
+import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 
 const getAuthErrorMessage = (err, fallbackMessage) =>
@@ -78,7 +79,9 @@ const Signup = () => {
           <Box sx={{ padding: 1 }}>
             <PageHeader>
               <PageHeader.TitleArea variant="large">
-                <PageHeader.Title>Sign Up to G!thub</PageHeader.Title>
+                <PageHeader.Title>
+                  Sign Up to <BrandName />
+                </PageHeader.Title>
               </PageHeader.TitleArea>
             </PageHeader>
           </Box>

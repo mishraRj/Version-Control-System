@@ -362,27 +362,53 @@
   /* 1. Main Container Padding */
   .code-container {
     width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+    margin: 12px 0 0 !important;
     padding: 15px;
     box-sizing: border-box;
     overflow-x: hidden;
+    min-height: auto;
   }
 
   /* 2. Header Adjustments */
   .repo-header-row {
+    width: 100%;
+    min-width: 0;
     flex-wrap: wrap; /* Allow wrapping for very long names */
     gap: 10px !important;
     margin-bottom: 20px;
   }
 
   .repo-title {
+    min-width: 0;
+    max-width: 100%;
     font-size: 1.3rem !important;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
     word-break: break-word; /* Prevent overflow */
+  }
+
+  .repo-visibility.capsule {
+    margin-left: 0;
+    top: 0;
+    flex-shrink: 0;
   }
 
   /* 3. Column Layout: Stack Files and About sections */
   .row.no-gutters {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .row.no-gutters > [class*="col-"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    min-width: 0;
   }
 
   .files-column,
@@ -391,6 +417,9 @@
     flex: 0 0 100%;
     max-width: 100%;
     padding: 0;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   /* 4. File List Styling */
@@ -407,12 +436,14 @@
     align-items: center;
     gap: 10px;
     /* Ensure rows don't cause scroll */
-    width: 100%; 
+    width: 100%;
+    min-width: 0;
     box-sizing: border-box;
   }
 
   .repo-file-name {
     flex: 1; /* Take up available space */
+    min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; /* Add "..." if filename is too long */
@@ -430,6 +461,7 @@
     font-size: 0.8rem;
     color: #8b949e;
     white-space: nowrap;
+    flex-shrink: 0;
   }
 
   /* 6. Empty State (Instructions) */
@@ -447,8 +479,14 @@
   /* 7. About Section (Right Column moved to bottom) */
   .about-column {
     margin-top: 20px;
-    padding-top: 20px;
+    padding: 20px 0 0;
     border-top: 1px solid #30363d; /* Separator line */
+  }
+
+  .about-column > span {
+    width: 100%;
+    min-width: 0;
+    align-items: flex-start !important;
   }
 
   .about-title {
@@ -459,6 +497,8 @@
   .about-text {
     font-size: 0.95rem;
     line-height: 1.5;
+    max-width: 100%;
+    overflow-wrap: anywhere;
     word-break: break-word; /* Handle long Repo IDs */
   }
 }
@@ -474,9 +514,13 @@
   }
 
   .showcode-wrap {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     border: 1px solid #30363d;
     border-radius: 6px;
     background-color: #0d1117;
+    overflow: hidden;
   }
 
   /* 2. Top Bar (Filename + Commit Message) */

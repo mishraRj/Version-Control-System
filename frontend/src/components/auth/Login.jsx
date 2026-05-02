@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../authContext";
 import { PageHeader, Box } from "@primer/react";
+import BrandName from "../BrandName";
 import "./auth.css";
 import AuthToast from "./AuthToast";
 
-import logo from "../../assets/github-mark-white.svg";
+import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 
 const getAuthErrorMessage = (err, fallbackMessage) =>
@@ -80,7 +81,9 @@ const Login = () => {
           <Box sx={{ padding: 1 }}>
             <PageHeader>
               <PageHeader.TitleArea variant="large">
-                <PageHeader.Title>Sign in to G!tHub</PageHeader.Title>
+                <PageHeader.Title>
+                  Sign in to <BrandName />
+                </PageHeader.Title>
               </PageHeader.TitleArea>
             </PageHeader>
           </Box>
@@ -124,7 +127,7 @@ const Login = () => {
         </form>
         <div className="pass-box">
           <p>
-            New to GitHub? <Link to="/signup">Create an account</Link>
+            New to <BrandName />? <Link to="/signup">Create an account</Link>
           </p>
         </div>
       </div>

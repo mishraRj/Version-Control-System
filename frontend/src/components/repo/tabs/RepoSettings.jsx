@@ -247,7 +247,7 @@ const RepoSettings = ({ apiUrl }) => {
       {showModal && (
         <DeleteRepoModal
           username={userDetails.username}
-          repositoryName={repositoryName}
+          repoName={repositoryName}
           onClose={() => setShowModal(false)}
           onDelete={handleRepoDeletion}
         />
@@ -256,7 +256,7 @@ const RepoSettings = ({ apiUrl }) => {
       {showToggleModal && (
         <ChangeVisibilityModal
           username={userDetails.username}
-          repositoryName={repositoryName}
+          repoName={repositoryName}
           visibility={repo.visibility}
           onClose={() => setShowToggleModal(false)}
           toggleVisibility={handleRepoVisibility}

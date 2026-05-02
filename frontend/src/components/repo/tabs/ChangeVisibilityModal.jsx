@@ -1,4 +1,5 @@
 import React from "react";
+import { createPortal } from "react-dom";
 import { LockIcon, XIcon, StarIcon, EyeIcon } from "@primer/octicons-react";
 import "./CSS/deleteRepoModal.css";
 
@@ -9,13 +10,13 @@ const ChangeVisibilityModal = ({
   toggleVisibility,
   visibility,
 }) => {
-  return (
+  return createPortal(
     <div className="modal-overlay">
       <div className="modal">
         <div className="firstBlock">
           {/* Header */}
           <h2 className="modal-title">
-            Delete{" "}
+            Change visibility{" "}
             <span className="highlight">
               {username}/{repoName}
             </span>
@@ -53,7 +54,8 @@ const ChangeVisibilityModal = ({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

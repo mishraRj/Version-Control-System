@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../authContext";
+import BrandName from "./BrandName";
 import "./navbar.css";
+import logo from "../assets/logo.png";
 import io from "socket.io-client";
 import {
   RepoIcon,
@@ -129,12 +131,10 @@ const NavBar = ({ onUserSearch }) => {
     <nav>
       <Link to={"/"}>
         <div className="logoContainer">
-          <img
-            src="https://www.github.com/images/modules/logos_page/GitHub-Mark.png"
-            alt="github logo"
-            className="gitHubLogo"
-          />
-          <h3>G!thub</h3>
+          <img src={logo} alt="CodeVault logo" className="gitHubLogo" />
+          <h3>
+            <BrandName />
+          </h3>
         </div>
       </Link>
 

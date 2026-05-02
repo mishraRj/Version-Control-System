@@ -83,10 +83,14 @@
     transform 0.2s,
     box-shadow 0.2s;
 }
-.delete-btn:hover {
-  background: linear-gradient(135deg, #ff8477 0%, #ff5f57 45%, #d9433c 100%);
+.modal .delete-btn:hover {
+  background: linear-gradient(135deg, #ff7a70 0%, #f85149 48%, #9f1f1b 100%) !important;
+  border-color: rgba(255, 125, 116, 0.68) !important;
+  color: #fff !important;
   transform: translateY(-1px);
-  box-shadow: 0 12px 24px rgba(248, 81, 73, 0.24);
+  box-shadow:
+    0 12px 24px rgba(248, 81, 73, 0.24),
+    0 0 18px rgba(248, 81, 73, 0.22) !important;
 }
 /* --- Mobile Responsive Modal --- */
 @media screen and (max-width: 768px) {
@@ -341,6 +345,16 @@
   }
 
   /* Active state for better mobile feel */
+  .modal .delete-btn:hover,
+  .delete-btn:active {
+    background: linear-gradient(135deg, #ff7a70 0%, #f85149 48%, #9f1f1b 100%) !important;
+    border-color: rgba(255, 125, 116, 0.7) !important;
+    color: #fff !important;
+    box-shadow:
+      0 12px 24px rgba(248, 81, 73, 0.24),
+      0 0 18px rgba(248, 81, 73, 0.22) !important;
+  }
+
   .delete-btn:active {
     background-color: rgba(185, 58, 58, 0.1);
     border-color: #8b949e;

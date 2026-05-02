@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../NavBar";
 import Footer from "../Footer";
+import BrandName from "../BrandName";
 import io from "socket.io-client";
 import "./chat.css";
 import "../dashboard/Dashboard.css";
@@ -494,7 +495,7 @@ const ChatPage = () => {
             {!activeChatUser ? (
               <div className="chat-page-placeholder">
                 <h1>
-                  G!thub, by{" "}
+                  <BrandName />, by{" "}
                   <a
                     href="https://rjtv-universe.onrender.com/"
                     target="_blank"

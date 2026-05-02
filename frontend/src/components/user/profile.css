@@ -1,11 +1,11 @@
 .profile-page-wrapper {
   display: flex;
-  min-height: 100vh; 
-  height: auto !important; 
+  min-height: 100vh;
+  height: auto !important;
   width: 100%;
   color: whitesmoke;
   margin-bottom: 0;
-  overflow: visible !important; 
+  overflow: visible !important;
   position: relative;
 }
 
@@ -166,7 +166,6 @@
 .name input[type="text"],
 .name textarea {
   width: 100%;
-  max-width: 300px; /* optional: to keep them from stretching too wide */
   background-color: var(--color-canvas-default, #0d1117);
   color: var(--color-fg-default, #c9d1d9);
   border: 1px solid var(--color-border-default, #30363d);
@@ -205,11 +204,11 @@
   .profile-page-wrapper {
     display: flex;
     flex-direction: column;
-    height: auto !important;      
-    min-height: 100vh;           
+    height: auto !important;
+    min-height: 100vh;
     overflow: visible !important;
   }
-  .name{
+  .name {
     text-align: center;
   }
   /* 2. Reset Left & Right Sections */
@@ -217,7 +216,7 @@
   .userUpdate-form,
   .right-section {
     width: 100% !important;
-    height: auto !important;   
+    height: auto !important;
     margin: 0;
     padding: 10px;
     box-sizing: border-box;
@@ -226,8 +225,8 @@
   /* 3. Heatmap Section: "Free" Mode */
   .heat-map-section {
     width: 100% !important;
-    height: auto !important;    
-    display: block;            
+    height: auto !important;
+    display: block;
   }
 
   /* 4. Repo Cards: Full display */
@@ -235,23 +234,22 @@
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    height: auto !important;    
+    height: auto !important;
     padding: 10px 0;
   }
 
   .repo {
-    width: 100% !important;       
-    height: auto !important;     
-    min-height: 200px;         
+    width: 100% !important;
+    height: auto !important;
+    min-height: 200px;
     margin-bottom: 10px;
   }
 
   /* 5. Profile Image Adjustment for Mobile */
   .profile-image,
   .profile-image img {
-    width: 150px;         
+    width: 150px;
     height: 150px;
     margin: 0 auto 15px auto;
   }
-  
 }

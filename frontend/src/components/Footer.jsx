@@ -1,4 +1,5 @@
 import React from "react";
+import BrandName from "./BrandName";
 import "./footer.css";
 
 const Footer = () => {
@@ -6,13 +7,13 @@ const Footer = () => {
     <footer className="compact-footer">
       <div className="compact-footer-row">
         <span className="compact-footer-copy">
-          © 2025 Version Control System by Rajat Mishra
+          © 2025 <BrandName /> by Team RJ. All rights reserved.
         </span>
         <span className="compact-footer-social">
           <a
             href="https://github.com/mishraRj"
             target="_blank"
-            aria-label="GitHub"
+            aria-label="CodeVault"
             rel="noopener noreferrer">
             <i className="fab fa-github"></i>
           </a>
@@ -40,7 +41,7 @@ const Footer = () => {
         </span>
       </div>
       <div className="compact-footer-note">
-        Built with MERN &nbsp;|&nbsp; Open-source GitHub clone for devs.
+        Built with MERN &nbsp;|&nbsp; Open-source <BrandName /> for devs.
       </div>
     </footer>
   );
