@@ -91,7 +91,9 @@
 
 .copyIcon {
   cursor: pointer;
-  transition: color 0.18s, transform 0.22s;
+  transition:
+    color 0.18s,
+    transform 0.22s;
   color: #b6b6b6;
   position: relative;
   bottom: 10px;
@@ -354,11 +356,11 @@
   line-height: 1.65;
   word-break: break-word;
   width: 100%;
+  padding: 10px;
   display: block;
 }
 /* --- Mobile Responsive Repo Code View --- */
 @media screen and (max-width: 768px) {
-
   /* 1. Main Container Padding */
   .code-container {
     width: 100% !important;
@@ -453,7 +455,7 @@
 
   /* 5. Hide Commit Message on Mobile to save space */
   .repo-commit-message {
-    display: none; 
+    display: none;
   }
 
   /* Keep the Date visible but smaller */
@@ -468,7 +470,7 @@
   .noFiles {
     padding: 10px;
   }
-  
+
   .instruction-list code {
     /* Ensure code blocks wrap nicely */
     word-break: break-all;
@@ -504,7 +506,6 @@
 }
 /* --- Mobile Responsive File Viewer --- */
 @media screen and (max-width: 768px) {
-
   /* 1. Main Container Wrapper */
   .files-column {
     width: 100% !important;
@@ -578,13 +579,13 @@
 
   .showcode-content {
     display: block;
-    font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+    font-family: "Courier New", Courier, monospace; /* Monospaced font */
     font-size: 0.85rem; /* readable on mobile */
     line-height: 1.5;
     white-space: pre; /* Keep code formatting intact */
     color: #c9d1d9;
-    
+
     /* Ensure code block is wide enough to scroll */
-    min-width: 100%; 
+    min-width: 100%;
   }
 }
