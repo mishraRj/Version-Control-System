@@ -3031,6 +3031,7 @@ nav p:hover {
   line-height: 1.65;
   word-break: break-word;
   width: 100%;
+  padding: 10px;
   display: block;
 }
 /* --- Mobile Responsive Repo Code View --- */
