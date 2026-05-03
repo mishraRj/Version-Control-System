@@ -1,8 +1,9 @@
 /* Full width container */
 .code-container {
   width: 100%;
-  padding: 0;
-  margin: 20px;
+  padding: 22px 24px 28px;
+  margin: 20px auto;
+  box-sizing: border-box;
   background-color: #0d1117; /* GitHub dark background */
   min-height: 100vh;
 }
@@ -11,13 +12,30 @@
 .files-column {
   background-color: #161b22; /* GitHub repo file section bg */
   color: #c9d1d9;
-  border-right: 1px solid #30363d;
-  padding: 20px;
+  border-right: 0;
+  padding: 24px;
   min-height: 600px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
+}
+
+.repo-code-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.46fr);
+  gap: 24px;
+  align-items: stretch;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.repo-code-layout > .files-column,
+.repo-code-layout > .about-column {
+  width: 100% !important;
+  max-width: 100%;
+  min-width: 0;
+  flex: none;
 }
 
 .files-column .noFiles {
@@ -65,7 +83,8 @@
 .about-column {
   background-color: #0d1117;
   color: #c9d1d9;
-  padding: 20px;
+  padding: 30px;
+  border-radius: 10px;
 }
 
 /* About section styling */
@@ -159,7 +178,7 @@
 .repo-file-row {
   display: flex;
   align-items: center;
-  padding: 9px 18px 9px 4px;
+  padding: 14px 18px;
   border-bottom: 2px solid #313941;
   font-size: 16px;
   transition: background 0.17s;
@@ -238,8 +257,9 @@
 .repo-header-row {
   display: flex;
   align-items: center;
+  padding: 6px 16px 22px;
   gap: 13px;
-  margin-bottom: 15px;
+  margin-bottom: 24px;
   border-bottom: 1px solid #30363d;
 }
 
@@ -266,7 +286,7 @@
   color: #006afe;
   font-weight: 700;
   letter-spacing: 0.01em;
-  padding-bottom: 16px;
+  padding-bottom: 0;
   margin-bottom: 0;
   gap: 18px;
   cursor: pointer;
@@ -288,7 +308,7 @@
   display: inline-block;
   vertical-align: middle;
   position: relative;
-  top: -4px;
+  top: 0;
   transition: background 0.18s;
   user-select: none;
 }
@@ -398,7 +418,7 @@
   }
 
   /* 3. Column Layout: Stack Files and About sections */
-  .row.no-gutters {
+  .repo-code-layout {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -407,7 +427,7 @@
     margin-right: 0 !important;
   }
 
-  .row.no-gutters > [class*="col-"] {
+  .repo-code-layout > [class*="col-"] {
     padding-left: 0 !important;
     padding-right: 0 !important;
     min-width: 0;

@@ -85,7 +85,7 @@ const Code = ({ userAvatar, resetSectionSignal, canEdit, apiUrl }) => {
         )}
       </div>
 
-      <div className="row no-gutters">
+      <div className="row no-gutters repo-code-layout">
         {/* Left Column (Files section) */}
         {!showCode && (
           <div className="col-md-8 files-column">
