@@ -7,7 +7,7 @@ const Footer = () => {
     <footer className="compact-footer">
       <div className="compact-footer-row">
         <span className="compact-footer-copy">
-          © 2026 <BrandName /> by Team RJ. All rights reserved.
+          © 2026 <BrandName /> by Rajat Mishra. All rights reserved.
         </span>
         <span className="compact-footer-social">
           <a
