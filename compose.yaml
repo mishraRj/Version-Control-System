@@ -1,6 +1,6 @@
 services:
   backend:
-    image: codevault-backend:1.0
+    image: codevault-backend:slim
     container_name: codevault-backend
     env_file:
       - ./backend/.env
