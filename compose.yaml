@@ -18,6 +18,8 @@ services:
       start_period: 10s
     ports:
       - "3002:3002"
+    volumes:
+      - ./backend/.rjGit:/app/.rjGit
     restart: unless-stopped
 
   frontend:
