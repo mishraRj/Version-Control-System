@@ -1,0 +1,46 @@
+services:
+  backend:
+    image: codevault-backend:slim
+    container_name: codevault-backend
+    env_file:
+      - ./backend/.env
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://localhost:3002').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./backend/.rjGit:/app/.rjGit
+    restart: unless-stopped
+
+  frontend:
+    image: codevault-frontend:1.1
+    container_name: codevault-frontend
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://127.0.0.1/",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
