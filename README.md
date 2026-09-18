@@ -108,7 +108,7 @@ npm run dev
 
 # Terminal B → Backend
 cd backend
-node index.js start
+node server.js start
 ```
 
 🌐 View in Browser
